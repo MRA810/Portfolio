@@ -876,6 +876,7 @@ section {
   backdrop-filter: blur(12px);
   position: relative;
   overflow: hidden;
+  z-index: 1;
 }
 
 .contact-card::before {
@@ -887,6 +888,12 @@ section {
     rgba(26, 184, 160, 0.12),
     transparent 60%
   );
+  z-index: 0;
+}
+
+.contact-card * {
+  position: relative;
+  z-index: 2;
 }
 
 .contact-title {
