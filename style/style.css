@@ -1058,6 +1058,13 @@ footer {
 
 /* ===================== MOBILE ===================== */
 @media (max-width: 768px) {
+  .cursor {
+    z-index: -9999;
+  }
+
+  .cursor-ring {
+    z-index: -199;
+  }
   nav {
     padding: 0 24px;
   }
