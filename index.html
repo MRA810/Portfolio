@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ashraful Alam Shuvo | Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap"
+        rel="stylesheet" />
+
+    <link rel="stylesheet" href="style/style.css">
+</head>
+
+<body>
+
+    <!-- CURSOR -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
+
+    <!-- SCROLL PROGRESS -->
+    <div class="progress-bar" id="progress-bar"></div>
+
+    <!-- OCEAN BG -->
+    <div class="ocean-bg"></div>
+    <div class="bubbles">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+    </div>
+    <div class="light-rays"></div>
+
+    <!-- NAV -->
+    <nav id="navbar">
+        <a class="nav-logo" href="#hero">mrrelaxedash</a>
+        <ul class="nav-links">
+            <li><a href="#hero" data-text="home">home</a></li>
+            <li><a href="#about" data-text="about">about</a></li>
+            <li><a href="#journey" data-text="journey">journey</a></li>
+            <li><a href="#skills" data-text="skills">skills</a></li>
+            <li><a href="#contact" data-text="contact">contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero">
+        <!-- decorative SVG jellyfish -->
+        <svg class="sea-deco jellyfish" viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="30" cy="28" rx="26" ry="22" fill="rgba(77,217,192,0.12)" stroke="rgba(77,217,192,0.35)"
+                stroke-width="1" />
+            <path d="M15 48 Q17 60 15 72" stroke="rgba(77,217,192,0.3)" stroke-width="1" stroke-linecap="round" />
+            <path d="M22 50 Q24 65 22 78" stroke="rgba(77,217,192,0.3)" stroke-width="1" stroke-linecap="round" />
+            <path d="M30 51 Q30 68 28 80" stroke="rgba(82,201,138,0.3)" stroke-width="1" stroke-linecap="round" />
+            <path d="M38 50 Q40 65 38 78" stroke="rgba(77,217,192,0.3)" stroke-width="1" stroke-linecap="round" />
+            <path d="M45 48 Q47 60 45 72" stroke="rgba(77,217,192,0.3)" stroke-width="1" stroke-linecap="round" />
+            <ellipse cx="30" cy="26" rx="18" ry="14" fill="rgba(77,217,192,0.06)" stroke="rgba(77,217,192,0.15)"
+                stroke-width="1" />
+        </svg>
+        <svg class="sea-deco jellyfish2" viewBox="0 0 40 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="20" cy="18" rx="18" ry="14" fill="rgba(82,201,138,0.1)" stroke="rgba(82,201,138,0.3)"
+                stroke-width="1" />
+            <path d="M10 30 Q12 40 10 52" stroke="rgba(82,201,138,0.3)" stroke-width="1" stroke-linecap="round" />
+            <path d="M18 32 Q20 44 18 54" stroke="rgba(82,201,138,0.25)" stroke-width="1" stroke-linecap="round" />
+            <path d="M26 32 Q28 44 26 54" stroke="rgba(82,201,138,0.25)" stroke-width="1" stroke-linecap="round" />
+            <path d="M33 30 Q35 40 33 52" stroke="rgba(82,201,138,0.2)" stroke-width="1" stroke-linecap="round" />
+        </svg>
+
+        <div class="hero-inner">
+            <div class="hero-text">
+                <div class="hero-tag">Portfolio · Developer · Creator</div>
+                <h1 class="hero-title">
+                    Hello,<br />
+                    I'm <span class="name-highlight">Ashraful<br />Alam Shuvo</span>
+                </h1>
+                <p class="hero-subtitle">
+                    <span>&gt; developer</span> · <span>circuit_builder</span> · <span>problem_solver</span>
+                </p>
+                <p class="hero-desc">
+                    Your friendly neighborhood developer and problem solver, passionate about helping others and
+                    constantly learning new things. Currently a <strong>CSE student at Daffodil International
+                        University</strong>, graduating 2027.
+                </p>
+                <div class="hero-btns">
+                    <a href="#journey" class="btn-primary">explore my journey</a>
+                    <a href="#contact" class="btn-ghost">get in touch</a>
+                </div>
+            </div>
+
+            <div class="hero-image-wrap">
+                <div class="hero-img-frame">
+                    <div class="hero-img-inner">
+                        <img src="img/image.png" alt="Ashraful Alam Shuvo"
+                            onerror="this.style.display='none'; this.parentNode.style.background='linear-gradient(135deg,#0e6b7c,#1ab8a0)';" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- wave bottom -->
+        <div class="wave-sep">
+            <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z"
+                    fill="rgba(13,61,84,0.3)" />
+            </svg>
+        </div>
+    </section>
+
+    <!-- ABOUT / ACADEMIC -->
+    <section id="about" class="section-bg-tint">
+        <div class="section-label">01 · background</div>
+        <h2 class="section-title reveal">Academic <em>Background</em></h2>
+
+        <div class="timeline">
+            <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-year">2020</div>
+                <div class="tl-title">Secondary School Certificate (SSC)</div>
+                <div class="tl-body">
+                    Science background · Session 2018-19 · Result: <strong>GPA 4.72 / 5.00</strong>
+                </div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-dot" style="background:var(--green-sage);box-shadow:0 0 12px var(--green-sage)"></div>
+                <div class="tl-year">2022</div>
+                <div class="tl-title">Higher Secondary Certificate (HSC)</div>
+                <div class="tl-body">
+                    Science background · Session 2020-21 · Result: <strong>GPA 4.83 / 5.00</strong>
+                </div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-dot" style="background:var(--sea-mint);box-shadow:0 0 12px var(--sea-mint)"></div>
+                <div class="tl-year">2023 → Present</div>
+                <div class="tl-title">B.Sc. in Computer Science & Engineering</div>
+                <div class="tl-body">
+                    <strong>Daffodil International University</strong> · Batch 65 · Fall 2023 · Expected graduation 2027
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="glow-line" style="max-width:900px;margin:0 auto;"></div>
+
+    <!-- CODING JOURNEY -->
+    <section id="journey">
+        <div class="section-label">02 · coding voyage</div>
+        <h2 class="section-title reveal">My Coding <em>Journey</em></h2>
+
+        <div class="journey-grid">
+            <div class="journey-card" style="transition-delay:0s">
+                <div class="jc-year">2020</div>
+                <div class="jc-tech">HTML / CSS</div>
+                <div class="jc-desc">Took the plunge into web foundations — pure HTML & CSS to build my first static
+                    pages.</div>
+            </div>
+            <div class="journey-card" style="transition-delay:0.08s">
+                <div class="jc-year">2021</div>
+                <div class="jc-tech">Python (Basic)</div>
+                <div class="jc-desc">Started programming and problem solving out of sheer curiosity and passion.</div>
+            </div>
+            <div class="journey-card" style="transition-delay:0.16s">
+                <div class="jc-year">2022</div>
+                <div class="jc-tech">JavaScript</div>
+                <div class="jc-desc">Resumed learning JS after academic pressure eased — diving into front-end
+                    interactivity.</div>
+            </div>
+            <div class="journey-card" style="transition-delay:0.24s">
+                <div class="jc-year">2023–2024</div>
+                <div class="jc-tech">C / C++</div>
+                <div class="jc-desc">Learned data structures in C, moved to C++ for algorithms and competitive
+                    programming with STL.</div>
+            </div>
+            <div class="journey-card" style="transition-delay:0.32s">
+                <div class="jc-year">2024</div>
+                <div class="jc-tech">Flutter</div>
+                <div class="jc-desc">Explored Flutter during a semester break, building basic cross-platform mobile
+                    apps.</div>
+            </div>
+            <div class="journey-card" style="transition-delay:0.4s">
+                <div class="jc-year">2025</div>
+                <div class="jc-tech">Java / Spring Boot</div>
+                <div class="jc-desc">Learned OOP concepts in Java, then built web applications using Spring Boot
+                    framework.</div>
+            </div>
+            <div class="journey-card" style="transition-delay:0.48s">
+                <div class="jc-year">2025 · Side Quest</div>
+                <div class="jc-tech">Electron</div>
+                <div class="jc-desc">Self-learned Electron and built <em>Egg Timer</em> — a desktop app blending JS,
+                    HTML & CSS.</div>
+            </div>
+            <div class="journey-card" style="transition-delay:0.56s">
+                <div class="jc-year">Present</div>
+                <div class="jc-tech">Python / Django</div>
+                <div class="jc-desc">Currently mastering Django to build full-stack web applications. The voyage
+                    continues…</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="glow-line" style="max-width:900px;margin:0 auto;"></div>
+
+    <!-- SKILLS -->
+    <section id="skills">
+        <div class="section-label">03 · skill set</div>
+        <h2 class="section-title reveal">Other <em>Strengths</em></h2>
+
+        <div class="skills-clusters">
+            <div class="skill-cluster">
+                <div class="sc-icon">🎨</div>
+                <div class="sc-title">Design Tools</div>
+                <div class="sc-tags">
+                    <span class="sc-tag">Figma</span>
+                    <span class="sc-tag">Adobe Illustrator</span>
+                    <span class="sc-tag">Photoshop</span>
+                    <span class="sc-tag">Canva</span>
+                </div>
+            </div>
+            <div class="skill-cluster">
+                <div class="sc-icon">⚡</div>
+                <div class="sc-title">Frameworks</div>
+                <div class="sc-tags">
+                    <span class="sc-tag">Django</span>
+                    <span class="sc-tag">Spring Boot</span>
+                    <span class="sc-tag">Flutter</span>
+                    <span class="sc-tag">Bootstrap</span>
+                    <span class="sc-tag">Electron</span>
+                </div>
+            </div>
+            <div class="skill-cluster">
+                <div class="sc-icon">🔌</div>
+                <div class="sc-title">Electronics & Circuits</div>
+                <div class="sc-tags">
+                    <span class="sc-tag">Electronics</span>
+                    <span class="sc-tag">Digital Logic</span>
+                    <span class="sc-tag">Soldering</span>
+                </div>
+            </div>
+            <div class="skill-cluster">
+                <div class="sc-icon">🌊</div>
+                <div class="sc-title">Soft Skills</div>
+                <div class="sc-tags">
+                    <span class="sc-tag">Team Leadership</span>
+                    <span class="sc-tag">Teamwork</span>
+                    <span class="sc-tag">Project Mgmt</span>
+                    <span class="sc-tag">Problem Solving</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" style="padding-top:60px;">
+        <div class="contact-card reveal">
+            <div class="contact-title">Let's Connect</div>
+            <p class="contact-sub">
+                Whether it's a project collaboration, a question, or just saying hello — my digital door is always open.
+            </p>
+            <div class="contact-links">
+                <a href="https://github.com/Shuvo896" class="contact-link cl-github" target="_blank">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.21.08 1.85 1.24 1.85 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.93.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.82.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
+                    </svg>
+                    GitHub
+                </a>
+                <a href="https://linkedin.com/in/ashrafulalamshuvo1222/" class="contact-link cl-linkedin"
+                    target="_blank">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.91 1.64-1.86 3.37-1.86 3.6 0 4.27 2.37 4.27 5.45v6.3zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45C23.2 24 24 23.23 24 22.27V1.73C24 .77 23.2 0 22.22 0z" />
+                    </svg>
+                    LinkedIn
+                </a>
+                <a href="https://www.facebook.com/ashraful.alam.shuvo.2024" class="contact-link cl-fb" target="_blank">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.88v2.27h3.32l-.53 3.49h-2.79V24C19.61 23.1 24 18.1 24 12.07z" />
+                    </svg>
+                    Facebook
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <span>© 2025 Ashraful Alam Shuvo</span>
+        <span style="color:var(--sea-teal);">🌊 built with sea vibes</span>
+        <span>mrrelaxedash</span>
+    </footer>
+
+    <!-- ===================== SCRIPTS ===================== -->
+    <script src="scripts/index.js"></script>
+</body>
+
+</html>
