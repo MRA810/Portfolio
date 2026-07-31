@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gallery | Ashraful Alam Shuvo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --sea-deep: #0a2a3a;
+            --sea-mid: #0d3d54;
+            --sea-teal: #0e6b7c;
+            --sea-aqua: #1ab8a0;
+            --sea-mint: #4dd9c0;
+            --sea-foam: #a8f0e0;
+            --sky-light: #c8f0f8;
+            --green-sage: #52c98a;
+            --green-light: #90e8b8;
+            --white: #f4fefd;
+            --text-main: #d8f8f4;
+            --text-muted: #7ecfc0;
+            --text-dim: #4a8f88;
+            --accent: #ffce85;
+            --nav-h: 72px;
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: "Lora", serif; background: var(--sea-deep); color: var(--text-main); overflow-x: hidden; cursor: none; }
+
+        /* CURSOR */
+        .cursor { width:12px; height:12px; background:var(--sea-aqua); border-radius:50%; position:fixed; top:0; left:0; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform .1s,background .2s,width .2s,height .2s; mix-blend-mode:screen; }
+        .cursor-ring { width:36px; height:36px; border:1.5px solid var(--sea-mint); border-radius:50%; position:fixed; top:0; left:0; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:transform .18s ease,border-color .2s; opacity:.6; }
+
+        /* OCEAN BG */
+        .ocean-bg { position:fixed; inset:0; z-index:-2; background:linear-gradient(180deg,#061820 0%,#0a2a3a 30%,#0d3d54 60%,#0e5566 100%); }
+        .bubbles { position:fixed; inset:0; z-index:-1; overflow:hidden; pointer-events:none; }
+        .bubble { position:absolute; bottom:-60px; border-radius:50%; background:radial-gradient(circle at 35% 35%,rgba(168,240,224,.6),rgba(30,180,160,.1)); border:1px solid rgba(168,240,224,.3); animation:rise linear infinite; }
+        .bubble:nth-child(1){width:10px;height:10px;left:5%;animation-duration:14s}
+        .bubble:nth-child(2){width:6px;height:6px;left:14%;animation-duration:18s;animation-delay:2s}
+        .bubble:nth-child(3){width:14px;height:14px;left:22%;animation-duration:12s;animation-delay:5s}
+        .bubble:nth-child(4){width:8px;height:8px;left:33%;animation-duration:20s;animation-delay:1s}
+        .bubble:nth-child(5){width:5px;height:5px;left:44%;animation-duration:16s;animation-delay:8s}
+        .bubble:nth-child(6){width:11px;height:11px;left:55%;animation-duration:13s;animation-delay:3s}
+        .bubble:nth-child(7){width:7px;height:7px;left:65%;animation-duration:19s;animation-delay:6s}
+        .bubble:nth-child(8){width:9px;height:9px;left:75%;animation-duration:15s;animation-delay:4s}
+        .bubble:nth-child(9){width:12px;height:12px;left:84%;animation-duration:17s;animation-delay:9s}
+        .bubble:nth-child(10){width:6px;height:6px;left:92%;animation-duration:11s;animation-delay:7s}
+        @keyframes rise { 0%{transform:translateY(0) translateX(0) scale(1);opacity:0} 10%{opacity:.7} 90%{opacity:.3} 100%{transform:translateY(-110vh) translateX(30px) scale(.6);opacity:0} }
+        .light-rays { position:fixed; inset:0; z-index:-1; pointer-events:none; background:radial-gradient(ellipse 20% 60% at 20% -10%,rgba(30,200,180,.06) 0%,transparent 70%),radial-gradient(ellipse 15% 50% at 75% -10%,rgba(82,201,138,.05) 0%,transparent 70%); animation:rays 8s ease-in-out infinite alternate; }
+        @keyframes rays { 0%{opacity:.7} 100%{opacity:1} }
+
+        /* PROGRESS BAR */
+        .progress-bar { position:fixed; top:0; left:0; height:2px; background:linear-gradient(90deg,var(--sea-aqua),var(--green-sage)); z-index:200; transition:width .1s; box-shadow:0 0 8px var(--sea-aqua); }
+
+        /* NAV */
+        nav { position:fixed; top:0; left:0; right:0; height:var(--nav-h); display:flex; align-items:center; justify-content:space-between; padding:0 48px; z-index:100; transition:background .4s,backdrop-filter .4s; }
+        nav.scrolled { background:rgba(6,24,32,.85); backdrop-filter:blur(16px); border-bottom:1px solid rgba(77,217,192,.1); }
+        .nav-logo { font-family:"DM Mono",monospace; font-size:1.1rem; font-weight:500; color:var(--sea-aqua); letter-spacing:.05em; text-decoration:none; position:relative; }
+        .nav-logo::after { content:"_"; animation:blink 1.1s step-end infinite; color:var(--sea-mint); }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+        .nav-links { display:flex; gap:36px; list-style:none; }
+        .nav-links a { font-family:"DM Mono",monospace; font-size:.78rem; color:var(--text-muted); text-decoration:none; letter-spacing:.08em; position:relative; transition:color .3s; }
+        .nav-links a::before { content:attr(data-text); position:absolute; inset:0; color:var(--sea-mint); clip-path:inset(0 100% 0 0); transition:clip-path .3s ease; }
+        .nav-links a:hover { color:transparent; }
+        .nav-links a:hover::before { clip-path:inset(0 0% 0 0); }
+
+        /* PAGE HERO */
+        .page-hero { min-height:38vh; display:flex; align-items:flex-end; padding:calc(var(--nav-h) + 60px) 48px 48px; position:relative; overflow:hidden; }
+        .page-hero-inner { max-width:1100px; width:100%; }
+        .page-hero .hero-tag { font-family:"DM Mono",monospace; font-size:.75rem; color:var(--sea-aqua); letter-spacing:.2em; text-transform:uppercase; margin-bottom:16px; display:flex; align-items:center; gap:10px; animation:fadeUp 1s .1s ease both; }
+        .page-hero .hero-tag::before { content:""; width:32px; height:1px; background:var(--sea-aqua); display:inline-block; }
+        .page-hero h1 { font-family:"Syne",sans-serif; font-size:clamp(2.8rem,6vw,4.5rem); font-weight:800; line-height:1.05; animation:fadeUp 1s .2s ease both; }
+        .page-hero h1 em { font-style:normal; color:var(--sea-mint); }
+        .page-hero p { font-size:1rem; color:var(--text-muted); margin-top:16px; max-width:560px; line-height:1.8; animation:fadeUp 1s .35s ease both; }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(40px)} to{opacity:1;transform:translateY(0)} }
+
+        /* GALLERY LAYOUT: masonry-like using CSS columns */
+        .gallery-section { max-width:1100px; margin:0 auto; padding:20px 48px 100px; }
+
+        /* View toggle */
+        .view-toggle { display:flex; gap:8px; justify-content:flex-end; margin-bottom:32px; animation:fadeUp 1s .4s ease both; }
+        .vt-btn { width:36px; height:36px; border-radius:8px; border:1px solid rgba(77,217,192,.2); background:transparent; color:var(--text-muted); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .25s; font-size:1rem; }
+        .vt-btn.active, .vt-btn:hover { border-color:var(--sea-mint); color:var(--sea-mint); background:rgba(77,217,192,.08); }
+
+        /* Grid view */
+        .gallery-grid { display:grid; gap:20px; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); }
+        .gallery-grid.list-view { grid-template-columns:1fr; }
+
+        .gallery-item { background:rgba(13,61,84,.4); border:1px solid rgba(77,217,192,.12); border-radius:16px; overflow:hidden; backdrop-filter:blur(8px); transition:transform .35s,border-color .35s,box-shadow .35s; opacity:0; transform:translateY(30px); cursor:pointer; }
+        .gallery-item.visible { opacity:1; transform:translateY(0); }
+        .gallery-item:hover { transform:translateY(-6px); border-color:rgba(77,217,192,.35); box-shadow:0 16px 50px rgba(26,184,160,.16); }
+
+        .gallery-grid.list-view .gallery-item { display:grid; grid-template-columns:260px 1fr; border-radius:14px; }
+        .gallery-grid.list-view .gallery-item:hover { transform:translateX(6px) translateY(0); }
+
+        .gi-img-wrap { position:relative; aspect-ratio:4/3; overflow:hidden; background:linear-gradient(135deg,var(--sea-mid),#0a2030); }
+        .gallery-grid.list-view .gi-img-wrap { aspect-ratio:unset; height:100%; min-height:180px; }
+        .gi-img-wrap img { width:100%; height:100%; object-fit:cover; transition:transform .5s; filter:saturate(1.1) brightness(0.88); }
+        .gallery-item:hover .gi-img-wrap img { transform:scale(1.06); }
+        .gi-img-overlay { position:absolute; inset:0; background:linear-gradient(180deg,transparent 40%,rgba(10,26,38,.8) 100%); }
+        .gi-img-placeholder { width:100%; height:100%; min-height:180px; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,rgba(14,107,124,.4),rgba(82,201,138,.15)); }
+        .gi-img-placeholder i { font-size:3rem; color:rgba(77,217,192,.3); }
+
+        /* tag on image */
+        .gi-tag { position:absolute; top:12px; left:12px; font-family:"DM Mono",monospace; font-size:.62rem; letter-spacing:.1em; padding:4px 10px; border-radius:20px; background:rgba(77,217,192,.15); border:1px solid rgba(77,217,192,.35); color:var(--sea-mint); backdrop-filter:blur(8px); }
+
+        .gi-body { padding:22px 22px 26px; }
+        .gi-time { font-family:"DM Mono",monospace; font-size:.68rem; color:var(--green-sage); letter-spacing:.12em; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+        .gi-time i { font-size:.8rem; }
+        .gi-title { font-family:"Syne",sans-serif; font-size:1.05rem; font-weight:700; color:var(--sea-foam); margin-bottom:8px; line-height:1.3; }
+        .gi-desc { font-size:.87rem; color:var(--text-muted); line-height:1.7; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+        .gallery-grid.list-view .gi-desc { -webkit-line-clamp:unset; }
+
+        /* LIGHTBOX */
+        .lightbox { position:fixed; inset:0; z-index:1000; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .3s; padding:24px; }
+        .lightbox.open { opacity:1; pointer-events:all; }
+        .lb-backdrop { position:absolute; inset:0; background:rgba(6,18,28,.92); backdrop-filter:blur(16px); }
+        .lb-panel { position:relative; z-index:1; max-width:860px; width:100%; background:rgba(13,61,84,.75); border:1px solid rgba(77,217,192,.2); border-radius:20px; overflow:hidden; backdrop-filter:blur(20px); transform:scale(.92); transition:transform .3s; box-shadow:0 40px 100px rgba(0,0,0,.55); max-height:90vh; display:flex; flex-direction:column; }
+        .lightbox.open .lb-panel { transform:scale(1); }
+        .lb-img { width:100%; max-height:460px; object-fit:cover; display:block; }
+        .lb-img-placeholder { width:100%; height:320px; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,rgba(14,107,124,.5),rgba(82,201,138,.15)); }
+        .lb-img-placeholder i { font-size:5rem; color:rgba(77,217,192,.3); }
+        .lb-info { padding:28px 32px 32px; overflow-y:auto; }
+        .lb-time { font-family:"DM Mono",monospace; font-size:.7rem; color:var(--green-sage); letter-spacing:.15em; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+        .lb-title { font-family:"Syne",sans-serif; font-size:1.4rem; font-weight:700; color:var(--sea-foam); margin-bottom:12px; }
+        .lb-desc { font-size:.95rem; color:var(--text-muted); line-height:1.8; }
+        .lb-close { position:absolute; top:16px; right:16px; z-index:2; width:36px; height:36px; border-radius:50%; background:rgba(10,42,58,.8); border:1px solid rgba(77,217,192,.2); color:var(--sea-mint); font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .2s,transform .2s; }
+        .lb-close:hover { background:rgba(77,217,192,.15); transform:rotate(90deg); }
+
+        /* FOOTER */
+        .glow-line { height:1px; background:linear-gradient(90deg,transparent,var(--sea-aqua),var(--green-sage),transparent); max-width:900px; margin:0 auto; opacity:.4; }
+        footer { border-top:1px solid rgba(77,217,192,.08); padding:32px 48px; display:flex; align-items:center; justify-content:space-between; font-family:"DM Mono",monospace; font-size:.72rem; color:var(--text-dim); flex-wrap:wrap; gap:12px; }
+
+        ::-webkit-scrollbar { width:6px; }
+        ::-webkit-scrollbar-track { background:var(--sea-deep); }
+        ::-webkit-scrollbar-thumb { background:var(--sea-teal); border-radius:3px; }
+        ::selection { background:rgba(77,217,192,.25); color:var(--sea-foam); }
+
+        @media(max-width:768px){
+            nav{padding:0 24px;} .nav-links{gap:16px;}
+            .page-hero{padding-left:24px;padding-right:24px;}
+            .gallery-section{padding:0 24px 80px;}
+            .gallery-grid.list-view .gallery-item{grid-template-columns:1fr;}
+            footer{padding:24px;}
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
+    <div class="progress-bar" id="progress-bar"></div>
+    <div class="ocean-bg"></div>
+    <div class="bubbles">
+        <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
+        <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
+        <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
+        <div class="bubble"></div>
+    </div>
+    <div class="light-rays"></div>
+
+    <nav id="navbar">
+        <a class="nav-logo" href="index.html">mrrelaxedash</a>
+        <ul class="nav-links">
+            <li><a href="index.html#hero" data-text="home">home</a></li>
+            <li><a href="index.html#about" data-text="about">about</a></li>
+            <li><a href="certificates.html" data-text="certs">certs</a></li>
+            <li><a href="gallery.html" data-text="gallery">gallery</a></li>
+            <li><a href="projects.html" data-text="projects">projects</a></li>
+        </ul>
+    </nav>
+
+    <div class="page-hero">
+        <div class="page-hero-inner">
+            <div class="hero-tag">05 · memories</div>
+            <h1>My <em>Gallery</em></h1>
+            <p>Snapshots of events, hackathons, workshops, and moments that shaped the journey.</p>
+        </div>
+    </div>
+
+    <div class="gallery-section">
+        <div class="view-toggle">
+            <button class="vt-btn active" id="btn-grid" title="Grid view"><i class="bi bi-grid-3x3-gap"></i></button>
+            <button class="vt-btn" id="btn-list" title="List view"><i class="bi bi-list-ul"></i></button>
+        </div>
+
+        <div class="gallery-grid" id="gallery-grid">
+
+            <!-- ITEM 1 -->
+            <div class="gallery-item"
+                data-title="DIU Tech Fest 2024"
+                data-desc="An incredible two-day tech festival hosted by Daffodil International University. Featured project showcases, competitive programming rounds, and robotics demonstrations. Our team presented an IoT-based smart home prototype that received praise from the judges."
+                data-time="March 2024"
+                data-tag="tech-fest">
+                <div class="gi-img-wrap">
+                    <!-- Replace with: <img src="img/gallery/techfest.jpg" alt="DIU Tech Fest 2024"> -->
+                    <div class="gi-img-placeholder"><i class="bi bi-camera"></i></div>
+                    <div class="gi-img-overlay"></div>
+                    <div class="gi-tag">tech-fest</div>
+                </div>
+                <div class="gi-body">
+                    <div class="gi-time"><i class="bi bi-clock"></i> March 2024</div>
+                    <div class="gi-title">DIU Tech Fest 2024</div>
+                    <div class="gi-desc">An incredible two-day tech festival hosted by Daffodil International University. Featured project showcases, competitive programming rounds, and robotics demonstrations.</div>
+                </div>
+            </div>
+
+            <!-- ITEM 2 -->
+            <div class="gallery-item"
+                data-title="ICPC Regional Hackathon"
+                data-desc="Participated in the ICPC regional round alongside teammates from across Bangladesh. A grueling 5-hour problem solving session that tested every algorithm concept we knew. Proud of our team's performance placing in the top 50."
+                data-time="November 2024"
+                data-tag="competition">
+                <div class="gi-img-wrap">
+                    <div class="gi-img-placeholder"><i class="bi bi-trophy"></i></div>
+                    <div class="gi-img-overlay"></div>
+                    <div class="gi-tag">competition</div>
+                </div>
+                <div class="gi-body">
+                    <div class="gi-time"><i class="bi bi-clock"></i> November 2024</div>
+                    <div class="gi-title">ICPC Regional Hackathon</div>
+                    <div class="gi-desc">Participated in the ICPC regional round alongside teammates from across Bangladesh. A grueling 5-hour problem solving session that tested every algorithm concept we knew.</div>
+                </div>
+            </div>
+
+            <!-- ITEM 3 -->
+            <div class="gallery-item"
+                data-title="Flutter Forward Bangladesh"
+                data-desc="A full-day Flutter conference and workshop organized by the GDG Bangladesh community. Learned about the latest Flutter features, attended live coding sessions, and connected with mobile developers from across the country."
+                data-time="January 2025"
+                data-tag="workshop">
+                <div class="gi-img-wrap">
+                    <div class="gi-img-placeholder"><i class="bi bi-phone"></i></div>
+                    <div class="gi-img-overlay"></div>
+                    <div class="gi-tag">workshop</div>
+                </div>
+                <div class="gi-body">
+                    <div class="gi-time"><i class="bi bi-clock"></i> January 2025</div>
+                    <div class="gi-title">Flutter Forward Bangladesh</div>
+                    <div class="gi-desc">A full-day Flutter conference and workshop organized by the GDG Bangladesh community. Learned about the latest Flutter features and connected with mobile developers.</div>
+                </div>
+            </div>
+
+            <!-- ITEM 4 -->
+            <div class="gallery-item"
+                data-title="Campus Coding Meetup"
+                data-desc="A casual monthly coding session organized by the CS club at DIU. We pair-programmed, reviewed each other's projects, and shared resources about new technologies. A great space for informal learning and collaboration."
+                data-time="September 2024"
+                data-tag="campus">
+                <div class="gi-img-wrap">
+                    <div class="gi-img-placeholder"><i class="bi bi-people"></i></div>
+                    <div class="gi-img-overlay"></div>
+                    <div class="gi-tag">campus</div>
+                </div>
+                <div class="gi-body">
+                    <div class="gi-time"><i class="bi bi-clock"></i> September 2024</div>
+                    <div class="gi-title">Campus Coding Meetup</div>
+                    <div class="gi-desc">A casual monthly coding session organized by the CS club at DIU. We pair-programmed, reviewed each other's projects, and shared resources about new technologies.</div>
+                </div>
+            </div>
+
+            <!-- ITEM 5 -->
+            <div class="gallery-item"
+                data-title="Electronics Lab Session"
+                data-desc="A hands-on digital electronics lab where we built and tested logic circuits on breadboards. This was a turning point in understanding hardware at a deeper level — soldering, debugging circuits, and reading oscilloscope outputs."
+                data-time="April 2024"
+                data-tag="academic">
+                <div class="gi-img-wrap">
+                    <div class="gi-img-placeholder"><i class="bi bi-cpu"></i></div>
+                    <div class="gi-img-overlay"></div>
+                    <div class="gi-tag">academic</div>
+                </div>
+                <div class="gi-body">
+                    <div class="gi-time"><i class="bi bi-clock"></i> April 2024</div>
+                    <div class="gi-title">Electronics Lab Session</div>
+                    <div class="gi-desc">A hands-on digital electronics lab where we built and tested logic circuits. A turning point in understanding hardware — soldering, debugging circuits, reading oscilloscope outputs.</div>
+                </div>
+            </div>
+
+            <!-- ITEM 6 -->
+            <div class="gallery-item"
+                data-title="Egg Timer App Release"
+                data-desc="The moment I pushed the first build of my Egg Timer desktop app built with Electron. A personal milestone — my first self-published desktop application that blended JavaScript, HTML, and CSS into a real productized tool."
+                data-time="July 2025"
+                data-tag="personal">
+                <div class="gi-img-wrap">
+                    <div class="gi-img-placeholder"><i class="bi bi-egg"></i></div>
+                    <div class="gi-img-overlay"></div>
+                    <div class="gi-tag">personal</div>
+                </div>
+                <div class="gi-body">
+                    <div class="gi-time"><i class="bi bi-clock"></i> July 2025</div>
+                    <div class="gi-title">Egg Timer App Release</div>
+                    <div class="gi-desc">The moment I published my first desktop app — Egg Timer, built with Electron. A personal milestone blending JavaScript, HTML, and CSS into a real productized tool.</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox">
+        <div class="lb-backdrop" id="lb-backdrop"></div>
+        <div class="lb-panel">
+            <button class="lb-close" id="lb-close"><i class="bi bi-x"></i></button>
+            <div id="lb-img-container">
+                <div class="lb-img-placeholder"><i class="bi bi-camera"></i></div>
+            </div>
+            <div class="lb-info">
+                <div class="lb-time" id="lb-time"><i class="bi bi-clock"></i> <span></span></div>
+                <div class="lb-title" id="lb-title"></div>
+                <div class="lb-desc" id="lb-desc"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="glow-line"></div>
+    <footer>
+        <span>© 2025 Ashraful Alam Shuvo</span>
+        <span style="color:var(--sea-teal);">🌊 built with sea vibes</span>
+        <span>mrrelaxedash</span>
+    </footer>
+
+    <script>
+        // Cursor
+        const cursor=document.getElementById("cursor"),ring=document.getElementById("cursor-ring");
+        let mx=0,my=0,rx=0,ry=0;
+        document.addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY;});
+        (function animCursor(){rx+=(mx-rx)*.14;ry+=(my-ry)*.14;cursor.style.left=mx+"px";cursor.style.top=my+"px";ring.style.left=rx+"px";ring.style.top=ry+"px";requestAnimationFrame(animCursor);})();
+        document.querySelectorAll("a,button,.gallery-item").forEach(el=>{
+            el.addEventListener("mouseenter",()=>{cursor.style.width="18px";cursor.style.height="18px";ring.style.borderColor="var(--green-sage)";});
+            el.addEventListener("mouseleave",()=>{cursor.style.width="12px";cursor.style.height="12px";ring.style.borderColor="var(--sea-mint)";});
+        });
+
+        // Progress bar
+        const bar=document.getElementById("progress-bar");
+        window.addEventListener("scroll",()=>{bar.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+"%";});
+
+        // Navbar
+        const nav=document.getElementById("navbar");
+        window.addEventListener("scroll",()=>nav.classList.toggle("scrolled",window.scrollY>40));
+
+        // Scroll reveal
+        const io=new IntersectionObserver(entries=>entries.forEach(e=>e.isIntersecting&&e.target.classList.add("visible")),{threshold:.1});
+        document.querySelectorAll(".gallery-item").forEach((el,i)=>{el.style.transitionDelay=(i*.09)+"s";io.observe(el);});
+
+        // View toggle
+        const grid=document.getElementById("gallery-grid");
+        document.getElementById("btn-grid").addEventListener("click",function(){
+            grid.classList.remove("list-view"); this.classList.add("active");
+            document.getElementById("btn-list").classList.remove("active");
+        });
+        document.getElementById("btn-list").addEventListener("click",function(){
+            grid.classList.add("list-view"); this.classList.add("active");
+            document.getElementById("btn-grid").classList.remove("active");
+        });
+
+        // Lightbox
+        const lightbox=document.getElementById("lightbox");
+        document.querySelectorAll(".gallery-item").forEach(item=>{
+            item.addEventListener("click",()=>{
+                document.getElementById("lb-time").querySelector("span").textContent=item.dataset.time;
+                document.getElementById("lb-title").textContent=item.dataset.title;
+                document.getElementById("lb-desc").textContent=item.dataset.desc;
+                lightbox.classList.add("open");
+            });
+        });
+        document.getElementById("lb-close").addEventListener("click",()=>lightbox.classList.remove("open"));
+        document.getElementById("lb-backdrop").addEventListener("click",()=>lightbox.classList.remove("open"));
+        document.addEventListener("keydown",e=>e.key==="Escape"&&lightbox.classList.remove("open"));
+    </script>
+</body>
+</html>

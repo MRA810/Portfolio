@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="img/timage.png?v=999">
+    <title>Ashraful Alam Shuvo | Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="style/style.css">
+</head>
+
+<body>
+    <!-- CURSOR -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
+
+    <!-- SCROLL PROGRESS -->
+    <div class="progress-bar" id="progress-bar"></div>
+
+    <!-- OCEAN BG -->
+    <div class="ocean-bg"></div>
+    <div class="bubbles">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+    </div>
+    <div class="light-rays"></div>
+
+    <!-- NAV -->
+    <nav id="navbar">
+        <a class="nav-logo" href="index.html#hero">mrrelaxedash</a>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+            <i class="bi bi-list" id="nav-toggle-icon"></i>
+        </button>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index.html#hero" data-text="home"><i class="bi bi-house-door"></i><span>home</span></a></li>
+            <li><a href="index.html#skills" data-text="skills"><i class="bi bi-stars"></i><span>skills</span></a></li>
+            <li><a href="certificates.html" data-text="certificates"><i
+                        class="bi bi-award"></i><span>certificates</span></a></li>
+            <li><a href="projects.html" data-text="projects"><i class="bi bi-folder2-open"></i><span>projects</span></a>
+            </li>
+            <li><a href="index.html#contact" data-text="contacts"><i
+                        class="bi bi-envelope"></i><span>contacts</span></a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero">
+        <svg class="sea-deco jellyfish" viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="30" cy="28" rx="26" ry="22" fill="rgba(77,217,192,0.12)" stroke="rgba(77,217,192,0.35)"
+                stroke-width="1" />
+            <path d="M15 48 Q17 60 15 72" stroke="rgba(77,217,192,0.3)" stroke-width="1" stroke-linecap="round" />
+            <path d="M22 50 Q24 65 22 78" stroke="rgba(77,217,192,0.3)" stroke-width="1" stroke-linecap="round" />
+            <path d="M30 51 Q30 68 28 80" stroke="rgba(82,201,138,0.3)" stroke-width="1" stroke-linecap="round" />
+            <path d="M38 50 Q40 65 38 78" stroke="rgba(77,217,192,0.3)" stroke-width="1" stroke-linecap="round" />
+            <path d="M45 48 Q47 60 45 72" stroke="rgba(77,217,192,0.3)" stroke-width="1" stroke-linecap="round" />
+            <ellipse cx="30" cy="26" rx="18" ry="14" fill="rgba(77,217,192,0.06)" stroke="rgba(77,217,192,0.15)"
+                stroke-width="1" />
+        </svg>
+        <svg class="sea-deco jellyfish2" viewBox="0 0 40 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="20" cy="18" rx="18" ry="14" fill="rgba(82,201,138,0.1)" stroke="rgba(82,201,138,0.3)"
+                stroke-width="1" />
+            <path d="M10 30 Q12 40 10 52" stroke="rgba(82,201,138,0.3)" stroke-width="1" stroke-linecap="round" />
+            <path d="M18 32 Q20 44 18 54" stroke="rgba(82,201,138,0.25)" stroke-width="1" stroke-linecap="round" />
+            <path d="M26 32 Q28 44 26 54" stroke="rgba(82,201,138,0.25)" stroke-width="1" stroke-linecap="round" />
+            <path d="M33 30 Q35 40 33 52" stroke="rgba(82,201,138,0.2)" stroke-width="1" stroke-linecap="round" />
+        </svg>
+
+        <div class="hero-inner">
+            <div class="hero-text">
+                <div class="hero-tag">Portfolio · Developer · Creator</div>
+                <h1 class="hero-title">
+                    Hey,<br />
+                    This is <span class="name-highlight">Ashraful<br />Alam Shuvo</span>
+                </h1>
+                <p class="hero-subtitle">
+                    <span>&gt; developer</span> · <span>circuit_builder</span> · <span>problem_solver</span>
+                </p>
+                <p class="hero-desc">
+                    Your friendly neighborhood developer and problem solver, passionate about helping others and
+                    constantly learning new things. Currently a <strong>CSE student at Daffodil International
+                        University</strong>, graduating 2027.
+                </p>
+                <div class="hero-btns">
+                    <a href="contact.vcf" download class="btn-primary">_add to contacts</a>
+                    <a href="#contact" class="btn-ghost">_more info</a>
+                </div>
+            </div>
+
+            <div class="hero-image-wrap">
+                <div class="hero-img-frame">
+                    <div class="hero-img-inner">
+                        <img src="img/image.png" alt="Ashraful Alam Shuvo"
+                            onerror="this.style.display='none'; this.parentNode.style.background='linear-gradient(135deg,#0e6b7c,#1ab8a0)';" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="wave-sep">
+            <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z"
+                    fill="rgba(13,61,84,0.3)" />
+            </svg>
+        </div>
+    </section>
+
+    <!-- ABOUT / ACADEMIC -->
+    <section id="about" class="section-bg-tint">
+        <div class="section-label">01 · background</div>
+        <h2 class="section-title reveal">Academic <em>Background</em></h2>
+
+        <div class="timeline">
+            <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-year">2020</div>
+                <div class="tl-title">Secondary School Certificate (SSC)</div>
+                <div class="tl-body">Science background · Session 2018-19 · Result: <strong>GPA 4.72 / 5.00</strong>
+                </div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-dot" style="background:var(--green-sage);box-shadow:0 0 12px var(--green-sage)"></div>
+                <div class="tl-year">2022</div>
+                <div class="tl-title">Higher Secondary Certificate (HSC)</div>
+                <div class="tl-body">Science background · Session 2020-21 · Result: <strong>GPA 4.83 / 5.00</strong>
+                </div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-dot" style="background:var(--sea-mint);box-shadow:0 0 12px var(--sea-mint)"></div>
+                <div class="tl-year">2023 → Present</div>
+                <div class="tl-title">B.Sc. in Computer Science & Engineering</div>
+                <div class="tl-body"><strong>Daffodil International University</strong> · Batch 65 · Fall 2023 ·
+                    Expected graduation 2027</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="glow-line" style="max-width:900px;margin:0 auto;"></div>
+
+    <!-- CODING JOURNEY -->
+    <section id="journey">
+        <div class="section-label">02 · coding voyage</div>
+        <h2 class="section-title reveal">My Coding <em>Journey</em></h2>
+
+        <div class="journey-grid">
+            <div class="journey-card">
+                <div class="jc-year">2020</div>
+                <div class="jc-tech">HTML / CSS</div>
+                <div class="jc-desc">Took the plunge into web foundations — pure HTML & CSS to build my first static
+                    pages.</div>
+            </div>
+            <div class="journey-card">
+                <div class="jc-year">2021</div>
+                <div class="jc-tech">Python (Basic)</div>
+                <div class="jc-desc">Started programming and problem solving out of sheer curiosity and passion.</div>
+            </div>
+            <div class="journey-card">
+                <div class="jc-year">2022</div>
+                <div class="jc-tech">JavaScript</div>
+                <div class="jc-desc">Resumed learning JS after academic pressure eased — diving into front-end
+                    interactivity.</div>
+            </div>
+            <div class="journey-card">
+                <div class="jc-year">2023–2024</div>
+                <div class="jc-tech">C / C++</div>
+                <div class="jc-desc">Learned data structures in C, moved to C++ for algorithms and competitive
+                    programming with STL.</div>
+            </div>
+            <div class="journey-card">
+                <div class="jc-year">2024</div>
+                <div class="jc-tech">Flutter</div>
+                <div class="jc-desc">Explored Flutter during a semester break, building basic cross-platform mobile
+                    apps.</div>
+            </div>
+            <div class="journey-card">
+                <div class="jc-year">2025</div>
+                <div class="jc-tech">Java / Spring Boot</div>
+                <div class="jc-desc">Learned OOP concepts in Java, then built web applications using Spring Boot
+                    framework.</div>
+            </div>
+            <div class="journey-card">
+                <div class="jc-year">2025 · Side Quest</div>
+                <div class="jc-tech">Electron</div>
+                <div class="jc-desc">Self-learned Electron and built <em>Egg Timer</em> — a desktop app blending JS,
+                    HTML & CSS.</div>
+            </div>
+            <div class="journey-card">
+                <div class="jc-year">2025</div>
+                <div class="jc-tech">Python / Django</div>
+                <div class="jc-desc">I have learned a lot about web development with Python and Django.</div>
+            </div>
+            <div class="journey-card">
+                <div class="jc-year">2026</div>
+                <div class="jc-tech">Flask</div>
+                <div class="jc-desc">I wish I started this before. I have learnt doing this to make a simple proxy sever
+                    interface. And I love it.</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="glow-line" style="max-width:900px;margin:0 auto;"></div>
+
+    <!-- SKILLS -->
+    <section id="skills">
+        <div class="section-label">03 · skill set</div>
+        <h2 class="section-title reveal">My <em>Skills</em></h2>
+
+        <div class="skills-clusters">
+            <div class="skill-cluster">
+                <div class="sc-icon"><i class="bi bi-code-square"></i></div>
+                <div class="sc-title">Languages</div>
+                <div class="sc-tags">
+                    <span class="sc-tag">C / C++</span><span class="sc-tag">Python</span><span
+                        class="sc-tag">Java</span>
+                    <span class="sc-tag">JavaScript</span><span class="sc-tag">HTML / CSS</span>
+                </div>
+            </div>
+            <div class="skill-cluster">
+                <div class="sc-icon"><i class="bi bi-code-slash"></i></div>
+                <div class="sc-title">Frameworks</div>
+                <div class="sc-tags">
+                    <span class="sc-tag">Django</span><span class="sc-tag">Flask</span><span class="sc-tag">Spring
+                        Boot</span>
+                    <span class="sc-tag">Flutter</span><span class="sc-tag">Bootstrap</span><span
+                        class="sc-tag">Electron</span>
+                </div>
+            </div>
+            <div class="skill-cluster">
+                <div class="sc-icon"><i class="bi bi-pen"></i></div>
+                <div class="sc-title">Design Tools</div>
+                <div class="sc-tags">
+                    <span class="sc-tag">Figma</span><span class="sc-tag">Adobe Illustrator</span>
+                    <span class="sc-tag">Photoshop</span><span class="sc-tag">Canva</span>
+                </div>
+            </div>
+            <div class="skill-cluster">
+                <div class="sc-icon"><i class="bi bi-cpu"></i></div>
+                <div class="sc-title">Electronics & Circuits</div>
+                <div class="sc-tags">
+                    <span class="sc-tag">Electronics</span><span class="sc-tag">Digital Logic</span><span
+                        class="sc-tag">Soldering</span>
+                </div>
+            </div>
+            <div class="skill-cluster">
+                <div class="sc-icon"><i class="bi bi-tools"></i></div>
+                <div class="sc-title">Dev Tools</div>
+                <div class="sc-tags">
+                    <span class="sc-tag">Git / GitHub</span><span class="sc-tag">VS Code</span>
+                    <span class="sc-tag">IntelliJ</span><span class="sc-tag">Linux CLI</span>
+                </div>
+            </div>
+            <div class="skill-cluster">
+                <div class="sc-icon"><i class="bi bi-people"></i></div>
+                <div class="sc-title">Soft Skills</div>
+                <div class="sc-tags">
+                    <span class="sc-tag">Team Leadership</span><span class="sc-tag">Teamwork</span>
+                    <span class="sc-tag">Project Mgmt</span><span class="sc-tag">Problem Solving</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" style="padding-top:60px;">
+        <div class="contact-card reveal">
+            <div class="contact-title">Let's Connect</div>
+            <p class="contact-sub">
+                Whether it's a project collaboration, a question, or just saying hello — my digital door is always open.
+            </p>
+            <div class="contact-links">
+                <a href="https://github.com/mra810" class="contact-link cl-github" target="_blank">
+                    <i class="bi bi-github"></i> GitHub
+                </a>
+                <a href="https://linkedin.com/in/ashrafulalamshuvo1222/" class="contact-link cl-linkedin"
+                    target="_blank">
+                    <i class="bi bi-linkedin"></i> LinkedIn
+                </a>
+                <a href="https://www.facebook.com/ashraful.alam.shuvo.16873" class="contact-link cl-fb" target="_blank">
+                    <i class="bi bi-facebook"></i> Facebook
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <span>© 2025 Ashraful Alam Shuvo</span>
+        <span style="color:var(--sea-teal);"><i class="bi bi-water"></i> built with sea vibes</span>
+        <span>mrrelaxedash</span>
+    </footer>
+
+    <script src="scripts/index.js"></script>
+</body>
+
+</html>
