@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gallery | Ashraful Alam Shuvo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="gallery.css">
+</head>
+<body>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
+    <div class="progress-bar" id="progress-bar"></div>
+    <div class="ocean-bg"></div>
+    <div class="bubbles">
+        <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
+        <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
+        <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
+        <div class="bubble"></div>
+    </div>
+    <div class="light-rays"></div>
+
+    <nav id="navbar">
+        <a class="nav-logo" href="index.html">mrrelaxedash</a>
+        <ul class="nav-links">
+            <li><a href="index.html#hero" data-text="home">home</a></li>
+            <li><a href="index.html#about" data-text="about">about</a></li>
+            <li><a href="certificates.html" data-text="certs">certs</a></li>
+            <li><a href="gallery.html" data-text="gallery">gallery</a></li>
+            <li><a href="projects.html" data-text="projects">projects</a></li>
+        </ul>
+    </nav>
+
+    <div class="page-hero">
+        <div class="page-hero-inner">
+            <div class="hero-tag">05 · memories</div>
+            <h1>My <em>Gallery</em></h1>
+            <p>Snapshots of events, hackathons, workshops, and moments that shaped the journey.</p>
+        </div>
+    </div>
+
+    <div class="gallery-section">
+        <div class="view-toggle">
+            <button class="vt-btn active" id="btn-grid" title="Grid view"><i class="bi bi-grid-3x3-gap"></i></button>
+            <button class="vt-btn" id="btn-list" title="List view"><i class="bi bi-list-ul"></i></button>
+        </div>
+
+        <div class="gallery-grid" id="gallery-grid">
+
+            <!-- ITEM 1 -->
+            <div class="gallery-item"
+                data-title="DIU Tech Fest 2024"
+                data-desc="An incredible two-day tech festival hosted by Daffodil International University. Featured project showcases, competitive programming rounds, and robotics demonstrations. Our team presented an IoT-based smart home prototype that received praise from the judges."
+                data-time="March 2024"
+                data-tag="tech-fest">
+                <div class="gi-img-wrap">
+                    <!-- Replace with: <img src="img/gallery/techfest.jpg" alt="DIU Tech Fest 2024"> -->
+                    <div class="gi-img-placeholder"><i class="bi bi-camera"></i></div>
+                    <div class="gi-img-overlay"></div>
+                    <div class="gi-tag">tech-fest</div>
+                </div>
+                <div class="gi-body">
+                    <div class="gi-time"><i class="bi bi-clock"></i> March 2024</div>
+                    <div class="gi-title">DIU Tech Fest 2024</div>
+                    <div class="gi-desc">An incredible two-day tech festival hosted by Daffodil International University. Featured project showcases, competitive programming rounds, and robotics demonstrations.</div>
+                </div>
+            </div>
+
+            <!-- ITEM 2 -->
+            <div class="gallery-item"
+                data-title="ICPC Regional Hackathon"
+                data-desc="Participated in the ICPC regional round alongside teammates from across Bangladesh. A grueling 5-hour problem solving session that tested every algorithm concept we knew. Proud of our team's performance placing in the top 50."
+                data-time="November 2024"
+                data-tag="competition">
+                <div class="gi-img-wrap">
+                    <div class="gi-img-placeholder"><i class="bi bi-trophy"></i></div>
+                    <div class="gi-img-overlay"></div>
+                    <div class="gi-tag">competition</div>
+                </div>
+                <div class="gi-body">
+                    <div class="gi-time"><i class="bi bi-clock"></i> November 2024</div>
+                    <div class="gi-title">ICPC Regional Hackathon</div>
+                    <div class="gi-desc">Participated in the ICPC regional round alongside teammates from across Bangladesh. A grueling 5-hour problem solving session that tested every algorithm concept we knew.</div>
+                </div>
+            </div>
+
+            <!-- ITEM 3 -->
+            <div class="gallery-item"
+                data-title="Flutter Forward Bangladesh"
+                data-desc="A full-day Flutter conference and workshop organized by the GDG Bangladesh community. Learned about the latest Flutter features, attended live coding sessions, and connected with mobile developers from across the country."
+                data-time="January 2025"
+                data-tag="workshop">
+                <div class="gi-img-wrap">
+                    <div class="gi-img-placeholder"><i class="bi bi-phone"></i></div>
+                    <div class="gi-img-overlay"></div>
+                    <div class="gi-tag">workshop</div>
+                </div>
+                <div class="gi-body">
+                    <div class="gi-time"><i class="bi bi-clock"></i> January 2025</div>
+                    <div class="gi-title">Flutter Forward Bangladesh</div>
+                    <div class="gi-desc">A full-day Flutter conference and workshop organized by the GDG Bangladesh community. Learned about the latest Flutter features and connected with mobile developers.</div>
+                </div>
+            </div>
+
+            <!-- ITEM 4 -->
+            <div class="gallery-item"
+                data-title="Campus Coding Meetup"
+                data-desc="A casual monthly coding session organized by the CS club at DIU. We pair-programmed, reviewed each other's projects, and shared resources about new technologies. A great space for informal learning and collaboration."
+                data-time="September 2024"
+                data-tag="campus">
+                <div class="gi-img-wrap">
+                    <div class="gi-img-placeholder"><i class="bi bi-people"></i></div>
+                    <div class="gi-img-overlay"></div>
+                    <div class="gi-tag">campus</div>
+                </div>
+                <div class="gi-body">
+                    <div class="gi-time"><i class="bi bi-clock"></i> September 2024</div>
+                    <div class="gi-title">Campus Coding Meetup</div>
+                    <div class="gi-desc">A casual monthly coding session organized by the CS club at DIU. We pair-programmed, reviewed each other's projects, and shared resources about new technologies.</div>
+                </div>
+            </div>
+
+            <!-- ITEM 5 -->
+            <div class="gallery-item"
+                data-title="Electronics Lab Session"
+                data-desc="A hands-on digital electronics lab where we built and tested logic circuits on breadboards. This was a turning point in understanding hardware at a deeper level — soldering, debugging circuits, and reading oscilloscope outputs."
+                data-time="April 2024"
+                data-tag="academic">
+                <div class="gi-img-wrap">
+                    <div class="gi-img-placeholder"><i class="bi bi-cpu"></i></div>
+                    <div class="gi-img-overlay"></div>
+                    <div class="gi-tag">academic</div>
+                </div>
+                <div class="gi-body">
+                    <div class="gi-time"><i class="bi bi-clock"></i> April 2024</div>
+                    <div class="gi-title">Electronics Lab Session</div>
+                    <div class="gi-desc">A hands-on digital electronics lab where we built and tested logic circuits. A turning point in understanding hardware — soldering, debugging circuits, reading oscilloscope outputs.</div>
+                </div>
+            </div>
+
+            <!-- ITEM 6 -->
+            <div class="gallery-item"
+                data-title="Egg Timer App Release"
+                data-desc="The moment I pushed the first build of my Egg Timer desktop app built with Electron. A personal milestone — my first self-published desktop application that blended JavaScript, HTML, and CSS into a real productized tool."
+                data-time="July 2025"
+                data-tag="personal">
+                <div class="gi-img-wrap">
+                    <div class="gi-img-placeholder"><i class="bi bi-egg"></i></div>
+                    <div class="gi-img-overlay"></div>
+                    <div class="gi-tag">personal</div>
+                </div>
+                <div class="gi-body">
+                    <div class="gi-time"><i class="bi bi-clock"></i> July 2025</div>
+                    <div class="gi-title">Egg Timer App Release</div>
+                    <div class="gi-desc">The moment I published my first desktop app — Egg Timer, built with Electron. A personal milestone blending JavaScript, HTML, and CSS into a real productized tool.</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox">
+        <div class="lb-backdrop" id="lb-backdrop"></div>
+        <div class="lb-panel">
+            <button class="lb-close" id="lb-close"><i class="bi bi-x"></i></button>
+            <div id="lb-img-container">
+                <div class="lb-img-placeholder"><i class="bi bi-camera"></i></div>
+            </div>
+            <div class="lb-info">
+                <div class="lb-time" id="lb-time"><i class="bi bi-clock"></i> <span></span></div>
+                <div class="lb-title" id="lb-title"></div>
+                <div class="lb-desc" id="lb-desc"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="glow-line"></div>
+    <footer>
+        <span>© 2025 Ashraful Alam Shuvo</span>
+        <span style="color:var(--sea-teal);">🌊 built with sea vibes</span>
+        <span>mrrelaxedash</span>
+    </footer>
+
+    <script src="gscript.js"></script>
+</body>
+</html>
