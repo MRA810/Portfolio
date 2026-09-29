@@ -122,7 +122,12 @@ export default function App() {
     lenisRef.current = lenis;
     lenis.stop();
     scrollTo(0, 0);
-    let target = 0,
+    let over = false,
+      mxp = -1e4,
+      myp = -1e4,
+      power = 0,
+      lensDirty = false,
+      target = 0,
       cur = 0,
       mx = 0,
       my = 0,
@@ -137,12 +142,19 @@ export default function App() {
     lenis.on("scroll", () => {
       target = lenis.limit ? lenis.scroll / lenis.limit : 0;
     });
+    const onOut = (ev) => {
+      if (!ev.relatedTarget) over = false;
+    };
     const onMove = (ev) => {
       if (ev.pointerType !== "mouse") return;
+      over = true;
+      mxp = ev.clientX;
+      myp = ev.clientY;
       tx = ev.clientX / innerWidth - 0.5;
       ty = ev.clientY / innerHeight - 0.5;
     };
     addEventListener("pointermove", onMove);
+    document.addEventListener("mouseout", onOut);
     let port = innerWidth / innerHeight < 1;
     const onRz = () => {
       port = innerWidth / innerHeight < 1;
@@ -150,9 +162,30 @@ export default function App() {
     addEventListener("resize", onRz);
     const img = new Image();
     img.src = "/portrait.webp";
+    const lensC = S.querySelector("[data-id=plens]"),
+      blurEl = S.querySelector("[data-id=blur]"),
+      lctx = lensC.getContext("2d"),
+      COLS = 60,
+      K = 8;
+    let cells = null,
+      rows = 0;
+    const buildCells = () => {
+      const w = img.naturalWidth || 1082,
+        h = img.naturalHeight || 1400;
+      rows = Math.round((COLS * h) / w);
+      const o = document.createElement("canvas");
+      o.width = COLS;
+      o.height = rows;
+      const c = o.getContext("2d", { willReadFrequently: true });
+      c.drawImage(img, 0, 0, COLS, rows);
+      cells = c.getImageData(0, 0, COLS, rows).data;
+      lensC.width = COLS * K;
+      lensC.height = rows * K;
+    };
     Promise.all([document.fonts.ready, img.decode().catch(() => {})]).then(
       () => {
         ready = true;
+        buildCells();
       },
     );
     const S_ = (n, x, y, o, s = 1) => {
@@ -219,7 +252,12 @@ export default function App() {
         rise = (1 - ent) * 4;
       S_(
         el.portrait,
-        port ? mx * 1.4 : 3 + 14 * ea + 35 * eb - 27 * ec + mx * 1.4,
+        port
+          ? mx * 1.4
+          : 3 +
+              (47 - 35.5 / (innerWidth / innerHeight)) *
+                (0.3 * ea + 0.7 * e(seg(b, 0, 0.75))) +
+              mx * 1.4,
         (port ? 24 : 33) * ec + 90 * ex + (1 - ent) * 10 + my * 0.8,
         ent,
         1 - 0.04 * ea + 0.1 * ec,
@@ -261,6 +299,63 @@ export default function App() {
         "--go",
         e(seg(b, 0.5, 0.9)) * (1 - e(seg(c, 0, 0.25))),
       );
+      // hover lens: soft blur everywhere + lifted pixel cells on the portrait
+      const live =
+        phase.current === "ready" && over && !S.classList.contains("menu-open");
+      power +=
+        ((live ? 1 : 0) - power) * (1 - Math.exp(-dt * (live ? 2.2 : 3.5)));
+      blurEl.style.opacity = power;
+      blurEl.style.transform = `translate3d(${mxp - 85}px,${myp - 85}px,0)`;
+      if (
+        cells &&
+        power > 0.01 &&
+        ent > 0.99 &&
+        el.portrait.style.visibility !== "hidden"
+      ) {
+        const r = lensC.getBoundingClientRect(),
+          W = lensC.offsetWidth,
+          H = lensC.offsetHeight,
+          cs = Math.cos(0.02618),
+          sn = Math.sin(0.02618),
+          sc = r.width / (W * cs + H * sn);
+        const dx = mxp - (r.left + r.width / 2),
+          dy = myp - (r.top + r.height / 2);
+        const ux = (((dx * cs + dy * sn) / sc + W / 2) / W) * COLS,
+          uy = (((-dx * sn + dy * cs) / sc + H / 2) / H) * rows,
+          R = 6;
+        lctx.clearRect(0, 0, lensC.width, lensC.height);
+        lensDirty = true;
+        for (
+          let gy = Math.max(0, Math.floor(uy - R - 1));
+          gy <= Math.min(rows - 1, Math.ceil(uy + R + 1));
+          gy++
+        )
+          for (
+            let gx = Math.max(0, Math.floor(ux - R - 1));
+            gx <= Math.min(COLS - 1, Math.ceil(ux + R + 1));
+            gx++
+          ) {
+            const d = Math.hypot(gx + 0.5 - ux, gy + 0.5 - uy) / R;
+            if (d >= 1) continue;
+            const i = (gy * COLS + gx) * 4,
+              al = cells[i + 3] / 255;
+            if (al < 0.05) continue;
+            const f = 1 - e(clamp((d - 0.45) / 0.55)),
+              h = Math.abs(Math.sin(gx * 12.9 + gy * 78.2));
+            const lift =
+              f *
+              power *
+              (0.35 + 0.65 * h) *
+              (0.7 + 0.3 * Math.sin(now / 900 + h * 6)) *
+              K *
+              0.9;
+            lctx.fillStyle = `rgba(${Math.min(255, cells[i] + f * 20) | 0},${Math.min(255, cells[i + 1] + f * 20) | 0},${Math.min(255, cells[i + 2] + f * 20) | 0},${Math.min(1, f * 1.7) * al})`;
+            lctx.fillRect(gx * K, gy * K - lift, K - 1, K - 1);
+          }
+      } else if (lensDirty) {
+        lctx.clearRect(0, 0, lensC.width, lensC.height);
+        lensDirty = false;
+      }
       el.dots.querySelectorAll("i").forEach((d, i) => {
         d.style.transform = `translate3d(0,${(((DOTS[i][1] + cur * DOTS[i][3] * 40) % 100) + 100) % 100}dvh,0)`;
       });
@@ -272,6 +367,7 @@ export default function App() {
       lenis.destroy();
       px.dispose();
       removeEventListener("pointermove", onMove);
+      document.removeEventListener("mouseout", onOut);
       removeEventListener("resize", onRz);
     };
   }, []);
@@ -296,6 +392,7 @@ export default function App() {
         <div className="layer">
           <div data-id="portrait" className="portrait">
             <img src="/portrait.webp" alt="Md. Ashraful Alam Shuvo" />
+            <canvas data-id="plens" className="plens" />
           </div>
           <div data-id="ash" className="ash">
             ASH
@@ -328,7 +425,6 @@ export default function App() {
           <button data-id="add" className="add" onClick={downloadVcf}>
             ADD TO CONTACT
           </button>
-
           <h1 className="name">
             <span data-id="n1" className="n1">
               ASHRAFUL
@@ -339,6 +435,7 @@ export default function App() {
           </h1>
           <p className="go">A LITTLE MORE TO GO --&gt;</p>
         </div>
+        <div data-id="blur" className="lensblur" />
         <div
           className={"menu" + (menu ? " open" : "")}
           onClick={() => setMenu(false)}
