@@ -203,19 +203,7 @@ html.lenis body {
 .add:hover {
   background: rgba(99, 6, 202, 0.45);
 }
-.tag {
-  right: 3.5vw;
-  top: 58dvh;
-  width: max(5.7vw, 44px);
-  height: max(5.7vw, 44px);
-  display: grid;
-  place-items: center;
-  background: rgba(99, 6, 202, 0.35);
-  border: 1px solid var(--pu);
-  color: #6306ca;
-  font: 400 max(1.1vw, 10px) "Oxanium";
-  z-index: 3;
-}
+
 .name {
   position: absolute;
   left: 45.6vw;
@@ -464,13 +452,7 @@ html.lenis body {
     top: 27dvh;
     font-size: max(3vw, 11px);
   }
-  .tag {
-    right: 5vw;
-    top: 40dvh;
-    width: 14vw;
-    height: 14vw;
-    font-size: max(3vw, 11px);
-  }
+
   .add {
     left: 5vw;
     right: 5vw;

@@ -328,9 +328,7 @@ export default function App() {
           <button data-id="add" className="add" onClick={downloadVcf}>
             ADD TO CONTACT
           </button>
-          <div data-id="tag" className="tag">
-            a#46
-          </div>
+
           <h1 className="name">
             <span data-id="n1" className="n1">
               ASHRAFUL
