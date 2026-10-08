@@ -18,7 +18,7 @@ void main(){
 export function createPixels(canvas) {
   const r = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false })
   const scene = new THREE.Scene(), cam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1)
-  const u = { uRes: { value: new THREE.Vector2() }, uMode: { value: 0 }, uP: { value: 0 }, uV: { value: new THREE.Vector2(.05, .95) }, uH: { value: new THREE.Vector2(.06, .94) } }
+  const u = { uRes: { value: new THREE.Vector2() }, uMode: { value: 0 }, uP: { value: 0 }, uLen: { value: 1 }, uV: { value: new THREE.Vector2(.05, .95) }, uH: { value: new THREE.Vector2(.06, .94) } }
   scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({ uniforms: u, transparent: true, vertexShader: 'void main(){gl_Position=vec4(position.xy,0.,1.);}', fragmentShader: frag })))
   const resize = () => { const d = Math.min(devicePixelRatio, 2); r.setPixelRatio(d); r.setSize(innerWidth, innerHeight, false); u.uRes.value.set(innerWidth * d, innerHeight * d) }
   resize(); addEventListener('resize', resize)
