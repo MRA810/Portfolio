@@ -117,9 +117,22 @@ const POS = [
   [18, 44, 1], [47, 44, 1], [76, 44, 1],
   [28, 69, 2], [58, 69, 2],
 ];
-const HERO_VH = 900,
-  WORKS_VH = 520,
-  HERO_FRAC = HERO_VH / (HERO_VH + WORKS_VH);
+// scroll lengths in vh. HERO_VH keeps the hero exactly as long as before.
+const HERO_VH = 824,
+  WORKS_VH = 2050,
+  HERO_FRAC = HERO_VH / (HERO_VH + WORKS_VH),
+  DOTK = 0.6338 / HERO_FRAC;
+// black-section traces, taken from the Figma frame (absolute frame coords)
+const BTR = [
+  ["p", "M12 223 H612"], ["p", "M290 223 L352 288"], ["p", "M122 288 H578"],
+  ["p", "M470 252 H1236"], ["p", "M545 252 L662 370 H1521"], ["p", "M585 248 L630 203 H1505"],
+  ["p", "M915 370 L975 312 H1521"], ["p", "M12 333 H945"],
+  ["o", "M1374 417 H1521"], ["o", "M470 558 H855 L925 488 H1420 L1490 417"],
+  ["o", "M1228 488 L1366 627 H1521"], ["o", "M12 502 H862"], ["o", "M413 502 L470 558"],
+  ["o", "M97 628 H398 L470 558"], ["o", "M298 702 H1521"], ["o", "M545 563 L683 702"],
+  ["p", "M12 813 H520 L570 858"], ["p", "M392 858 H1303"], ["p", "M665 858 L722 799 H1228"],
+  ["p", "M1170 858 L1284 741 H1521"],
+];
 
 export default function App() {
   const stage = useRef(),
@@ -129,7 +142,8 @@ export default function App() {
   const [menu, setMenu] = useState(false);
   const [time, setTime] = useState("");
   const [wMode, setWMode] = useState("click");
-  const cardRefs = useRef([]);
+  const cardRefs = useRef([]),
+    boxRefs = useRef([]);
   const activeRef = useRef(null);
   const ctl = useRef(null),
     modeRef = useRef("click"),
@@ -199,6 +213,10 @@ export default function App() {
         "wrule",
         "wdesc",
         "wx",
+        "whub",
+        "bsec",
+        "btr",
+        "bfoot",
       ].map((k) => [k, $(k)]),
     );
     const lenis = new Lenis({
@@ -248,18 +266,31 @@ export default function App() {
     addEventListener("pointermove", onMove);
     document.addEventListener("mouseout", onOut);
     let port = innerWidth / innerHeight < 1;
-    let panMax = 0,
-      geo = [];
+    let panEnd = 0,
+      geo = [],
+      lineList = [];
+    const NSVG = "http://www.w3.org/2000/svg";
+    // g = 0: draws with the first scroll; g = 1: draws as it scrolls into view
+    const addLine = (d, cls, x0, x1, g) => {
+      const p = document.createElementNS(NSVG, "path");
+      p.setAttribute("d", d);
+      p.setAttribute("class", cls);
+      p.setAttribute("pathLength", "1");
+      p.style.strokeDasharray = "1";
+      p.style.strokeDashoffset = "1";
+      el.wlines.appendChild(p);
+      lineList.push({ p, x0, x1, g });
+    };
     const buildLines = () => {
-      const cards = cardRefs.current.filter(Boolean);
-      const box = cards.map((c) => ({
+      const W = innerWidth, H = innerHeight, por = W < H;
+      const box = cardRefs.current.filter(Boolean).map((c) => ({
         l: c.offsetLeft, t: c.offsetTop, w: c.offsetWidth, h: c.offsetHeight,
       }));
-      geo = box.map((b) => ({ l: b.l / innerWidth, r: (b.l + b.w) / innerWidth }));
-      const ext = Math.max(0, ...box.map((b) => b.l + b.w));
-      panMax = Math.max(0, ext + innerWidth * 0.07 - innerWidth);
+      geo = box.map((b) => ({ l: b.l / W, r: (b.l + b.w) / W }));
       el.wlines.innerHTML = "";
+      lineList = [];
       const rows = [0, 1, 2].map((r) => box.filter((_, i) => POS[i][2] === r));
+      // pink traces between the cards of a row
       rows.forEach((row, r) => {
         const below = r === 1; // row 2 routes its bus underneath, others above
         for (let i = 0; i < row.length - 1; i++) {
@@ -268,16 +299,64 @@ export default function App() {
             bus = below ? A.t + h * 1.06 : A.t - h * 0.04,
             xe = B.l + B.w + h * 0.33,
             yv = B.t + h * 0.5 + sg * h * 0.33;
-          const d = `M${A.l + A.w} ${y0} L${A.l + A.w + Math.abs(bus - y0)} ${bus} L${xe} ${bus} L${xe} ${yv} L${B.l + B.w} ${B.t + h * 0.5}`;
-          const pth = document.createElementNS("http://www.w3.org/2000/svg", "path");
-          pth.setAttribute("d", d);
-          pth.setAttribute("class", "wln");
-          const len = pth.getTotalLength();
-          pth.style.strokeDasharray = len;
-          pth.style.strokeDashoffset = len;
-          el.wlines.appendChild(pth);
+          addLine(
+            `M${A.l + A.w} ${y0} L${A.l + A.w + Math.abs(bus - y0)} ${bus} L${xe} ${bus} L${xe} ${yv} L${B.l + B.w} ${B.t + h * 0.5}`,
+            "wln", A.l + A.w, xe, 0,
+          );
         }
       });
+      // hub + dark boxes continue the board to the right
+      const pinkR = Math.max(...box.map((b) => b.l + b.w));
+      const R = (por ? 0.17 : 0.0825) * W,
+        hcx = pinkR + 0.255 * W,
+        hcy = (por ? 0.5 : 0.538) * H;
+      const bw = (por ? 0.64 : 0.29) * W, bh = (por ? 0.2 : 0.33) * H, gx = 0.031 * W;
+      const yT = (por ? 0.16 : 0.165) * H, yM = (por ? 0.4 : 0.355) * H, yB = (por ? 0.64 : 0.547) * H;
+      const an = (38 * Math.PI) / 180, sa = Math.sin(an), ca = Math.cos(an);
+      const dyd = hcy - (yT + bh / 2) - R * sa;
+      const aL = hcx + Math.max(0.135 * W, R * ca + Math.abs(dyd) + 0.02 * W);
+      const cx3 = [aL, aL + bw + gx, aL + 2 * (bw + gx)];
+      const bx = [
+        { l: cx3[0], t: yT }, { l: cx3[0], t: yB }, { l: cx3[1], t: yM },
+        { l: cx3[2], t: yT }, { l: cx3[2], t: yB },
+      ].map((b) => ({ ...b, w: bw, h: bh }));
+      boxRefs.current.forEach((n, i) => {
+        if (!n) return;
+        Object.assign(n.style, {
+          left: bx[i].l + "px", top: bx[i].t + "px", width: bw + "px", height: bh + "px",
+        });
+      });
+      Object.assign(el.whub.style, {
+        left: hcx - R + "px", top: hcy - R + "px", width: 2 * R + "px", height: 2 * R + "px",
+      });
+      panEnd = Math.max(0, cx3[2] + bw - 0.68 * W);
+      const cy = (b) => b.t + b.h / 2,
+        rr = (b) => b.l + b.w;
+      // purple: last card of every row -> hub
+      rows.forEach((row, r) => {
+        const L = row[row.length - 1];
+        if (!L) return;
+        const yr = hcy + (r - 1) * 0.055 * H,
+          hx = hcx - Math.sqrt(Math.max(0, R * R - (yr - hcy) ** 2)),
+          xs = hx - 0.05 * W;
+        addLine(
+          `M${rr(L)} ${cy(L)} H${xs - Math.abs(yr - cy(L))} L${xs} ${yr} H${hx}`,
+          "wln", rr(L), hx, 1,
+        );
+      });
+      // black: hub -> first column, then box to box
+      [[bx[0], -1], [bx[1], 1]].forEach(([b, sg]) => {
+        const sx = hcx + R * ca, sy = hcy + sg * R * sa, ty = cy(b);
+        addLine(`M${sx} ${sy} L${sx + Math.abs(ty - sy)} ${ty} H${b.l}`, "wln k", sx, b.l, 1);
+      });
+      const into = (S, D, edge, f) => {
+        const sy = cy(S), ex = D.l + f * D.w, ey = edge === "top" ? D.t : D.t + D.h;
+        addLine(`M${rr(S)} ${sy} H${ex - Math.abs(ey - sy)} L${ex} ${ey}`, "wln k", rr(S), ex, 1);
+      };
+      into(bx[0], bx[2], "top", 0.77);
+      into(bx[1], bx[2], "bottom", 0.23);
+      into(bx[2], bx[3], "bottom", 0.63);
+      into(bx[2], bx[4], "top", 0.31);
     };
     const onRz = () => {
       port = innerWidth / innerHeight < 1;
@@ -478,6 +557,52 @@ export default function App() {
       );
     };
 
+    // black overlay = a clip-path made of the pixel cells that have turned black.
+    // Same cell grid as the orange wipe (22 columns); hash lives in JS so it is exact.
+    const fr = (x) => x - Math.floor(x);
+    let bKey = "";
+    const btrP = [...el.btr.querySelectorAll("path")];
+    btrP.forEach((p) => {
+      p.setAttribute("pathLength", "1");
+      p.style.strokeDasharray = "1";
+      p.style.strokeDashoffset = "1";
+    });
+    const setBlack = (ww) => {
+      const W = innerWidth, H = innerHeight;
+      if (ww <= 0.0005) {
+        el.bsec.style.visibility = "hidden";
+        bKey = "";
+        return;
+      }
+      el.bsec.style.visibility = "visible";
+      const key = ww.toFixed(4) + "|" + W + "|" + H;
+      if (key === bKey) return;
+      bKey = key;
+      if (ww >= 0.9999) {
+        el.bsec.style.clipPath = "none";
+        return;
+      }
+      const cell = W / 22, rows = Math.ceil(H / cell);
+      let d = "";
+      for (let ry = 0; ry < rows; ry++) {
+        const y0 = Math.round(ry * cell), y1 = Math.min(H, Math.round((ry + 1) * cell));
+        let run = -1;
+        for (let cx = 0; cx <= 22; cx++) {
+          let blk = false;
+          if (cx < 22) {
+            const h = fr(Math.sin(cx * 127.1 + ry * 311.7) * 43758.5453);
+            blk = (1 - (cx + 0.5) / 22) * 0.72 + h * 0.28 <= ww * 1.0002;
+          }
+          if (blk && run < 0) run = cx;
+          if (!blk && run >= 0) {
+            const x0 = Math.round(run * cell), x1 = Math.round(cx * cell);
+            d += `M${x0} ${y0}H${x1}V${y1}H${x0}Z`;
+            run = -1;
+          }
+        }
+      }
+      el.bsec.style.clipPath = d ? `path('${d}')` : "path('M0 0')";
+    };
     const tick = (now) => {
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
@@ -659,15 +784,16 @@ export default function App() {
         lensDirty = false;
       }
       el.dots.querySelectorAll("i").forEach((d, i) => {
-        d.style.transform = `translate3d(0,${(((DOTS[i][1] + cur * DOTS[i][3] * 40) % 100) + 100) % 100}dvh,0)`;
+        d.style.transform = `translate3d(0,${(((DOTS[i][1] + cur * DOTK * DOTS[i][3] * 40) % 100) + 100) % 100}dvh,0)`;
       });
       // ---- works section: everything rides on the SAME progress as the orange wipe ----
       // wp = wipe progress (0 -> 1). The wipe front travels right -> left and a cell at
       // screen x turns orange at about wp = 1 - 0.72x - (0..0.28 noise), see pixels.js
-      const wp = seg(heroCur, 0.62, 1);
+      const wp = seg(heroCur, 0.62, 1),
+        wv = worksCur * WORKS_VH; // scroll after the hero, in vh
       el.works.style.opacity = seg(wp, 0, 0.02);
       el.works.style.pointerEvents =
-        worksCur > 0.05 || activeRef.current ? "auto" : "none";
+        wv > 26 || activeRef.current ? "auto" : "none";
       // dark header copy: shows on the orange cells, invisible on the black ones
       el.whead.style.opacity = e(seg(wp, 0.05, 0.3));
       // Click/Hover toggle: thin purple bar -> full switch while the wipe passes
@@ -687,13 +813,26 @@ export default function App() {
         cd.style.maskSize = m;
         cd.style.filter = `brightness(${1 + (1 - p) * 0.5})`;
       });
-      // traces draw in as the wipe finishes, then the board pans sideways
-      const lineT = e(seg(wp + worksCur * 3, 0.9, 1.25));
-      el.wlines.querySelectorAll(".wln").forEach((ln) => {
-        const len = parseFloat(ln.style.strokeDasharray) || 0;
-        ln.style.strokeDashoffset = len * (1 - lineT);
+      // traces draw in as the wipe finishes (first group), the rest draw as they scroll in
+      const lineT = e(seg(wp + wv / 173.3, 0.9, 1.25));
+      const pz = seg(wv, 60, 1160),
+        panPx = panEnd * (0.35 * e(pz) + 0.65 * pz),
+        vr = panPx + innerWidth - 0.05 * innerWidth;
+      el.wgrid.style.transform = `translate3d(${-panPx}px,0,0)`;
+      for (const L of lineList)
+        L.p.style.strokeDashoffset =
+          1 - (L.g === 0 ? lineT : e(clamp((vr - L.x0) / Math.max(1, L.x1 - L.x0))));
+      // ---- orange -> black: pixel cells turn black from the right, over everything ----
+      setBlack(e(seg(wv, 1000, 1350)));
+      // black traces connect, then the footer rises and pushes them up (1:1)
+      const bl = seg(wv, 1150, 1650);
+      btrP.forEach((p, i) => {
+        p.style.strokeDashoffset = 1 - e(clamp(bl * 1.6 - 0.6 * (i / (btrP.length - 1))));
       });
-      el.wgrid.style.transform = `translate3d(${-panMax * e(seg(worksCur, 0.1, 0.99))}px,0,0)`;
+      const fp = e(seg(wv, 1700, 2050)),
+        cov = 0.71 * fp;
+      el.bfoot.style.transform = `translate3d(0,${(1 - cov) * 100}%,0)`;
+      el.btr.style.transform = `translate3d(0,${-cov * innerHeight}px,0)`;
       stepPanel(dt, now);
       raf = requestAnimationFrame(tick);
     };
@@ -712,7 +851,11 @@ export default function App() {
 
   return (
     <>
-      <div className="scroller" aria-hidden="true" />
+      <div
+        className="scroller"
+        aria-hidden="true"
+        style={{ height: HERO_VH + WORKS_VH + 100 + "svh" }}
+      />
       <main className={"stage" + (menu ? " menu-open" : "")} ref={stage}>
         <div className="lines">
           {[2.6, 17.8, 39.7, 65.2, 87.2].map((l) => (
@@ -824,20 +967,6 @@ export default function App() {
               EXPLORE MORE
             </button>
           </div>
-          <div data-id="wtoggle" className="modesw" data-mode={wMode}>
-            <button
-              className={wMode === "click" ? "on" : ""}
-              onClick={() => pickMode("click")}
-            >
-              Click
-            </button>
-            <button
-              className={wMode === "hover" ? "on" : ""}
-              onClick={() => pickMode("hover")}
-            >
-              Hover
-            </button>
-          </div>
           <div data-id="wgrid" className="wgrid">
             <svg data-id="wlines" className="wlines"></svg>
             {WORKS.map((w, i) => (
@@ -853,6 +982,14 @@ export default function App() {
                 <span className="wtag">{w.tag}</span>
                 <b>{w.title}</b>
               </div>
+            ))}
+            <div data-id="whub" className="whub">
+              <i className="hr hr1" />
+              <i className="hr hr2" />
+              <img className="chip" src="/Vector.png" alt="" draggable="false" />
+            </div>
+            {[0, 1, 2, 3, 4].map((i) => (
+              <div key={i} ref={(n) => (boxRefs.current[i] = n)} className="wbox" />
             ))}
           </div>
           <div data-id="wpwrap" className="wpanel-wrap">
@@ -879,6 +1016,42 @@ export default function App() {
                 <path d="M3 3L17 17" strokeDasharray="20" strokeDashoffset="20" />
                 <path d="M17 3L3 17" strokeDasharray="20" strokeDashoffset="20" />
               </svg>
+            </button>
+          </div>
+        </div>
+        <div data-id="bsec" className="bsec">
+          <svg data-id="btr" className="btr" viewBox="0 0 1509 879" preserveAspectRatio="none">
+            <g transform="translate(-12,-28)">
+              {BTR.map(([c, d], i) => (
+                <path key={i} d={d} className={c === "p" ? "bp" : "bo"} />
+              ))}
+            </g>
+          </svg>
+          <div data-id="bfoot" className="bfoot" />
+          <div className="bhead">
+            <p className="tl">MD. ASHRAFUL ALAM SHUVO</p>
+            <div className="city">
+              <p>DHAKA, BANGLADESH</p>
+              <small>{time}</small>
+            </div>
+            <button className="more" onClick={() => setMenu(true)}>
+              EXPLORE MORE
+            </button>
+          </div>
+        </div>
+        <div className="top">
+          <div data-id="wtoggle" className="modesw" data-mode={wMode}>
+            <button
+              className={wMode === "click" ? "on" : ""}
+              onClick={() => pickMode("click")}
+            >
+              Click
+            </button>
+            <button
+              className={wMode === "hover" ? "on" : ""}
+              onClick={() => pickMode("hover")}
+            >
+              Hover
             </button>
           </div>
         </div>
