@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Lenis from "lenis";
 import { createPixels } from "./pixels.js";
+import { SKILLS, SkillBody } from "./skills.jsx";
 
 const SOCIALS = [
   // TODO: replace with real profile URLs
@@ -60,62 +61,11 @@ const DOTS = [
   [65.2, 62, "#6306CA", 5],
   [87.2, 28, "#FF3A00", -8],
 ];
-const WORKS = [
-  // TODO: replace placeholder desc with real write-ups
-  {
-    id: "bb",
-    title: "Beautiful Bangladesh",
-    tag: "Travel & tourism site",
-    desc: "Description coming soon.",
-  },
-  {
-    id: "fifa",
-    title: "FIFA 2026 Fan Site",
-    tag: "Fan site",
-    desc: "Description coming soon.",
-  },
-  {
-    id: "nest",
-    title: "NestAdmin",
-    tag: "Home rent management",
-    desc: "Description coming soon.",
-  },
-  {
-    id: "keepme",
-    title: "KeepMe",
-    tag: "Shopping list app",
-    desc: "Description coming soon.",
-  },
-  {
-    id: "attar",
-    title: "Maison Sufia Attar",
-    tag: "Fragrance e-commerce",
-    desc: "Description coming soon.",
-  },
-  {
-    id: "sem",
-    title: "Smart Environment Monitor",
-    tag: "IoT dashboard",
-    desc: "Description coming soon.",
-  },
-  {
-    id: "gate",
-    title: "SmartGate",
-    tag: "Lab proxy system",
-    desc: "Description coming soon.",
-  },
-  {
-    id: "vdisp",
-    title: "Virtual Display",
-    tag: "Windows \u2194 Ubuntu monitor",
-    desc: "Description coming soon.",
-  },
-];
-// card slots: [x (vw, before spread), y (dvh), row]
+// card slots: [x (vw), y (dvh), row] (from the Figma frame)
 const POS = [
-  [6.5, 19, 0], [36.5, 19, 0], [66.5, 19, 0],
-  [18, 44, 1], [47, 44, 1], [76, 44, 1],
-  [28, 69, 2], [58, 69, 2],
+  [8.3, 15, 0], [37.2, 15, 0], [63.7, 14, 0], [83.2, 14.3, 0],
+  [19, 39.6, 1], [41.5, 39.6, 1], [67.8, 39.6, 1],
+  [24.6, 64.6, 2], [51.6, 64.6, 2], [70.6, 64.6, 2],
 ];
 // scroll lengths in vh. HERO_VH keeps the hero exactly as long as before.
 const HERO_VH = 824,
@@ -123,6 +73,28 @@ const HERO_VH = 824,
   HERO_FRAC = HERO_VH / (HERO_VH + WORKS_VH),
   DOTK = 0.6338 / HERO_FRAC;
 // black-section traces, taken from the Figma frame (absolute frame coords)
+const DEVICON = (slug, variant) =>
+  `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${slug}/${slug}-${variant}.svg`;
+const ABOUT = [ // TODO: fill in your own copy; images load from /public (see filenames below)
+  { id: "me", title: "Me", kind: "photo", img: "/me-robot.jpg",
+    text: "Write your \u201cMe\u201d story here." },
+  { id: "toolbox", title: "Inside My Toolbox", kind: "icons",
+    icons: [
+      { name: "Arduino", src: DEVICON("arduino", "original") },
+      { name: "C++", src: DEVICON("cplusplus", "original") },
+      { name: "Figma", src: DEVICON("figma", "original") },
+      { name: "React", src: DEVICON("react", "original") },
+      { name: "?", src: null }, // TODO: tell me what this tool actually is
+      { name: "Python", src: DEVICON("python", "original") },
+      { name: "Illustrator", src: DEVICON("illustrator", "plain") },
+    ] },
+  { id: "edu", title: "Education", kind: "photo", img: "/campus.jpg",
+    text: "Add your education details here." },
+  { id: "cert", title: "Certificates", kind: "cert", img: "/cert-aws.png",
+    name: "MD. ASHRAFUL ALAM SHUVO",
+    cert: "Certificate of Completion for AWS Academy Graduate \u2014 AWS Academy Cloud Foundations" },
+  { id: "works", title: "My Works", kind: "cta" },
+];
 const BTR = [
   ["p", "M12 223 H612"], ["p", "M290 223 L352 288"], ["p", "M122 288 H578"],
   ["p", "M470 252 H1236"], ["p", "M545 252 L662 370 H1521"], ["p", "M585 248 L630 203 H1505"],
@@ -142,15 +114,46 @@ export default function App() {
   const [menu, setMenu] = useState(false);
   const [time, setTime] = useState("");
   const [wMode, setWMode] = useState("click");
+  const [about, setAbout] = useState(false);
+  const [openBlock, setOpenBlock] = useState(null);
+  const [pulsing, setPulsing] = useState(null);
+  const cv2 = useRef();
   const cardRefs = useRef([]),
-    boxRefs = useRef([]);
+    boxRefs = useRef([]),
+    skRefs = useRef([]),
+    picRefs = useRef([]);
   const activeRef = useRef(null);
   const ctl = useRef(null),
     modeRef = useRef("click"),
-    menuRef = useRef(false);
+    menuRef = useRef(false),
+    aboutRef = useRef(false);
+  const aboutScrollRef = useRef(null);
   useEffect(() => {
     menuRef.current = menu;
   }, [menu]);
+  useEffect(() => {
+    aboutRef.current = about;
+  }, [about]);
+  // scroll-reveal: rows fade/slide in as they enter view while scrolling the about panel.
+  // Tracked in React state (not classList mutation) so a click/hover re-render never wipes it.
+  const [seenRows, setSeenRows] = useState(() => new Set());
+  useEffect(() => {
+    if (!about) {
+      setSeenRows(new Set());
+      return;
+    }
+    const root = aboutScrollRef.current;
+    if (!root) return;
+    const io = new IntersectionObserver(
+      (ents) => {
+        const hit = ents.filter((en) => en.isIntersecting).map((en) => en.target.dataset.rowId);
+        if (hit.length) setSeenRows((prev) => new Set([...prev, ...hit]));
+      },
+      { root, threshold: 0.18 }
+    );
+    root.querySelectorAll(".arow").forEach((r) => io.observe(r));
+    return () => io.disconnect();
+  }, [about]);
   const pickMode = (m) => {
     modeRef.current = m;
     setWMode(m);
@@ -180,6 +183,7 @@ export default function App() {
 
   useEffect(() => {
     const px = createPixels(cv.current),
+      px2 = createPixels(cv2.current),
       S = stage.current;
     const $ = (id) => S.querySelector(`[data-id=${id}]`);
     const el = Object.fromEntries(
@@ -211,7 +215,8 @@ export default function App() {
         "wtag",
         "wtitle",
         "wrule",
-        "wdesc",
+        "wbody",
+        "wpics",
         "wx",
         "whub",
         "bsec",
@@ -230,6 +235,12 @@ export default function App() {
     });
     lenisRef.current = lenis;
     lenis.stop();
+    const onAboutWheel = (ev) => {
+      if (!aboutRef.current || !aboutScrollRef.current) return;
+      aboutScrollRef.current.scrollTop += ev.deltaY;
+      ev.preventDefault();
+    };
+    addEventListener("wheel", onAboutWheel, { passive: false });
     scrollTo(0, 0);
     let disp = 0,
       over = false,
@@ -409,6 +420,26 @@ export default function App() {
       OPEN_S = reduce ? 0.01 : 1.3,
       CLOSE_S = reduce ? 0.01 : 0.95;
     const pan = { t: 0, open: false, i: -1, s: null, shown: false, hto: 0, out: 0, pending: -1 };
+    // ---- about page: reuses the same radial pixel-dissolve as the intro reveal,
+    // on its own canvas so it never fights the hero/works wipe's uMode/uP ----
+    const abt = { phase: "idle", t: 0, dir: 1, jump: null };
+    const openAbout = () => {
+      if (abt.phase !== "idle") return;
+      abt.phase = "cover";
+      abt.t = 0;
+      abt.dir = 1;
+    };
+    const closeAbout = (jumpPx) => {
+      if (abt.phase !== "idle") return;
+      abt.phase = "cover";
+      abt.t = 0;
+      abt.dir = 0;
+      abt.jump = jumpPx ?? null;
+    };
+    const goWorks = () => {
+      const target = lenis.limit ? lenis.limit * (HERO_FRAC + 0.03) : 0;
+      closeAbout(target);
+    };
     const clickish = () => coarse || modeRef.current === "click";
     const eRect = () => {
       const W = innerWidth, H = innerHeight;
@@ -429,11 +460,13 @@ export default function App() {
       pan.open = true;
       pan.pending = -1;
       pan.shown = true;
-      activeRef.current = WORKS[i].id;
-      pan.tag = `0${i + 1}  \u2014  ${WORKS[i].tag.toUpperCase()}`;
-      pan.title = WORKS[i].title;
-      el.wnum.textContent = `0${i + 1}`;
-      el.wdesc.textContent = WORKS[i].desc;
+      activeRef.current = SKILLS[i].id;
+      pan.tag = `${String(i + 1).padStart(2, "0")}  \u2014  ${SKILLS[i].tag.toUpperCase()}`;
+      pan.title = SKILLS[i].title;
+      el.wnum.textContent = String(i + 1).padStart(2, "0");
+      // show this skill's text + pictures, hide the others
+      skRefs.current.forEach((n, j) => n && (n.style.display = j === i ? "block" : "none"));
+      picRefs.current.forEach((n, j) => n && (n.style.display = j === i ? "grid" : "none"));
       el.wpwrap.style.visibility = "visible";
       lenis.stop();
     };
@@ -444,6 +477,9 @@ export default function App() {
     };
     ctl.current = {
       click: (i) => clickish() && !pan.open && openBox(i),
+      openAbout,
+      closeAbout,
+      goWorks,
       enter: (i) => {
         if (clickish() || pan.t > 0) return;
         clearTimeout(pan.hto);
@@ -454,7 +490,11 @@ export default function App() {
       leave: () => clearTimeout(pan.hto),
       close: closeBox,
     };
-    const onKey = (ev) => ev.key === "Escape" && closeBox();
+    const onKey = (ev) => {
+      if (ev.key !== "Escape") return;
+      closeBox();
+      ctl.current?.closeAbout();
+    };
     addEventListener("keydown", onKey);
     // ---- helpers for the new opening ----
     const GLY = "#*@%&$+/<>=~?";
@@ -471,6 +511,39 @@ export default function App() {
     };
     const eoExpo = (x) => (x >= 1 ? 1 : (1 - Math.pow(2, -10 * x)) / (1 - Math.pow(2, -10)));
     const eio = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+
+    // ---- about page transition: advances abt (declared earlier, before ctl.current
+    // needed it) each frame; uses eio so it has to live after eio is defined ----
+    const stepAbout = (dt) => {
+      if (abt.phase === "idle") return;
+      abt.t = Math.min(1, abt.t + dt / 0.65);
+      const k = eio(abt.t),
+        u2 = px2.u;
+      u2.uMode.value = 1;
+      if (abt.phase === "cover") {
+        u2.uP.value = 1 - k;
+        if (abt.t >= 1) {
+          abt.phase = "swap";
+          abt.t = 0;
+        }
+      } else if (abt.phase === "swap") {
+        if (abt.dir === 1) {
+          setAbout(true);
+          lenis.stop();
+        } else {
+          setAbout(false);
+          if (!menuRef.current) lenis.start();
+          if (abt.jump != null) lenis.scrollTo(abt.jump, { immediate: true });
+          abt.jump = null;
+        }
+        abt.phase = "open";
+        u2.uP.value = 0;
+      } else if (abt.phase === "open") {
+        u2.uP.value = k;
+        if (abt.t >= 1) abt.phase = "idle";
+      }
+      px2.render();
+    };
     const wxPaths = [...el.wx.querySelectorAll("path")];
     // the card stretches sideways into a bar (fast, expo-out), then rises into the
     // full panel (soft in-out); a small skew gives the lunge some life
@@ -538,8 +611,10 @@ export default function App() {
       el.wtitle.textContent = decode(pan.title || "", e(seg(t, 0.66, 0.93)), kk + 5);
       el.wrule.style.transform = `scaleX(${e(seg(t, 0.72, 0.95))})`;
       const dd = e(seg(t, 0.8, 1));
-      el.wdesc.style.opacity = dd;
-      el.wdesc.style.transform = `translateY(${(1 - dd) * 16}px)`;
+      el.wbody.style.opacity = dd;
+      el.wbody.style.transform = `translateY(${(1 - dd) * 16}px)`;
+      el.wpics.style.setProperty("--p1", e(seg(t, 0.74, 0.94)));
+      el.wpics.style.setProperty("--p2", e(seg(t, 0.82, 1)));
       const nn = e(seg(t, 0.7, 1));
       el.wnum.style.opacity = nn;
       el.wnum.style.transform = `translateY(${(1 - nn) * 40}px)`;
@@ -834,6 +909,7 @@ export default function App() {
       el.bfoot.style.transform = `translate3d(0,${(1 - cov) * 100}%,0)`;
       el.btr.style.transform = `translate3d(0,${-cov * innerHeight}px,0)`;
       stepPanel(dt, now);
+      stepAbout(dt);
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
@@ -841,10 +917,12 @@ export default function App() {
       cancelAnimationFrame(raf);
       lenis.destroy();
       px.dispose();
+      px2.dispose();
       removeEventListener("pointermove", onMove);
       document.removeEventListener("mouseout", onOut);
       removeEventListener("resize", onRz);
       removeEventListener("keydown", onKey);
+      removeEventListener("wheel", onAboutWheel);
       clearTimeout(pan.hto);
     };
   }, []);
@@ -934,7 +1012,14 @@ export default function App() {
                 <i />
                 <i />
               </button>
-              <button className="mb" style={{ "--i": 0 }}>
+              <button
+                className="mb"
+                style={{ "--i": 0 }}
+                onClick={() => {
+                  setMenu(false);
+                  ctl.current?.openAbout();
+                }}
+              >
                 ABOUT
               </button>
               <button className="mb" style={{ "--i": 1 }}>
@@ -969,9 +1054,11 @@ export default function App() {
           </div>
           <div data-id="wgrid" className="wgrid">
             <svg data-id="wlines" className="wlines"></svg>
-            {WORKS.map((w, i) => (
+            {SKILLS.map((w, i) => (
               <div
                 key={w.id}
+                aria-label={w.title}
+                role="button"
                 ref={(n) => (cardRefs.current[i] = n)}
                 className="wcard"
                 style={{ "--x": POS[i][0], "--y": POS[i][1] }}
@@ -979,8 +1066,16 @@ export default function App() {
                 onMouseEnter={() => ctl.current?.enter(i)}
                 onMouseLeave={() => ctl.current?.leave()}
               >
-                <span className="wtag">{w.tag}</span>
-                <b>{w.title}</b>
+                {w.logos.map((l) => (
+                  <img
+                    key={l.src}
+                    className="wlogo"
+                    src={l.src}
+                    alt=""
+                    draggable="false"
+                    style={{ left: l.l + "%", top: l.t + "%", width: l.w + "%" }}
+                  />
+                ))}
               </div>
             ))}
             <div data-id="whub" className="whub">
@@ -1001,10 +1096,29 @@ export default function App() {
             </svg>
             <div data-id="wcontent" className="wcontent">
               <span data-id="wnum" className="wnum" />
-              <small data-id="wtag" />
-              <h4 data-id="wtitle" />
-              <i data-id="wrule" className="wrule" />
-              <p data-id="wdesc" />
+              <div className="wleft">
+                <small data-id="wtag" />
+                <h4 data-id="wtitle" />
+                <i data-id="wrule" className="wrule" />
+                <div data-id="wbody" className="wbody">
+                  {SKILLS.map((w, i) => (
+                    <div key={w.id} ref={(n) => (skRefs.current[i] = n)} className="wsk">
+                      <SkillBody s={w} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div data-id="wpics" className="wpics">
+                {SKILLS.map((w, i) => (
+                  <div key={w.id} ref={(n) => (picRefs.current[i] = n)} className="wpicset">
+                    {w.pics.map((P, j) => (
+                      <div key={j} className="wpic">
+                        <P />
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
             </div>
             <button
               data-id="wx"
@@ -1055,8 +1169,129 @@ export default function App() {
             </button>
           </div>
         </div>
+        {about && (
+          <div className="about" ref={aboutScrollRef}>
+            <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden="true">
+              <filter id="aboil" x="-20%" y="-20%" width="140%" height="140%">
+                <feTurbulence type="turbulence" baseFrequency="0.012 0.04" numOctaves="2" seed="7" result="n">
+                  <animate attributeName="baseFrequency" dur="2.6s" values="0.012 0.04;0.02 0.07;0.012 0.04" repeatCount="indefinite" />
+                </feTurbulence>
+                <feDisplacementMap in="SourceGraphic" in2="n" scale="26" xChannelSelector="R" yChannelSelector="G" />
+              </filter>
+            </svg>
+            <div className="ahead">
+              <p className="tl">MD. ASHRAFUL ALAM SHUVO</p>
+              <div className="city">
+                <p>DHAKA, BANGLADESH</p>
+                <small>{time}</small>
+              </div>
+              <div className="modesw" data-mode={wMode}>
+                <button
+                  className={wMode === "click" ? "on" : ""}
+                  onClick={() => pickMode("click")}
+                >
+                  Click
+                </button>
+                <button
+                  className={wMode === "hover" ? "on" : ""}
+                  onClick={() => pickMode("hover")}
+                >
+                  Hover
+                </button>
+              </div>
+              <button
+                className="x"
+                aria-label="Close about"
+                onClick={() => ctl.current?.closeAbout()}
+              >
+                <i />
+                <i />
+              </button>
+            </div>
+            <div className="ascroll">
+              <h2 className="atitle">ABOUT</h2>
+              {ABOUT.map((b, i) => (
+                <div
+                  key={b.id}
+                  data-row-id={b.id}
+                  className={
+                    "arow a-" +
+                    b.kind +
+                    " " +
+                    wMode +
+                    (pulsing === b.id ? " pulsing" : "") +
+                    (openBlock === b.id ? " open" : "") +
+                    (seenRows.has(b.id) ? " in" : "")
+                  }
+                  onClick={() => {
+                    if (wMode !== "click" || b.kind === "cta") return;
+                    setPulsing(b.id);
+                    setOpenBlock((o) => (o === b.id ? null : b.id));
+                  }}
+                  onMouseEnter={() => {
+                    if (wMode !== "hover" || b.kind === "cta") return;
+                    setOpenBlock(b.id);
+                  }}
+                  onMouseLeave={() => {
+                    if (wMode !== "hover") return;
+                    setOpenBlock((o) => (o === b.id ? null : o));
+                  }}
+                  onAnimationEnd={(e) => {
+                    if (e.animationName === "aPulse") setPulsing(null);
+                  }}
+                >
+                  <span className="anum">0{i + 1}</span>
+                  <b className="arow-title">{b.title}</b>
+
+                  {b.kind === "photo" && (
+                    <>
+                      <div className="aimg adissolve" style={{ backgroundImage: `url(${b.img})` }} />
+                      <p className="arow-text">{b.text}</p>
+                    </>
+                  )}
+
+                  {b.kind === "icons" && (
+                    <div className="aicons adissolve">
+                      {b.icons.map((ic, k) => (
+                        <span key={ic.name} className="aicon" style={{ "--k": k }}>
+                          {ic.src ? <img src={ic.src} alt={ic.name} /> : <em>?</em>}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  {b.kind === "cert" && (
+                    <div className="acertwrap adissolve">
+                      <div className="acerthex" />
+                      <div className="acert">
+                        <b>{b.name}</b>
+                        <p>{b.cert}</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {b.kind === "cta" && (
+                    <div className="actawrap adissolve">
+                      <button
+                        className="aopen"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          ctl.current?.goWorks();
+                        }}
+                      >
+                        Open Projects &#8594;
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ))}
+              <p className="atag">Learn it. Build it. Break it. Improve it.</p>
+            </div>
+          </div>
+        )}
         <div className="grain" />
         <canvas ref={cv} className="gl" />
+        <canvas ref={cv2} className="gl about-gl" />
         <div ref={pct} className="pct">
           0%
         </div>

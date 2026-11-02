@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 230 104" fill="none">
+  <defs>
+    <mask id="hole" maskUnits="userSpaceOnUse" x="0" y="0" width="230" height="104">
+      <rect width="230" height="104" fill="#fff"/>
+      <path d="M115 52C98 22 74 14 58 14C32 14 14 32 14 52C14 72 32 90 58 90C74 90 98 82 115 52C132 22 156 14 172 14C198 14 216 32 216 52C216 72 198 90 172 90C156 90 132 82 115 52Z" stroke="#000" stroke-width="22" stroke-linejoin="round"/>
+    </mask>
+  </defs>
+  <path mask="url(#hole)" d="M115 52C98 22 74 14 58 14C32 14 14 32 14 52C14 72 32 90 58 90C74 90 98 82 115 52C132 22 156 14 172 14C198 14 216 32 216 52C216 72 198 90 172 90C156 90 132 82 115 52Z" stroke="#6306CA" stroke-width="28" stroke-linejoin="round"/>
+  <path d="M46 52H70" stroke="#6306CA" stroke-width="4" stroke-linecap="round"/>
+  <path d="M160 52H184M172 40V64" stroke="#6306CA" stroke-width="4" stroke-linecap="round"/>
+</svg>

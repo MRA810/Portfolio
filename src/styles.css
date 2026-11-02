@@ -70,7 +70,7 @@ html.lenis body {
   transform-origin: 50% 100%;
 }
 .portrait img {
-  height: 120%;
+  height: 100%;
   width: auto;
   display: block;
   transform: rotate(1.5deg);
@@ -420,14 +420,31 @@ html.lenis body {
   .modesw {
     display: none !important;
   }
+  .wcontent {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 3vw;
+  }
   .wcontent h4 {
     font-size: max(6vw, 22px);
   }
-  .wcontent p {
-    font-size: max(3.6vw, 13px);
-  }
   .wcontent small {
     font-size: max(2.6vw, 10px);
+  }
+  .wsk .wp {
+    font-size: max(3.3vw, 12.5px);
+  }
+  .wproj span {
+    font-size: max(3vw, 11px);
+  }
+  .wchips li {
+    font-size: max(2.8vw, 10px);
+  }
+  .wpicset {
+    grid-template-rows: minmax(0, 1fr);
+  }
+  .wpic:nth-child(2) {
+    display: none;
   }
   .wnum {
     font-size: 60vw;
@@ -587,7 +604,7 @@ html.lenis body {
   left: 0;
   top: 0;
   width: 100%;
-  height: 120%;
+  height: 100%;
   pointer-events: none;
   transform: rotate(1.5deg);
   opacity: 1 !important;
@@ -675,7 +692,7 @@ html.lenis body {
   width: 100%;
   height: 100%;
   will-change: transform;
-  --k: 1.3;
+  --k: 1;
   --cw: 16.4vw;
   --ch: 21dvh;
 }
@@ -828,9 +845,20 @@ html.lenis body {
 .wcontent {
   position: absolute;
   color: #fff;
-  padding: clamp(22px, 4.2vw, 72px);
+  padding: clamp(22px, 3.6vw, 64px);
   pointer-events: none;
   overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.18fr);
+  grid-template-rows: minmax(0, 1fr);
+  gap: 2.6vw;
+}
+.wleft {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
 }
 .wcontent small {
   display: block;
@@ -841,8 +869,8 @@ html.lenis body {
 }
 .wcontent h4 {
   min-height: 1.1em;
-  font: 700 max(3.4vw, 26px) "Oxanium";
-  margin: 0.5vw 0 1.3vw;
+  font: 700 max(3vw, 24px) "Oxanium";
+  margin: 0.4vw 0 1vw;
   line-height: 1.05;
   letter-spacing: 0.01em;
 }
@@ -851,16 +879,105 @@ html.lenis body {
   height: 2px;
   width: min(18vw, 220px);
   background: linear-gradient(90deg, #ff3a00, #c58bff);
-  margin: 0 0 1.6vw;
+  margin: 0 0 1.2vw;
   transform-origin: left;
   transform: scaleX(0);
 }
-.wcontent p {
+.wbody {
   opacity: 0;
-  font: 400 max(1.15vw, 13px) "WDXL Lubrifont TC";
+}
+.wsk {
+  display: none;
+}
+.wsk .wp {
+  margin: 0 0 1vw;
+  font: 400 max(0.98vw, 12.5px)/1.52 "WDXL Lubrifont TC";
   color: #e8dcff;
-  line-height: 1.55;
-  max-width: 46ch;
+}
+.wproj {
+  margin: 0 0 1vw;
+  padding: 0.7vw 1vw;
+  border-left: 3px solid #ff3a00;
+  background: rgba(255, 255, 255, 0.07);
+}
+.wproj small {
+  font-size: max(0.62vw, 9px);
+  letter-spacing: 0.2em;
+  color: #ffb59a;
+  min-height: 0;
+}
+.wproj b {
+  display: block;
+  font: 700 max(1.15vw, 14px) "Oxanium";
+  margin: 0.15vw 0;
+}
+.wproj span {
+  display: block;
+  font: 400 max(0.85vw, 11.5px)/1.4 "WDXL Lubrifont TC";
+  color: #e8dcff;
+}
+.wsk h5 {
+  margin: 0 0 0.6vw;
+  font: 600 max(0.68vw, 9.5px) "Oxanium";
+  letter-spacing: 0.22em;
+  color: #c9a8ff;
+}
+.wchips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45vw;
+}
+.wchips li {
+  font: 500 max(0.78vw, 10.5px) "Oxanium";
+  padding: 0.3em 0.7em;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.07);
+}
+.wpics {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  position: relative;
+  z-index: 1;
+}
+.wpicset {
+  display: none;
+  grid-template-rows: minmax(0, 1.18fr) minmax(0, 1fr);
+  gap: 1vw;
+  min-height: 0;
+}
+.wpic {
+  min-height: 0;
+  background: #14032e;
+  box-shadow: inset 0 0 0 1px #8a4bff;
+  clip-path: polygon(
+    0 0,
+    calc(100% - 18px) 0,
+    100% 18px,
+    100% 100%,
+    18px 100%,
+    0 calc(100% - 18px)
+  );
+}
+.wpic:nth-child(1) {
+  opacity: var(--p1, 0);
+  transform: translateY(calc((1 - var(--p1, 0)) * 26px));
+}
+.wpic:nth-child(2) {
+  opacity: var(--p2, 0);
+  transform: translateY(calc((1 - var(--p2, 0)) * 26px));
+}
+.wlogo {
+  position: absolute;
+  height: auto;
+  max-width: none;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
 }
 .wnum {
   position: absolute;
@@ -1032,4 +1149,344 @@ html.lenis body {
 }
 .top .modesw {
   pointer-events: auto;
+}
+/* ---- about page (own canvas transition, same dissolve as the intro reveal) ---- */
+.about-gl {
+  z-index: 29;
+  opacity: 1;
+}
+.about {
+  position: fixed;
+  inset: 0;
+  z-index: 28;
+  background: #07050b;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+.ahead {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  padding: 4.3dvh 3.2vw 2dvh;
+  background: linear-gradient(#07050b 72%, transparent);
+  gap: 1.4vw;
+}
+.ahead .tl {
+  position: static;
+  opacity: 1;
+}
+.ahead .city {
+  position: relative;
+  margin-left: auto;
+}
+.ahead .modesw {
+  position: relative;
+  opacity: 1;
+}
+.ahead .x {
+  position: relative;
+  width: max(6.6dvh, 30px);
+  height: max(6.6dvh, 30px);
+  margin: 0 0 0 1vw;
+}
+.ascroll {
+  position: relative;
+  padding: 2dvh 3.2vw 12dvh;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+.atitle {
+  font: 400 min(6vw, 64px)/1 "WDXL Lubrifont TC";
+  color: #fff0a4;
+  letter-spacing: 0.02em;
+  margin: 1dvh 0 3dvh;
+}
+
+/* rows: always show their content, no open/close — only a hover/click pixel effect */
+.arow {
+  position: relative;
+  height: clamp(190px, 30dvh, 320px);
+  border-radius: 20px;
+  margin-bottom: 2vw;
+  overflow: hidden;
+  background: #0b0710;
+  box-shadow:
+    0 0 44px rgba(99, 6, 202, 0.35),
+    inset 0 0 0 1px rgba(99, 6, 202, 0.3);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(34px);
+  transition:
+    height 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.6s ease-out,
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s;
+}
+.arow.in {
+  opacity: 1;
+  transform: none;
+}
+.arow.open {
+  height: clamp(320px, 46dvh, 560px);
+  box-shadow:
+    0 0 60px rgba(99, 6, 202, 0.55),
+    inset 0 0 0 1px rgba(99, 6, 202, 0.55);
+}
+.arow.click {
+  cursor: pointer;
+}
+.anum {
+  position: absolute;
+  left: 2.4vw;
+  top: 1.6vw;
+  z-index: 2;
+  font: 600 max(0.8vw, 10px) "Oxanium";
+  color: rgba(255, 255, 255, 0.4);
+}
+.arow-title {
+  position: absolute;
+  left: 2.4vw;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  font: 400 clamp(26px, 3.4vw, 52px)/1 "WDXL Lubrifont TC";
+  color: #fff;
+  letter-spacing: 0.01em;
+  pointer-events: none;
+  transition:
+    top 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.5s;
+}
+.arow.open .arow-title {
+  top: 2.6vw;
+  transform: none;
+}
+.arow-text {
+  position: absolute;
+  left: 2.4vw;
+  right: 38%;
+  top: 7.5vw;
+  z-index: 2;
+  margin: 0;
+  font: 400 max(1vw, 13px)/1.6 "WDXL Lubrifont TC";
+  color: rgba(255, 255, 255, 0.85);
+  opacity: 0;
+  transition: opacity 0.4s ease-out 0.1s;
+}
+.arow.open .arow-text {
+  opacity: 1;
+}
+
+.aimg {
+  position: absolute;
+  inset: 0;
+  left: 34%;
+  background-size: cover;
+  background-position: center;
+  clip-path: polygon(18% 0, 100% 0, 100% 100%, 0% 100%);
+  transition:
+    filter 0.2s,
+    left 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: filter, left;
+}
+.arow.open .aimg {
+  left: 40%;
+}
+.aicons {
+  position: absolute;
+  inset: 0;
+  left: 34%;
+  clip-path: polygon(14% 0, 100% 0, 100% 100%, 0% 100%);
+  background: #060308;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  gap: 1.2vw 1.6vw;
+  padding: 1.4vw 3vw 1.4vw 7.5vw;
+  transition: left 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.arow.open .aicons {
+  left: 30%;
+}
+.arow.open .aicon {
+  width: clamp(44px, 4.6vw, 70px);
+  height: clamp(44px, 4.6vw, 70px);
+}
+.aicon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(34px, 3.6vw, 56px);
+  height: clamp(34px, 3.6vw, 56px);
+  transform: translateY(calc((var(--k, 0) |0) % 2 * 14px));
+  transition:
+    width 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.aicon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(99, 6, 202, 0.5));
+}
+.aicon em {
+  font: 400 1.4vw "Oxanium";
+  font-style: normal;
+  color: rgba(255, 255, 255, 0.5);
+  border: 1px dashed rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.acertwrap {
+  position: absolute;
+  inset: 0;
+  left: 34%;
+  clip-path: polygon(14% 0, 100% 0, 100% 100%, 0% 100%);
+  background: linear-gradient(120deg, #0c1622, #122233);
+  display: flex;
+  align-items: center;
+  padding: 0 3vw;
+  gap: 2vw;
+  transition: left 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.arow.open .acertwrap {
+  left: 28%;
+}
+.acerthex {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background-image:
+    repeating-linear-gradient(
+      60deg,
+      rgba(66, 200, 190, 0.18) 0 2px,
+      transparent 2px 26px
+    ),
+    repeating-linear-gradient(
+      -60deg,
+      rgba(66, 200, 190, 0.18) 0 2px,
+      transparent 2px 26px
+    );
+}
+.acert {
+  position: relative;
+  z-index: 1;
+}
+.acert b {
+  display: block;
+  font: 700 max(1.2vw, 15px) "Oxanium";
+  color: #e8edf2;
+  margin-bottom: 0.6vw;
+}
+.acert p {
+  font: 400 max(0.95vw, 12px)/1.5 "WDXL Lubrifont TC";
+  color: rgba(220, 230, 238, 0.8);
+  max-width: 46ch;
+}
+
+.actawrap {
+  position: absolute;
+  inset: 0;
+  left: 34%;
+  clip-path: polygon(14% 0, 100% 0, 100% 100%, 0% 100%);
+  background: var(--pu);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 3vw;
+}
+.aopen {
+  border: 1px solid #fff;
+  background: transparent;
+  color: #fff;
+  padding: 0.9vw 1.8vw;
+  font: 600 max(1.05vw, 13px) "Oxanium";
+  border-radius: 999px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5vw;
+  transition:
+    background 0.3s,
+    color 0.3s;
+  position: relative;
+  z-index: 2;
+}
+.aopen:hover {
+  background: #fff;
+  color: var(--pu);
+}
+.atag {
+  position: fixed;
+  right: 3vw;
+  bottom: 2.4dvh;
+  z-index: 3;
+  font: 400 max(1vw, 12px) "WDXL Lubrifont TC";
+  color: rgba(255, 240, 164, 0.85);
+}
+
+/* hover mode: pixels boil continuously while the pointer is over the row */
+.arow.hover:hover .adissolve {
+  filter: url(#aboil);
+}
+/* click mode: a one-shot, different pulse plays on click */
+.arow.pulsing .adissolve {
+  animation: aPulse 0.6s ease-out;
+}
+@keyframes aPulse {
+  0% {
+    filter: brightness(1) saturate(1);
+  }
+  35% {
+    filter: brightness(1.9) saturate(1.6) url(#aboil);
+  }
+  100% {
+    filter: brightness(1) saturate(1);
+  }
+}
+
+@media (max-aspect-ratio: 1/1) {
+  .ahead {
+    flex-wrap: wrap;
+    row-gap: 1dvh;
+  }
+  .atitle {
+    font-size: 14vw;
+  }
+  .arow {
+    height: auto;
+    min-height: 160px;
+    padding-bottom: 1dvh;
+  }
+  .arow-title {
+    top: 1.6vw;
+    transform: none;
+    font-size: 7vw;
+  }
+  .aimg,
+  .aicons,
+  .acertwrap,
+  .actawrap {
+    left: 0;
+    top: 38%;
+    clip-path: polygon(0 8%, 100% 0, 100% 100%, 0 100%);
+  }
+  .acertwrap {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.2vw 4vw;
+  }
+  .atag {
+    position: static;
+    margin-top: 1dvh;
+    text-align: right;
+  }
 }
