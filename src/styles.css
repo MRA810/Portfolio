@@ -64,7 +64,7 @@ html.lenis body {
 }
 .portrait {
   left: 0;
-  bottom: -1dvh;
+  bottom: -10dvh;
   height: 92dvh;
   z-index: 2;
   transform-origin: 50% 100%;
@@ -778,6 +778,38 @@ html.lenis body {
   font: 400 max(0.68vw, 9px) "WDXL Lubrifont TC";
   letter-spacing: 0.08em;
   color: rgba(255, 255, 255, 0.78);
+}
+/* card info in the empty top-left corner (logos stay bottom-right) */
+.wcl {
+  position: relative;
+  z-index: 2;
+  margin-bottom: auto;
+  max-width: 62%;
+  pointer-events: none;
+}
+.wcl small {
+  display: block;
+  margin-top: 0.25vw;
+  font: 400 max(0.62vw, 9px) "WDXL Lubrifont TC";
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.78);
+}
+.wcl ul {
+  list-style: none;
+  margin: 0.55vw 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2vw;
+}
+.wcl li {
+  font: 500 max(0.62vw, 9px) "Oxanium";
+  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.2;
+}
+.wcl li::before {
+  content: "› ";
+  color: #6306ca;
 }
 .wpanel-wrap {
   position: absolute;
@@ -1677,6 +1709,33 @@ html.lenis body {
 .ap-text p {
   margin: 0 0 1.1em;
 }
+.ap-text .ap-h {
+  font-weight: 600;
+  color: #ff3a00;
+  letter-spacing: 0.04em;
+}
+.ap-edu {
+  display: flex;
+  align-items: center;
+  gap: 1.2vw;
+  margin-bottom: 1.1vw;
+}
+.ap-edu img {
+  flex: none;
+  width: clamp(40px, 4.6vw, 80px);
+  height: clamp(40px, 4.6vw, 80px);
+  object-fit: contain;
+}
+.ap-edu b {
+  display: block;
+  margin-bottom: 0.2em;
+  font-weight: 600;
+}
+.ap-edu p {
+  margin: 0 0 0.1em;
+  font-size: 0.82em;
+  opacity: 0.88;
+}
 .ap-media {
   position: absolute;
   left: 55.6%;
@@ -1853,8 +1912,7 @@ html.lenis body {
   display: grid;
   place-items: center;
   background:
-    linear-gradient(rgba(255, 58, 0, 0.2), rgba(255, 58, 0, 0.2)),
-    #050505;
+    linear-gradient(rgba(255, 58, 0, 0.2), rgba(255, 58, 0, 0.2)), #050505;
   border: 1px solid var(--o);
   cursor: pointer;
   opacity: 0;
@@ -1866,8 +1924,7 @@ html.lenis body {
 }
 .totop:hover {
   background:
-    linear-gradient(rgba(255, 58, 0, 0.45), rgba(255, 58, 0, 0.45)),
-    #050505;
+    linear-gradient(rgba(255, 58, 0, 0.45), rgba(255, 58, 0, 0.45)), #050505;
 }
 .totop svg {
   width: 46%;

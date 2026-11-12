@@ -1624,7 +1624,7 @@ export const SKILLS = [
       { src: "/logos/django-j.png", l: 73.9, t: 29.9, w: 23.2 },
     ],
     intro:
-      "I work with Django for backend development and database-driven web applications. I enjoy designing application logic, managing data, handling user requests and connecting frontend interfaces with backend services.",
+      "In 2025 I learned a lot about web development with Python and Django. I work with Django for backend development and database-driven web applications: designing application logic, managing data, handling user requests and connecting frontend interfaces with backend services. Before it, I learned OOP in Java and built web apps with Spring Boot.",
     project: {
       name: "BookinFly",
       note: "An airline ticket booking application built with Django and MySQL.",
@@ -1632,6 +1632,7 @@ export const SKILLS = [
     areas: [
       "Python",
       "Django Framework",
+      "Java & Spring Boot",
       "MySQL",
       "Database Design",
       "CRUD Operations",
@@ -1647,7 +1648,7 @@ export const SKILLS = [
     tag: "Mobile · cross-platform",
     logos: [{ src: "/logos/flutter.png", l: 45, t: 26.1, w: 51.7 }],
     intro:
-      "I’m interested in cross-platform mobile development with Flutter, exploring responsive layouts, reusable widgets, application logic and backend connectivity. My goal is practical apps with smooth experiences across devices.",
+      "I explored Flutter in 2024 during a semester break, building basic cross-platform mobile apps. I’m interested in responsive layouts, reusable widgets, application logic and backend connectivity, with the goal of practical apps that feel smooth across devices.",
     areas: [
       "Flutter Framework",
       "Dart",
@@ -1665,7 +1666,11 @@ export const SKILLS = [
     tag: "Desktop · cross-platform",
     logos: [{ src: "/logos/electron.png", l: 45.5, t: 33.8, w: 52.1 }],
     intro:
-      "Electron lets me combine JavaScript, HTML and CSS with desktop capabilities, so my web development knowledge can extend into cross-platform desktop software engineering.",
+      "In 2025, as a side quest, I self-learned Electron. It lets me combine JavaScript, HTML and CSS with desktop capabilities, so my web development knowledge can extend into cross-platform desktop software.",
+    project: {
+      name: "Egg Timer",
+      note: "A desktop app blending JavaScript, HTML and CSS, built with Electron.",
+    },
     areas: [
       "Electron Framework",
       "HTML, CSS & JavaScript",
@@ -1700,7 +1705,7 @@ export const SKILLS = [
     tag: "Language · modern web",
     logos: [{ src: "/logos/javascript.png", l: 39.8, t: 45.2, w: 63 }],
     intro:
-      "I work with JavaScript to build interactive, dynamic web applications. I’m interested in modern development practices, component-based architecture, API integration and responsive user interfaces.",
+      "I picked JavaScript back up in 2022, once academic pressure eased, and dove into front-end interactivity. Today I use it to build interactive, dynamic web applications, with an eye on modern practices, API integration and responsive user interfaces.",
     areas: [
       "JavaScript (ES6+)",
       "DOM Manipulation",
@@ -1782,7 +1787,7 @@ export const SKILLS = [
     tag: "Electronics · robotics",
     logos: [{ src: "/logos/arduino.svg", l: 32.5, t: 47.5, w: 68.6 }],
     intro:
-      "I enjoy experimenting with Arduino-based electronics, microcontrollers, sensors, actuators and robotics: interactive hardware prototypes, electronic circuits and automated robotic systems.",
+      "I enjoy experimenting with Arduino-based electronics, microcontrollers, sensors, actuators and robotics: interactive hardware prototypes, electronic circuits and automated robotic systems. Digital logic and soldering are part of how I build them.",
     project: {
       label: "PROJECTS",
       name: "Soccerbot · RC Car",
@@ -1791,7 +1796,9 @@ export const SKILLS = [
     areas: [
       "Arduino Programming",
       "C/C++",
-      "Digital & Analog Electronics",
+      "Electronics",
+      "Digital Logic",
+      "Soldering",
       "Sensors & Actuators",
       "Motor Control",
       "PWM",

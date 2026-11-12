@@ -6,10 +6,17 @@ import { pixelText } from "./pixelfont.js";
 import WorksOrb from "./WorksOrb.jsx";
 
 const SOCIALS = [
-  // TODO: replace with real profile URLs
-  { name: "LINKEDIN", href: "#", color: "#0a66c2" },
-  { name: "GITHUB", href: "#", color: "#c9c9c9" },
-  { name: "FACEBOOK", href: "#", color: "#1877f2" },
+  {
+    name: "LINKEDIN",
+    href: "https://linkedin.com/in/ashrafulalamshuvo1222/",
+    color: "#0a66c2",
+  },
+  { name: "GITHUB", href: "https://github.com/mra810", color: "#c9c9c9" },
+  {
+    name: "FACEBOOK",
+    href: "https://www.facebook.com/ashraful.alam.shuvo.16873",
+    color: "#1877f2",
+  },
 ];
 const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
 const seg = (p, a, b) => clamp((p - a) / (b - a));
@@ -49,8 +56,22 @@ function lines(p) {
   return [1, 2, 3, 4].map((j) => lerp(a[j], b[j], t));
 }
 function downloadVcf() {
-  const v =
-    "BEGIN:VCARD\nVERSION:3.0\nFN:Md. Ashraful Alam Shuvo\nN:Shuvo;Md. Ashraful Alam;;;\nTEL;TYPE=CELL:+8801841995394\nEMAIL:ashshuvo1222.prof@gmail.com\nADR;TYPE=HOME:;;;Dhaka;;;Bangladesh\nEND:VCARD";
+  const v = [
+    "BEGIN:VCARD",
+    "VERSION:3.0",
+    "FN:Ashraful Alam Shuvo",
+    "N:Shuvo;Ashraful;;;",
+    "TITLE:Developer",
+    "EMAIL:ashshuvo1222.prof@gmail.com",
+    "TEL;TYPE=CELL:+8801841995394",
+    "URL:https://wa.me/8801841995394",
+    "X-WHATSAPP: +8801841995394",
+    "URL:https://t.me/@mrrelaxedash",
+    "X-TELEGRAM: your_username",
+    "URL:https://github.com/mra810",
+    "URL:https://linkedin.com/in/ashrafulalamshuvo1222/",
+    "END:VCARD",
+  ].join("\r\n");
   const a = document.createElement("a");
   a.href = URL.createObjectURL(new Blob([v], { type: "text/vcard" }));
   a.download = "ashraful-alam.vcf";
@@ -107,11 +128,24 @@ const CONTACT = {
   phone: "+8801841995394",
   portfolio: "",
   email: "ashshuvo1222.prof@gmail.com",
-  linkedin: "",
-  github: "",
-  facebook: "",
+  linkedin: "https://linkedin.com/in/ashrafulalamshuvo1222/",
+  github: "https://github.com/mra810",
+  facebook: "https://www.facebook.com/ashraful.alam.shuvo.16873",
   cv: "",
   big: "PORTFOLIO/SHUVO",
+};
+// extra lines printed in the empty top-left of each skills card
+const CARD_META = {
+  react: ["JavaScript", "HTML / CSS", "Bootstrap"],
+  django: ["Python", "MySQL", "since 2025"],
+  flutter: ["Dart", "Mobile apps", "since 2024"],
+  electron: ["Egg Timer", "JS · HTML · CSS", "since 2025"],
+  express: ["Node.js", "REST APIs"],
+  js: ["ES6+", "DOM", "since 2022"],
+  iot: ["Sensors", "MQTT", "Dashboards"],
+  esp32: ["S-SPAEMS", "PlatformIO", "C / C++"],
+  ai: ["Machine Learning", "Computer Vision"],
+  arduino: ["C / C++", "Soldering", "Digital Logic"],
 };
 const PIX = pixelText(CONTACT.big);
 // black-section traces, taken from the Figma frame (absolute frame coords)
@@ -132,8 +166,16 @@ const ABOUT = [
     img: "/me-robot.jpg",
     text: [
       "I\u2019m Md. Ashraful Alam Shuvo, a Computer Science and Engineering student at Daffodil International University in Dhaka. I like building things that live between software and hardware: a small rover made from cardboard and motors, a dashboard that shows live sensor readings, an app that does one job well.",
-      "I started with Arduino boards and blinking LEDs, then kept pulling on the thread \u2014 web apps, embedded code, robots, design. I enjoy taking a rough idea, making it work, and then breaking it on purpose to see how it can be improved.",
+      "I began with HTML and CSS in 2020, picked up Python in 2021 and JavaScript in 2022, then moved on to C and C++ for data structures and competitive programming. Since then I\u2019ve explored Flutter, Java with Spring Boot, Electron, Django and Flask \u2014 plus electronics, from digital logic to soldering. I enjoy taking a rough idea, making it work, and then breaking it on purpose to see how it can be improved.",
       "Away from my own projects I\u2019ve designed graphics for a programming club and taught kids how to code. Learn it. Build it. Break it. Improve it.",
+      {
+        h: "Video Games",
+        p: "Video games have always been more than just entertainment for me they\u2019re a blend of art, storytelling, and technology. Each game I play inspires me to think about how worlds are built, how mechanics drive emotion, and how creativity meets code. My dream is to become a game developer who can create experiences that connect people, spark imagination, and leave a lasting impact just like the games that shaped my own journey.",
+      },
+      {
+        h: "Travelling",
+        p: "I love travelling because it opens my mind to new cultures, people, and ideas. Every trip teaches me something different whether it\u2019s how people live, how cities grow, or how nature inspires creativity. Travelling helps me see the world from new perspectives, which also fuels my imagination as a developer and designer.",
+      },
     ],
   },
   {
@@ -141,22 +183,43 @@ const ABOUT = [
     title: "Inside My Toolbox",
     kind: "icons",
     text: [
-      "These are the tools I reach for most. Arduino and C++ for anything that has to talk to sensors and motors, Figma and Illustrator when an idea needs a shape before it needs code, React for interfaces, and Flask and Python for backends, scripts and quick experiments.",
-      "I\u2019m not loyal to a tool \u2014 I pick whatever gets the idea working fastest, then learn it properly while building the real thing.",
+      "Languages \u2014 C / C++, Python, Java, JavaScript, HTML / CSS.",
+      "Frameworks \u2014 Django, Flask, Spring Boot, Flutter, Bootstrap, Electron.",
+      "Design tools \u2014 Figma, Adobe Illustrator, Photoshop, Canva.",
+      "Electronics & circuits \u2014 Electronics, Digital Logic, Soldering.",
+      "Dev tools \u2014 Git / GitHub, VS Code, IntelliJ, Linux CLI.",
+      "Soft skills \u2014 Team Leadership, Teamwork, Project Mgmt, Problem Solving.",
     ],
     icons: [
-      { name: "Arduino", src: DEVICON("arduino", "original"), x: 59.5, y: 28 },
-      { name: "C++", src: DEVICON("cplusplus", "original"), x: 64.7, y: 67 },
-      { name: "Figma", src: DEVICON("figma", "original"), x: 71.1, y: 34 },
-      { name: "React", src: DEVICON("react", "original"), x: 77, y: 70 },
-      { name: "Flask", src: DEVICON("flask", "original"), x: 83.9, y: 50 },
-      { name: "Python", src: DEVICON("python", "original"), x: 90.4, y: 36 },
+      { name: "Arduino", src: DEVICON("arduino", "original"), x: 57.5, y: 30 },
+      { name: "C / C++", src: DEVICON("cplusplus", "original"), x: 61.1, y: 68 },
+      { name: "Python", src: DEVICON("python", "original"), x: 64.7, y: 32 },
+      { name: "Java", src: DEVICON("java", "original"), x: 68.3, y: 70 },
       {
-        name: "Illustrator",
-        src: DEVICON("illustrator", "plain"),
-        x: 95.2,
-        y: 58,
+        name: "JavaScript",
+        src: DEVICON("javascript", "original"),
+        x: 71.9,
+        y: 30,
       },
+      { name: "HTML / CSS", src: DEVICON("html5", "original"), x: 75.5, y: 68 },
+      { name: "Django", src: DEVICON("django", "plain"), x: 79.1, y: 32 },
+      { name: "Flask", src: DEVICON("flask", "original"), x: 82.7, y: 70 },
+      {
+        name: "Spring Boot",
+        src: DEVICON("spring", "original"),
+        x: 86.3,
+        y: 30,
+      },
+      { name: "Flutter", src: DEVICON("flutter", "original"), x: 89.9, y: 68 },
+      { name: "Electron", src: DEVICON("electron", "original"), x: 93.5, y: 32 },
+      { name: "Figma", src: DEVICON("figma", "original"), x: 97, y: 66 },
+    ],
+    // shown in the open panel only (the row has no room for them)
+    more: [
+      { name: "Illustrator", src: DEVICON("illustrator", "plain") },
+      { name: "Git", src: DEVICON("git", "original") },
+      { name: "VS Code", src: DEVICON("vscode", "original") },
+      { name: "IntelliJ", src: DEVICON("intellij", "original") },
     ],
   },
   {
@@ -164,9 +227,32 @@ const ABOUT = [
     title: "Education",
     kind: "photo",
     img: "/campus.jpg",
-    text: [
-      "B.Sc. in Computer Science and Engineering at Daffodil International University, Dhaka. My coursework covers programming, data structures and algorithms, databases, computer networks, operating systems and embedded systems.",
-      "The lab work is where most of it clicked for me: wiring a circuit, flashing a board, debugging a network, then turning the same ideas into course projects and a thesis. The campus is also where I met most of the people I build with.",
+    items: [
+      {
+        logo: "/ssclogo.png",
+        name: "SSC \u2014 Chapain New Model High School",
+        rows: [
+          "Board: Dhaka \u00b7 Subject: Science",
+          "Result: 4.72 \u00b7 Year: 2020",
+        ],
+      },
+      {
+        logo: "/hsclogo.png",
+        name: "HSC \u2014 Savar Laboratory College",
+        rows: [
+          "Board: Dhaka \u00b7 Subject: Science",
+          "Result: 4.83 \u00b7 Year: 2022",
+        ],
+      },
+      {
+        logo: "/unilogo.png",
+        name: "Daffodil International University",
+        rows: [
+          "Computer Science and Engineering (CSE)",
+          "Batch 65 \u00b7 Session: Fall 2023 \u00b7 Started 2023",
+          "Expected graduation: 2027",
+        ],
+      },
     ],
   },
   {
@@ -1468,6 +1554,15 @@ export default function App() {
                 onMouseEnter={() => ctl.current?.enter(i)}
                 onMouseLeave={() => ctl.current?.leave()}
               >
+                <div className="wcl">
+                  <b>{w.title}</b>
+                  <small>{w.tag}</small>
+                  <ul>
+                    {(CARD_META[w.id] || []).map((m) => (
+                      <li key={m}>{m}</li>
+                    ))}
+                  </ul>
+                </div>
                 {w.logos.map((l) => (
                   <img
                     key={l.src}
@@ -1881,14 +1976,34 @@ export default function App() {
                     Close
                   </button>
                   <div className="ap-text">
-                    {o.text.map((t, n) => (
-                      <p key={n}>{t}</p>
-                    ))}
+                    {o.items
+                      ? o.items.map((it) => (
+                          <div className="ap-edu" key={it.name}>
+                            <img src={it.logo} alt="" draggable="false" />
+                            <div>
+                              <b>{it.name}</b>
+                              {it.rows.map((r) => (
+                                <p key={r}>{r}</p>
+                              ))}
+                            </div>
+                          </div>
+                        ))
+                      : o.text.map((t, n) =>
+                          typeof t === "string" ? (
+                            <p key={n}>{t}</p>
+                          ) : (
+                            <p key={n}>
+                              <b className="ap-h">{t.h}</b>
+                              <br />
+                              {t.p}
+                            </p>
+                          ),
+                        )}
                   </div>
                   <div className={"ap-media ap-" + o.kind}>
                     {o.kind === "icons" ? (
                       <div className="ap-tools">
-                        {o.icons.map((ic) => (
+                        {[...o.icons, ...(o.more || [])].map((ic) => (
                           <span key={ic.name}>
                             {ic.src && <img src={ic.src} alt="" />}
                             <i>{ic.name}</i>

@@ -11,6 +11,54 @@ import "./worksorb.css";
 ------------------------------------------------------------------- */
 export const PROJECTS = [
   {
+    title: "SPAEMS_ESP32",
+    tag: "IoT",
+    img: "/projects/spaems.jpg",
+    href: "https://github.com/MRA810/SPAEMS_ESP32-whole-project",
+    desc: "Smart poultry environment: an ESP32 monitors temperature and gas levels and automates control to help keep a safer poultry environment.",
+    stack: ["ESP32", "MQTT", "Flask"],
+  },
+  {
+    title: "PerseCraftCD",
+    tag: "Algorithm",
+    img: "/projects/persecraftcd.jpg",
+    href: "https://github.com/MRA810/PerseCraftCD",
+    desc: "An algorithm project.",
+    stack: ["C / C++"],
+  },
+  {
+    title: "SmartGate",
+    tag: "Cybersecurity",
+    img: "/projects/smartgate.jpg",
+    href: "https://github.com/MRA810/SmartGate",
+    desc: "A proxy server with a simple web interface, built with Flask.",
+    stack: ["Proxy", "Flask", "Python"],
+  },
+  {
+    title: "pronoy",
+    tag: "Production",
+    img: "/projects/pronoy.jpg",
+    href: "https://github.com/MRA810/pronoy",
+    desc: "A production project that is still on going.",
+    stack: ["On going"],
+  },
+  {
+    title: "CampusGO",
+    tag: "Concept",
+    img: "/projects/campusgo.jpg",
+    href: "https://github.com/MRA810/CampusGO",
+    desc: "A concept for university transport.",
+    stack: ["Concept", "University transport"],
+  },
+  {
+    title: "DBMS-Project-Air-Ticket",
+    tag: "Concept",
+    img: "/projects/air-ticket.jpg",
+    href: "https://github.com/MRA810/DBMS-Project-Air-Ticket",
+    desc: "An airline ticket booking system built as a database (DBMS) project.",
+    stack: ["DBMS", "MySQL"],
+  },
+  {
     title: "Shuriken: Undead Hunt",
     tag: "Game",
     img: "/projects/shuriken.jpg",
@@ -19,32 +67,13 @@ export const PROJECTS = [
     stack: ["C++", "OpenGL", "GLUT"],
   },
   {
-    title: "SPAEMS",
-    tag: "IoT",
-    img: "/projects/spaems.jpg",
-    href: "",
-    desc: "Smart environment monitoring: an ESP32 sends live sensor readings over MQTT into a Flask dashboard.",
-    stack: ["ESP32", "MQTT", "Flask"],
+    title: "Rock-Paper-Scissor Sorting",
+    tag: "Algorithm",
+    img: "/projects/rps-sorting.jpg",
+    href: "https://github.com/MRA810/Rock-Paper_scissor-sorting",
+    desc: "A sorting project built around rock, paper and scissors.",
+    stack: ["Sorting", "Algorithm"],
   },
-  {
-    title: "Line Follower Robot",
-    tag: "Robotics",
-    img: "/projects/lfr.jpg",
-    href: "",
-    desc: "An Arduino Nano robot with an 8-sensor IR array, an L298N motor driver and a PVC chassis, built to win the track.",
-    stack: ["Arduino Nano", "L298N", "IR array"],
-  },
-  {
-    title: "This Portfolio",
-    tag: "Web",
-    img: "/projects/portfolio.jpg",
-    href: "",
-    desc: "A cinematic scroll experience with pixel dissolves, smooth scrolling and a 3D archive.",
-    stack: ["React", "Three.js", "Lenis"],
-  },
-  { sealed: true },
-  { sealed: true },
-  { sealed: true },
 ];
 
 const RINGS = [
@@ -75,7 +104,9 @@ function makeShot(p, i, onUpdate) {
     g.fillRect(0, 0, SW, SH);
     for (let y = 0; y < 25; y++)
       for (let x = 0; x < 40; x++) {
-        const r = Math.abs(Math.sin((x + 1) * 12.9898 + (y + 1) * 78.233 + i * 5.1)) * 43758;
+        const r =
+          Math.abs(Math.sin((x + 1) * 12.9898 + (y + 1) * 78.233 + i * 5.1)) *
+          43758;
         g.fillStyle = `rgba(99,6,202,${(r % 1) * 0.28})`;
         g.fillRect(x * 20 + 2, y * 20 + 2, 16, 16);
       }
@@ -134,7 +165,8 @@ function makeShot(p, i, onUpdate) {
     g.fillRect(0, SH - 190, SW, 190);
     let s = 64;
     g.font = font(700, s);
-    while (g.measureText(p.title).width > SW - 100 && s > 24) g.font = font(700, (s -= 4));
+    while (g.measureText(p.title).width > SW - 100 && s > 24)
+      g.font = font(700, (s -= 4));
     g.fillStyle = "#fff0a4";
     g.fillText(p.title, 50, SH - 70);
     g.fillStyle = "#ff3a00";
@@ -152,7 +184,13 @@ function makeShot(p, i, onUpdate) {
     const im = new Image();
     im.onload = () => {
       const k = Math.max(SW / im.width, SH / im.height);
-      g.drawImage(im, (SW - im.width * k) / 2, (SH - im.height * k) / 2, im.width * k, im.height * k);
+      g.drawImage(
+        im,
+        (SW - im.width * k) / 2,
+        (SH - im.height * k) / 2,
+        im.width * k,
+        im.height * k,
+      );
       label();
       onUpdate();
     };
@@ -254,7 +292,10 @@ function Decode({ text }) {
       const shown = Math.floor((n / total) * text.length);
       let out = "";
       for (let i = 0; i < text.length; i++)
-        out += text[i] === " " || i < shown ? text[i] : GLY[Math.floor(Math.random() * GLY.length)];
+        out +=
+          text[i] === " " || i < shown
+            ? text[i]
+            : GLY[Math.floor(Math.random() * GLY.length)];
       setS(out);
       if (n >= total) {
         clearInterval(id);
@@ -278,7 +319,12 @@ export default function WorksOrb({ onClose, time }) {
   const unsealed = useMemo(() => PROJECTS.filter((p) => !p.sealed).length, []);
 
   const openAt = (i) =>
-    setOpen({ i, url: PROJECTS[i].sealed ? "" : shots.current[i]?.toDataURL("image/jpeg", 0.85) || "" });
+    setOpen({
+      i,
+      url: PROJECTS[i].sealed
+        ? ""
+        : shots.current[i]?.toDataURL("image/jpeg", 0.85) || "",
+    });
   pickRef.current = openAt;
   openRef.current = open;
 
@@ -352,7 +398,13 @@ export default function WorksOrb({ onClose, time }) {
       pg,
       track(
         new THREE.ShaderMaterial({
-          uniforms: { uTime, uSize: { value: 2.4 }, uPR: { value: PR }, uA: { value: ORANGE }, uB: { value: PURPLE } },
+          uniforms: {
+            uTime,
+            uSize: { value: 2.4 },
+            uPR: { value: PR },
+            uA: { value: ORANGE },
+            uB: { value: PURPLE },
+          },
           vertexShader: POINT_VS,
           fragmentShader: POINT_FS,
           transparent: true,
@@ -379,13 +431,26 @@ export default function WorksOrb({ onClose, time }) {
 
     const circle = (r, n = 160) => {
       const a = new Float32Array((n + 1) * 3);
-      for (let i = 0; i <= n; i++) a.set([Math.cos((i / n) * 6.2832) * r, 0, Math.sin((i / n) * 6.2832) * r], i * 3);
+      for (let i = 0; i <= n; i++)
+        a.set(
+          [Math.cos((i / n) * 6.2832) * r, 0, Math.sin((i / n) * 6.2832) * r],
+          i * 3,
+        );
       const g = track(new THREE.BufferGeometry());
       g.setAttribute("position", new THREE.BufferAttribute(a, 3));
       return g;
     };
     const thin = (r, color, op, tx, tz) => {
-      const l = new THREE.Line(circle(r), track(new THREE.LineBasicMaterial({ color, transparent: true, opacity: op })));
+      const l = new THREE.Line(
+        circle(r),
+        track(
+          new THREE.LineBasicMaterial({
+            color,
+            transparent: true,
+            opacity: op,
+          }),
+        ),
+      );
       l.rotation.set(tx, 0, tz);
       world.add(l);
       return l;
@@ -400,13 +465,28 @@ export default function WorksOrb({ onClose, time }) {
       const r = 6 + Math.random() * 12,
         a = Math.random() * 6.2832,
         b = Math.acos(2 * Math.random() - 1);
-      dp.set([r * Math.sin(b) * Math.cos(a), r * Math.cos(b) * 0.7, r * Math.sin(b) * Math.sin(a)], i * 3);
+      dp.set(
+        [
+          r * Math.sin(b) * Math.cos(a),
+          r * Math.cos(b) * 0.7,
+          r * Math.sin(b) * Math.sin(a),
+        ],
+        i * 3,
+      );
     }
     const dg = track(new THREE.BufferGeometry());
     dg.setAttribute("position", new THREE.BufferAttribute(dp, 3));
     const dust = new THREE.Points(
       dg,
-      track(new THREE.PointsMaterial({ color: 0xc9b8ff, size: 0.045, transparent: true, opacity: 0.5, depthWrite: false })),
+      track(
+        new THREE.PointsMaterial({
+          color: 0xc9b8ff,
+          size: 0.045,
+          transparent: true,
+          opacity: 0.5,
+          depthWrite: false,
+        }),
+      ),
     );
     scene.add(dust);
 
@@ -417,7 +497,15 @@ export default function WorksOrb({ onClose, time }) {
       world.add(g);
       const l = new THREE.Line(
         circle(rg.R),
-        track(new THREE.LineDashedMaterial({ color: 0xffffff, dashSize: 0.1, gapSize: 0.22, transparent: true, opacity: 0.2 })),
+        track(
+          new THREE.LineDashedMaterial({
+            color: 0xffffff,
+            dashSize: 0.1,
+            gapSize: 0.22,
+            transparent: true,
+            opacity: 0.2,
+          }),
+        ),
       );
       l.computeLineDistances();
       g.add(l);
@@ -431,8 +519,30 @@ export default function WorksOrb({ onClose, time }) {
       "position",
       new THREE.BufferAttribute(
         new Float32Array([
-          -hx + CUT, -hy, 0, hx - CUT, -hy, 0, hx, -hy + CUT, 0, hx, hy - CUT, 0,
-          hx - CUT, hy, 0, -hx + CUT, hy, 0, -hx, hy - CUT, 0, -hx, -hy + CUT, 0,
+          -hx + CUT,
+          -hy,
+          0,
+          hx - CUT,
+          -hy,
+          0,
+          hx,
+          -hy + CUT,
+          0,
+          hx,
+          hy - CUT,
+          0,
+          hx - CUT,
+          hy,
+          0,
+          -hx + CUT,
+          hy,
+          0,
+          -hx,
+          hy - CUT,
+          0,
+          -hx,
+          -hy + CUT,
+          0,
         ]),
         3,
       ),
@@ -453,7 +563,12 @@ export default function WorksOrb({ onClose, time }) {
         new THREE.ShaderMaterial({
           uniforms: {
             uMap: { value: tex },
-            uTint: { value: p.sealed || i % 2 ? PURPLE.clone().lerp(new THREE.Color(1, 1, 1), 0.35) : ORANGE.clone().lerp(new THREE.Color(1, 1, 1), 0.2) },
+            uTint: {
+              value:
+                p.sealed || i % 2
+                  ? PURPLE.clone().lerp(new THREE.Color(1, 1, 1), 0.35)
+                  : ORANGE.clone().lerp(new THREE.Color(1, 1, 1), 0.2),
+            },
             uReveal: { value: 0 },
             uAlpha: { value: 0 },
             uGlitch: { value: 0 },
@@ -466,7 +581,13 @@ export default function WorksOrb({ onClose, time }) {
         }),
       );
       const mesh = new THREE.Mesh(cardGeo, mat);
-      const em = track(new THREE.LineBasicMaterial({ color: ORANGE, transparent: true, opacity: 0.5 }));
+      const em = track(
+        new THREE.LineBasicMaterial({
+          color: ORANGE,
+          transparent: true,
+          opacity: 0.5,
+        }),
+      );
       [0.004, -0.004].forEach((z) => {
         const l = new THREE.LineLoop(edgeGeo, em);
         l.position.z = z;
@@ -494,7 +615,8 @@ export default function WorksOrb({ onClose, time }) {
         h = host.clientHeight || 1;
       renderer.setSize(w, h);
       camera.aspect = w / h;
-      baseZ = camera.aspect >= 1.2 ? 10.2 : 10.2 * Math.pow(1.2 / camera.aspect, 0.9);
+      baseZ =
+        camera.aspect >= 1.2 ? 10.2 : 10.2 * Math.pow(1.2 / camera.aspect, 0.9);
       camera.updateProjectionMatrix();
     };
     resize();
@@ -511,10 +633,15 @@ export default function WorksOrb({ onClose, time }) {
       hov = -1;
     const pick = (cx, cy) => {
       const r = el.getBoundingClientRect();
-      ndc.set(((cx - r.left) / r.width) * 2 - 1, -((cy - r.top) / r.height) * 2 + 1);
+      ndc.set(
+        ((cx - r.left) / r.width) * 2 - 1,
+        -((cy - r.top) / r.height) * 2 + 1,
+      );
       ray.setFromCamera(ndc, camera);
       const hit = ray.intersectObjects(hitList, false)[0];
-      return hit && hit.object.userData.card !== undefined ? hit.object.userData.card : -1;
+      return hit && hit.object.userData.card !== undefined
+        ? hit.object.userData.card
+        : -1;
     };
     const onDown = (e) => {
       drag.on = true;
@@ -591,10 +718,11 @@ export default function WorksOrb({ onClose, time }) {
       const calm = hov >= 0 || openRef.current ? 0.07 : 1;
       slow += (calm - slow) * Math.min(1, dt * 3);
       if (!drag.on) {
-        world.rotation.y += (drag.vy + dt * 0.05 * spd * slow);
+        world.rotation.y += drag.vy + dt * 0.05 * spd * slow;
         drag.vy *= 0.93;
       }
-      world.rotation.x += (drag.rx + mouse.y * 0.1 - world.rotation.x) * Math.min(1, dt * 3);
+      world.rotation.x +=
+        (drag.rx + mouse.y * 0.1 - world.rotation.x) * Math.min(1, dt * 3);
       zoom += (zoomT - zoom) * Math.min(1, dt * 4);
       camera.position.set(mouse.x * 0.45, -mouse.y * 0.3, baseZ * zoom);
       camera.lookAt(0, 0, 0);
@@ -611,8 +739,16 @@ export default function WorksOrb({ onClose, time }) {
           ease = 1 - Math.pow(1 - p, 3);
         c.a += c.ring.sp * dt * spd * slow;
         const r = lerp(c.ring.R * 2.6, c.ring.R, ease);
-        c.mesh.position.set(Math.cos(c.a) * r, Math.sin(t * 0.8 + c.ph) * 0.12, Math.sin(c.a) * r);
-        c.mesh.rotation.set(0, Math.PI / 2 - c.a, Math.sin(t * 0.5 + c.ph) * 0.04);
+        c.mesh.position.set(
+          Math.cos(c.a) * r,
+          Math.sin(t * 0.8 + c.ph) * 0.12,
+          Math.sin(c.a) * r,
+        );
+        c.mesh.rotation.set(
+          0,
+          Math.PI / 2 - c.a,
+          Math.sin(t * 0.5 + c.ph) * 0.04,
+        );
         const want = hov === i || openRef.current?.i === i ? 1 : 0;
         c.rv += (want - c.rv) * Math.min(1, dt * 6);
         c.mesh.scale.setScalar(1 + 0.22 * c.rv);
@@ -644,9 +780,15 @@ export default function WorksOrb({ onClose, time }) {
   const op = open ? PROJECTS[open.i] : null;
 
   return (
-    <div className={"orb" + (leaving ? " leaving" : "")} role="region" aria-label="Works archive">
+    <div
+      className={"orb" + (leaving ? " leaving" : "")}
+      role="region"
+      aria-label="Works archive"
+    >
       <div className="orb-bg" />
-      <div className="orb-word" aria-hidden="true">WORKS</div>
+      <div className="orb-word" aria-hidden="true">
+        WORKS
+      </div>
       <div className="orb-stage">
         <div ref={mount} className="orb-canvas" aria-hidden="true" />
       </div>
@@ -665,13 +807,20 @@ export default function WorksOrb({ onClose, time }) {
         </button>
       </header>
 
-      <div className={"orb-ro" + (hp && !open ? " show" : "")} aria-hidden="true">
+      <div
+        className={"orb-ro" + (hp && !open ? " show" : "")}
+        aria-hidden="true"
+      >
         {hp && (
           <>
             <p className="orb-ro-t">
               <Decode text={hp.sealed ? "SEALED" : hp.title.toUpperCase()} />
             </p>
-            <p className="orb-ro-s">{hp.sealed ? "ACCESS PENDING" : `${hp.tag.toUpperCase()}   /   ${hp.stack.join("   ")}`}</p>
+            <p className="orb-ro-s">
+              {hp.sealed
+                ? "ACCESS PENDING"
+                : `${hp.tag.toUpperCase()}   /   ${hp.stack.join("   ")}`}
+            </p>
           </>
         )}
       </div>
@@ -685,12 +834,18 @@ export default function WorksOrb({ onClose, time }) {
           CLICK TO OPEN
         </p>
         <p className="orb-count">
-          {String(unsealed).padStart(2, "0")} OF {String(PROJECTS.length).padStart(2, "0")} FILES UNSEALED
+          {String(unsealed).padStart(2, "0")} OF{" "}
+          {String(PROJECTS.length).padStart(2, "0")} FILES UNSEALED
         </p>
       </footer>
 
       {op && (
-        <aside className="orb-panel" key={open.i} role="dialog" aria-label={op.sealed ? "Sealed file" : op.title}>
+        <aside
+          className="orb-panel"
+          key={open.i}
+          role="dialog"
+          aria-label={op.sealed ? "Sealed file" : op.title}
+        >
           <div className="orb-panel-in">
             {op.sealed ? (
               <>
@@ -701,13 +856,21 @@ export default function WorksOrb({ onClose, time }) {
                   <b style={{ width: "68%" }} />
                   <b style={{ width: "81%" }} />
                 </div>
-                <p className="orb-p-desc">This file opens when the next project ships.</p>
+                <p className="orb-p-desc">
+                  This file opens when the next project ships.
+                </p>
               </>
             ) : (
               <>
                 <p className="orb-p-tag">{op.tag.toUpperCase()}</p>
                 <h3 className="orb-p-title">{op.title}</h3>
-                {open.url && <img className="orb-p-shot" src={open.url} alt={op.title + " screenshot"} />}
+                {open.url && (
+                  <img
+                    className="orb-p-shot"
+                    src={open.url}
+                    alt={op.title + " screenshot"}
+                  />
+                )}
                 <p className="orb-p-desc">{op.desc}</p>
                 <div className="orb-chips">
                   {op.stack.map((s) => (
@@ -718,7 +881,12 @@ export default function WorksOrb({ onClose, time }) {
             )}
             <div className="orb-p-act">
               {op.href && (
-                <a className="orb-btn" href={op.href} target="_blank" rel="noreferrer">
+                <a
+                  className="orb-btn"
+                  href={op.href}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   View project
                 </a>
               )}
@@ -733,7 +901,9 @@ export default function WorksOrb({ onClose, time }) {
       <ul className={fail ? "orb-list" : "orb-sr"}>
         {PROJECTS.map((p, i) => (
           <li key={i}>
-            <button onClick={() => openAt(i)}>{p.sealed ? "Sealed file" : p.title}</button>
+            <button onClick={() => openAt(i)}>
+              {p.sealed ? "Sealed file" : p.title}
+            </button>
           </li>
         ))}
       </ul>
