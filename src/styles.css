@@ -1123,11 +1123,192 @@ html.lenis body {
   position: absolute;
   left: 0;
   right: 0;
-  top: 0;
-  height: 100%;
+  bottom: 0;
+  height: 71%;
   background: linear-gradient(180deg, #a82800 0, #ff3a00 90px, #ff3a00);
   transform: translate3d(0, 100%, 0);
   will-change: transform;
+  color: #050505;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  pointer-events: none;
+}
+.ft-top {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-top: max(9dvh, 90px);
+  border-bottom: 1px solid rgba(5, 5, 5, 0.55);
+}
+.ft-l {
+  padding: 0 3.2vw 2dvh;
+}
+.ft-l h2 {
+  margin: 0 0 3.2dvh;
+  font:
+    700 clamp(26px, 3.7vw, 72px)/0.95 "Oxanium",
+    sans-serif;
+  text-transform: uppercase;
+  max-width: 14ch;
+}
+.ft-btns {
+  display: flex;
+  gap: 1.4vw;
+  flex-wrap: wrap;
+}
+.ftb {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  height: max(5.4dvh, 40px);
+  padding: 0 2vw;
+  border: 1px solid #6306ca;
+  background: rgba(255, 255, 255, 0.14);
+  color: #050505;
+  text-decoration: none;
+  font:
+    500 max(0.9vw, 12px) "Oxanium",
+    sans-serif;
+  letter-spacing: 0.06em;
+  transition:
+    background 0.3s,
+    color 0.3s;
+}
+.ftb:hover {
+  background: #050505;
+  color: #ff3a00;
+}
+.ft-r {
+  border-left: 1px solid rgba(5, 5, 5, 0.55);
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  align-content: start;
+  padding: 0 2.2vw 2dvh 3vw;
+  gap: 0 1.4vw;
+}
+.ftc {
+  display: flex;
+  flex-direction: column;
+  gap: 2.2dvh;
+}
+.ftc a,
+.ftc span {
+  font:
+    500 max(0.78vw, 11px) "Oxanium",
+    sans-serif;
+  letter-spacing: 0.22em;
+  color: #050505;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.ftc1 a,
+.ftc1 span {
+  color: #6306ca;
+}
+.ftc a:hover {
+  color: #6306ca;
+}
+.ftc i {
+  font-style: normal;
+  margin-left: 0.4em;
+}
+.ft-px {
+  display: block;
+  width: 100%;
+  height: auto;
+  flex: none;
+}
+/* experience box (glowing pill -> box) */
+.xp {
+  position: absolute;
+  box-sizing: border-box;
+  border: 3px solid #ff9468;
+  background: rgba(5, 5, 5, 0.5);
+  box-shadow:
+    0 0 10px 1px #ff4a14,
+    0 0 26px 4px rgba(255, 74, 20, 0.5),
+    inset 0 0 12px rgba(255, 74, 20, 0.55);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  overflow: hidden;
+  will-change: left, top, width, height, opacity;
+}
+.xpd {
+  position: absolute;
+  inset: 0;
+  opacity: var(--xc, 0);
+}
+.xps {
+  position: absolute;
+  inset: 3.2vw 3.4vw;
+  color: #fff;
+  opacity: 0;
+  transform: translateX(calc(var(--d, 1) * 36px));
+  transition:
+    opacity 0.55s,
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+.xps.on {
+  opacity: 1;
+  transform: none;
+}
+.xps.off {
+  transform: translateX(calc(var(--d, 1) * -36px));
+}
+.xps h3 {
+  margin: 0 0 2.2vw;
+  font:
+    500 max(1.6vw, 16px)/1.3 "WDXL Lubrifont TC",
+    sans-serif;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+.xps p {
+  margin: 0 0 0.9vw;
+  font:
+    400 max(1.25vw, 13px)/1.35 "WDXL Lubrifont TC",
+    sans-serif;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.xps .xpp {
+  margin-bottom: 1.6vw;
+}
+.xpa {
+  position: absolute;
+  top: calc(49% - 1.9vw);
+  width: 3.2vw;
+  height: 3.8vw;
+  min-width: 30px;
+  min-height: 36px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: filter 0.3s;
+}
+.xpl {
+  left: calc(13.4% - 1.6vw);
+}
+.xpr {
+  left: calc(86.7% - 1.6vw);
+}
+.xpa svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2.4;
+  stroke-linejoin: round;
+}
+.xpa:hover {
+  filter: drop-shadow(0 0 8px #ff4a14);
 }
 .bhead {
   position: absolute;
@@ -1164,6 +1345,21 @@ html.lenis body {
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
 }
+/* the five vertical grid lines of the design (same x as the hero) */
+.about::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  --ln: linear-gradient(rgba(255, 255, 255, 0.17), rgba(255, 255, 255, 0.17));
+  background:
+    var(--ln) 2.6vw 0/1px 100% no-repeat,
+    var(--ln) 17.8vw 0/1px 100% no-repeat,
+    var(--ln) 39.7vw 0/1px 100% no-repeat,
+    var(--ln) 65.2vw 0/1px 100% no-repeat,
+    var(--ln) 87.2vw 0/1px 100% no-repeat;
+}
 .ahead {
   position: sticky;
   top: 0;
@@ -1194,33 +1390,43 @@ html.lenis body {
 }
 .ascroll {
   position: relative;
-  padding: 2dvh 3.2vw 12dvh;
+  padding: 2dvh 5vw 12dvh;
   max-width: 1500px;
   margin: 0 auto;
 }
 .atitle {
-  font: 400 min(6vw, 64px)/1 "WDXL Lubrifont TC";
+  font: 400 min(8vw, 150px)/1 "WDXL Lubrifont TC";
   color: #fff0a4;
-  letter-spacing: 0.02em;
-  margin: 1dvh 0 3dvh;
+  letter-spacing: 0.01em;
+  margin: 3dvh 0 6dvh;
+}
+.acontact {
+  position: absolute;
+  right: 3.7vw;
+  top: 5.5dvh;
+  text-align: right;
+  font: 400 max(0.8vw, 11px)/1.5 "Oxanium";
+  letter-spacing: 0.16em;
+  color: rgba(255, 255, 255, 0.55);
+  padding-right: 0.9vw;
+  border-right: 2px solid var(--pu);
 }
 
-/* rows: always show their content, no open/close — only a hover/click pixel effect */
+/* rows (reference frame 1420x835: row 1273x120, gap 67) */
 .arow {
   position: relative;
-  height: clamp(190px, 30dvh, 320px);
-  border-radius: 20px;
-  margin-bottom: 2vw;
+  height: clamp(96px, 14.4dvh, 150px);
+  border-radius: 12px;
+  margin-bottom: 8dvh;
   overflow: hidden;
-  background: #0b0710;
+  background: #0b0b0d;
   box-shadow:
-    0 0 44px rgba(99, 6, 202, 0.35),
-    inset 0 0 0 1px rgba(99, 6, 202, 0.3);
+    0 0 56px rgba(99, 6, 202, 0.32),
+    inset 0 0 0 1px rgba(99, 6, 202, 0.18);
   cursor: pointer;
   opacity: 0;
   transform: translateY(34px);
   transition:
-    height 0.55s cubic-bezier(0.16, 1, 0.3, 1),
     opacity 0.6s ease-out,
     transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 0.4s;
@@ -1229,108 +1435,53 @@ html.lenis body {
   opacity: 1;
   transform: none;
 }
-.arow.open {
-  height: clamp(320px, 46dvh, 560px);
-  box-shadow:
-    0 0 60px rgba(99, 6, 202, 0.55),
-    inset 0 0 0 1px rgba(99, 6, 202, 0.55);
-}
 .arow.click {
   cursor: pointer;
 }
-.anum {
-  position: absolute;
-  left: 2.4vw;
-  top: 1.6vw;
-  z-index: 2;
-  font: 600 max(0.8vw, 10px) "Oxanium";
-  color: rgba(255, 255, 255, 0.4);
-}
 .arow-title {
   position: absolute;
-  left: 2.4vw;
+  left: 3.65vw;
   top: 50%;
   transform: translateY(-50%);
   z-index: 2;
-  font: 400 clamp(26px, 3.4vw, 52px)/1 "WDXL Lubrifont TC";
+  font: 400 clamp(24px, 2.9vw, 52px)/1 "WDXL Lubrifont TC";
   color: #fff;
   letter-spacing: 0.01em;
   pointer-events: none;
-  transition:
-    top 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.5s;
-}
-.arow.open .arow-title {
-  top: 2.6vw;
-  transform: none;
-}
-.arow-text {
-  position: absolute;
-  left: 2.4vw;
-  right: 38%;
-  top: 7.5vw;
-  z-index: 2;
-  margin: 0;
-  font: 400 max(1vw, 13px)/1.6 "WDXL Lubrifont TC";
-  color: rgba(255, 255, 255, 0.85);
-  opacity: 0;
-  transition: opacity 0.4s ease-out 0.1s;
-}
-.arow.open .arow-text {
-  opacity: 1;
 }
 
 .aimg {
   position: absolute;
   inset: 0;
-  left: 34%;
+  left: 49%;
   background-size: cover;
   background-position: center;
-  clip-path: polygon(18% 0, 100% 0, 100% 100%, 0% 100%);
-  transition:
-    filter 0.2s,
-    left 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: filter, left;
+  clip-path: polygon(4% 0, 100% 0, 100% 100%, 0% 100%);
+  transition: filter 0.2s;
+  will-change: filter;
 }
-.arow.open .aimg {
-  left: 40%;
-}
+/* toolbox: no panel, just the icons floating in the row (x / y = icon centre, set in App.jsx) */
 .aicons {
   position: absolute;
   inset: 0;
-  left: 34%;
-  clip-path: polygon(14% 0, 100% 0, 100% 100%, 0% 100%);
-  background: #060308;
-  display: flex;
-  flex-wrap: wrap;
-  align-content: center;
-  gap: 1.2vw 1.6vw;
-  padding: 1.4vw 3vw 1.4vw 7.5vw;
-  transition: left 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.arow.open .aicons {
-  left: 30%;
-}
-.arow.open .aicon {
-  width: clamp(44px, 4.6vw, 70px);
-  height: clamp(44px, 4.6vw, 70px);
+  background: transparent;
 }
 .aicon {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: clamp(26px, 2.9vw, 46px);
+  height: clamp(26px, 2.9vw, 46px);
+  transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
   justify-content: center;
-  width: clamp(34px, 3.6vw, 56px);
-  height: clamp(34px, 3.6vw, 56px);
-  transform: translateY(calc((var(--k, 0) |0) % 2 * 14px));
-  transition:
-    width 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-    height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .aicon img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 0 8px rgba(99, 6, 202, 0.5));
+  filter: drop-shadow(0 0 8px rgba(99, 6, 202, 0.45));
 }
 .aicon em {
   font: 400 1.4vw "Oxanium";
@@ -1348,33 +1499,32 @@ html.lenis body {
 .acertwrap {
   position: absolute;
   inset: 0;
-  left: 34%;
-  clip-path: polygon(14% 0, 100% 0, 100% 100%, 0% 100%);
-  background: linear-gradient(120deg, #0c1622, #122233);
+  left: 49%;
+  clip-path: polygon(4% 0, 100% 0, 100% 100%, 0% 100%);
+  background: #22222f;
   display: flex;
   align-items: center;
-  padding: 0 3vw;
+  padding: 0 3vw 0 12vw;
   gap: 2vw;
-  transition: left 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.arow.open .acertwrap {
-  left: 28%;
 }
 .acerthex {
   position: absolute;
   inset: 0;
-  opacity: 0.5;
+  right: 55%;
+  opacity: 0.55;
   background-image:
     repeating-linear-gradient(
       60deg,
-      rgba(66, 200, 190, 0.18) 0 2px,
+      rgba(66, 200, 190, 0.2) 0 2px,
       transparent 2px 26px
     ),
     repeating-linear-gradient(
       -60deg,
-      rgba(66, 200, 190, 0.18) 0 2px,
+      rgba(66, 200, 190, 0.2) 0 2px,
       transparent 2px 26px
     );
+  -webkit-mask-image: linear-gradient(90deg, #000, transparent);
+  mask-image: linear-gradient(90deg, #000, transparent);
 }
 .acert {
   position: relative;
@@ -1382,55 +1532,73 @@ html.lenis body {
 }
 .acert b {
   display: block;
-  font: 700 max(1.2vw, 15px) "Oxanium";
-  color: #e8edf2;
-  margin-bottom: 0.6vw;
+  font: 400 clamp(18px, 2.1vw, 36px)/1.1 "Oxanium";
+  color: #f1f3f7;
+  margin-bottom: 1vw;
+  letter-spacing: 0.01em;
 }
 .acert p {
-  font: 400 max(0.95vw, 12px)/1.5 "WDXL Lubrifont TC";
-  color: rgba(220, 230, 238, 0.8);
-  max-width: 46ch;
+  font: 400 max(1.2vw, 13px)/1.45 "Oxanium";
+  color: #fff;
+  max-width: none;
+}
+.acert p strong {
+  display: block;
+  font-weight: 700;
+  color: #fff;
+}
+.acert p span {
+  display: block;
+  color: #2fd0c6;
+  margin-top: 0.2em;
 }
 
 .actawrap {
   position: absolute;
   inset: 0;
-  left: 34%;
-  clip-path: polygon(14% 0, 100% 0, 100% 100%, 0% 100%);
-  background: var(--pu);
+  left: 44%;
+  background: linear-gradient(90deg, transparent 0 20.3%, var(--pu) 20.3%);
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 0 3vw;
+  padding: 0 3.6vw;
+}
+.actawrap::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 33%;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 235 121' preserveAspectRatio='none'%3E%3Crect x='45' y='67' width='9' height='9' fill='%236306CA'/%3E%3Crect x='56' y='12' width='9' height='9' fill='%236306CA'/%3E%3Crect x='56' y='56' width='9' height='9' fill='%236306CA'/%3E%3Crect x='56' y='100' width='9' height='9' fill='%236306CA'/%3E%3Crect x='67' y='1' width='9' height='9' fill='%236306CA'/%3E%3Crect x='67' y='12' width='9' height='9' fill='%236306CA'/%3E%3Crect x='67' y='34' width='9' height='9' fill='%236306CA'/%3E%3Crect x='67' y='67' width='9' height='9' fill='%236306CA'/%3E%3Crect x='67' y='89' width='9' height='9' fill='%236306CA'/%3E%3Crect x='67' y='111' width='9' height='9' fill='%236306CA'/%3E%3Crect x='78' y='12' width='9' height='9' fill='%236306CA'/%3E%3Crect x='78' y='78' width='9' height='9' fill='%236306CA'/%3E%3Crect x='89' y='1' width='9' height='9' fill='%236306CA'/%3E%3Crect x='89' y='23' width='9' height='9' fill='%236306CA'/%3E%3Crect x='89' y='34' width='9' height='9' fill='%236306CA'/%3E%3Crect x='89' y='56' width='9' height='9' fill='%236306CA'/%3E%3Crect x='89' y='67' width='9' height='9' fill='%236306CA'/%3E%3Crect x='89' y='78' width='9' height='9' fill='%236306CA'/%3E%3Crect x='89' y='89' width='9' height='9' fill='%236306CA'/%3E%3Crect x='89' y='111' width='9' height='9' fill='%236306CA'/%3E%3Crect x='100' y='12' width='9' height='9' fill='%236306CA'/%3E%3Crect x='100' y='78' width='9' height='9' fill='%236306CA'/%3E%3Crect x='100' y='89' width='9' height='9' fill='%236306CA'/%3E%3Crect x='111' y='1' width='9' height='9' fill='%236306CA'/%3E%3Crect x='111' y='12' width='9' height='9' fill='%236306CA'/%3E%3Crect x='111' y='45' width='9' height='9' fill='%236306CA'/%3E%3Crect x='111' y='89' width='9' height='9' fill='%236306CA'/%3E%3Crect x='111' y='100' width='9' height='9' fill='%236306CA'/%3E%3Crect x='111' y='111' width='9' height='9' fill='%236306CA'/%3E%3Crect x='122' y='12' width='9' height='9' fill='%236306CA'/%3E%3Crect x='122' y='34' width='9' height='9' fill='%236306CA'/%3E%3Crect x='122' y='67' width='9' height='9' fill='%236306CA'/%3E%3Crect x='122' y='78' width='9' height='9' fill='%236306CA'/%3E%3Crect x='122' y='100' width='9' height='9' fill='%236306CA'/%3E%3Crect x='122' y='111' width='9' height='9' fill='%236306CA'/%3E%3Crect x='133' y='1' width='9' height='9' fill='%236306CA'/%3E%3Crect x='133' y='23' width='9' height='9' fill='%236306CA'/%3E%3Crect x='133' y='34' width='9' height='9' fill='%236306CA'/%3E%3Crect x='133' y='56' width='9' height='9' fill='%236306CA'/%3E%3Crect x='133' y='67' width='9' height='9' fill='%236306CA'/%3E%3Crect x='133' y='78' width='9' height='9' fill='%236306CA'/%3E%3Crect x='133' y='89' width='9' height='9' fill='%236306CA'/%3E%3Crect x='133' y='100' width='9' height='9' fill='%236306CA'/%3E%3Crect x='133' y='111' width='9' height='9' fill='%236306CA'/%3E%3Crect x='144' y='1' width='9' height='9' fill='%236306CA'/%3E%3Crect x='144' y='12' width='9' height='9' fill='%236306CA'/%3E%3Crect x='144' y='23' width='9' height='9' fill='%236306CA'/%3E%3Crect x='144' y='34' width='9' height='9' fill='%236306CA'/%3E%3Crect x='144' y='67' width='9' height='9' fill='%236306CA'/%3E%3Crect x='144' y='78' width='9' height='9' fill='%236306CA'/%3E%3Crect x='144' y='89' width='9' height='9' fill='%236306CA'/%3E%3Crect x='144' y='100' width='9' height='9' fill='%236306CA'/%3E%3Crect x='144' y='111' width='9' height='9' fill='%236306CA'/%3E%3Crect x='155' y='1' width='9' height='9' fill='%230b0710'/%3E%3Crect x='155' y='45' width='9' height='9' fill='%230b0710'/%3E%3Crect x='155' y='67' width='9' height='9' fill='%230b0710'/%3E%3Crect x='155' y='89' width='9' height='9' fill='%230b0710'/%3E%3Crect x='155' y='111' width='9' height='9' fill='%230b0710'/%3E%3Crect x='166' y='78' width='9' height='9' fill='%230b0710'/%3E%3Crect x='177' y='89' width='9' height='9' fill='%230b0710'/%3E%3Crect x='188' y='78' width='9' height='9' fill='%230b0710'/%3E%3Crect x='188' y='100' width='9' height='9' fill='%230b0710'/%3E%3Crect x='199' y='12' width='9' height='9' fill='%230b0710'/%3E%3Crect x='199' y='78' width='9' height='9' fill='%230b0710'/%3E%3Crect x='199' y='111' width='9' height='9' fill='%230b0710'/%3E%3Crect x='210' y='1' width='9' height='9' fill='%230b0710'/%3E%3C/svg%3E")
+    0 0/100% 100% no-repeat;
+  pointer-events: none;
 }
 .aopen {
-  border: 1px solid #fff;
+  border: 0;
   background: transparent;
   color: #fff;
-  padding: 0.9vw 1.8vw;
-  font: 600 max(1.05vw, 13px) "Oxanium";
-  border-radius: 999px;
+  padding: 0;
+  font: 400 clamp(24px, 2.9vw, 52px)/1 "WDXL Lubrifont TC";
+  border-radius: 0;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 0.5vw;
-  transition:
-    background 0.3s,
-    color 0.3s;
+  gap: 1.2vw;
+  transition: opacity 0.3s;
   position: relative;
   z-index: 2;
 }
 .aopen:hover {
-  background: #fff;
-  color: var(--pu);
+  opacity: 0.8;
 }
 .atag {
   position: fixed;
-  right: 3vw;
-  bottom: 2.4dvh;
+  right: 2.8vw;
+  bottom: 2.6dvh;
   z-index: 3;
-  font: 400 max(1vw, 12px) "WDXL Lubrifont TC";
-  color: rgba(255, 240, 164, 0.85);
+  font: 400 max(1.35vw, 12px) "WDXL Lubrifont TC";
+  color: rgba(255, 240, 164, 0.9);
 }
 
 /* hover mode: pixels boil continuously while the pointer is over the row */
@@ -1453,6 +1621,113 @@ html.lenis body {
   }
 }
 
+/* open section panel (the big purple "Me" screen) */
+.apanel {
+  position: fixed;
+  z-index: 30;
+  inset: 15vh 5.8vw 7.7vh 5.4vw;
+  background: #6610d0;
+  border: 1px solid #ff3a00;
+  border-radius: 14px;
+  box-shadow: 0 0 70px rgba(99, 6, 202, 0.55);
+  color: #fff;
+  overflow: hidden;
+  animation: apIn 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes apIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.ap-title {
+  position: absolute;
+  left: 3.1%;
+  top: 1%;
+  font: 400 clamp(56px, 7.8vw, 130px)/1.1 "WDXL Lubrifont TC";
+  letter-spacing: 0.01em;
+}
+.ap-close {
+  position: absolute;
+  right: 2.4%;
+  top: 3.6%;
+  background: none;
+  border: 0;
+  color: #fff;
+  font: 400 clamp(16px, 1.8vw, 30px)/1 "WDXL Lubrifont TC";
+  cursor: pointer;
+  padding: 0;
+}
+.ap-close:hover {
+  text-decoration: underline;
+}
+.ap-text {
+  position: absolute;
+  left: 2.8%;
+  top: 25.3%;
+  width: 50.5%;
+  bottom: 6%;
+  font: 400 clamp(13px, 1.33vw, 22px)/1.28 "WDXL Lubrifont TC";
+  overflow: auto;
+}
+.ap-text p {
+  margin: 0 0 1.1em;
+}
+.ap-media {
+  position: absolute;
+  left: 55.6%;
+  top: 21.9%;
+  width: 40.9%;
+  height: 62.3%;
+  border: 2px solid #ff3a00;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #3d0a82;
+}
+.ap-media > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.ap-cert > img {
+  object-fit: contain;
+  background: #14141f;
+}
+.ap-tools {
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 10px;
+  padding: 14px;
+  align-content: center;
+}
+.ap-tools span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.28);
+  border-radius: 8px;
+}
+.ap-tools img {
+  width: 44%;
+  max-width: 58px;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+.ap-tools i {
+  font: 400 clamp(11px, 1vw, 16px) "Oxanium";
+  font-style: normal;
+  opacity: 0.9;
+}
+
 @media (max-aspect-ratio: 1/1) {
   .ahead {
     flex-wrap: wrap;
@@ -1461,10 +1736,18 @@ html.lenis body {
   .atitle {
     font-size: 14vw;
   }
+  .acontact {
+    position: static;
+    border-right: 0;
+    padding: 0;
+    text-align: left;
+    margin-bottom: 2dvh;
+  }
   .arow {
     height: auto;
     min-height: 160px;
     padding-bottom: 1dvh;
+    margin-bottom: 3dvh;
   }
   .arow-title {
     top: 1.6vw;
@@ -1479,14 +1762,134 @@ html.lenis body {
     top: 38%;
     clip-path: polygon(0 8%, 100% 0, 100% 100%, 0 100%);
   }
+  .aicons {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    gap: 2vw;
+    padding: 1.4vw 4vw;
+  }
+  .aicon {
+    position: static;
+    transform: none;
+  }
   .acertwrap {
     flex-direction: column;
     align-items: flex-start;
     padding: 1.2vw 4vw;
   }
+  .acerthex {
+    right: 0;
+  }
+  .actawrap {
+    background: var(--pu);
+  }
+  .actawrap::before {
+    display: none;
+  }
   .atag {
     position: static;
     margin-top: 1dvh;
     text-align: right;
+  }
+  .apanel {
+    inset: 12vh 4vw 5vh;
+    overflow: auto;
+  }
+  .ap-title {
+    position: static;
+    padding: 4% 6% 0;
+    font-size: 18vw;
+  }
+  .ap-close {
+    top: 3%;
+    right: 6%;
+  }
+  .ap-text,
+  .ap-media {
+    position: static;
+    width: auto;
+    margin: 4% 6%;
+    height: auto;
+  }
+  .ap-media {
+    aspect-ratio: 4/3;
+  }
+}
+
+/* ---- hero CONTACT button (jumps to the footer with the page dissolve) ---- */
+.cbtn {
+  position: absolute;
+  right: calc(4.2vw + 9.6vw);
+  top: 4.3dvh;
+  min-width: 9.6vw;
+  padding: 0 1.2vw;
+  height: max(6.6dvh, 30px);
+  background: var(--o);
+  border: 1px solid var(--o);
+  color: #050505;
+  font: 600 max(0.75vw, 9px) "Oxanium";
+  letter-spacing: 0.16em;
+  white-space: nowrap;
+  cursor: pointer;
+  z-index: 6;
+  transition:
+    background 0.4s,
+    color 0.4s;
+}
+.cbtn:hover {
+  background: rgba(255, 58, 0, 0.2);
+  color: var(--o);
+}
+
+/* ---- back to the first page (shows while scrolling) ---- */
+.totop {
+  position: absolute;
+  right: 3.2vw;
+  bottom: 3dvh;
+  z-index: 26;
+  width: max(5.6dvh, 44px);
+  height: max(5.6dvh, 44px);
+  display: grid;
+  place-items: center;
+  background:
+    linear-gradient(rgba(255, 58, 0, 0.2), rgba(255, 58, 0, 0.2)),
+    #050505;
+  border: 1px solid var(--o);
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.25s,
+    background 0.4s;
+}
+.totop:hover {
+  background:
+    linear-gradient(rgba(255, 58, 0, 0.45), rgba(255, 58, 0, 0.45)),
+    #050505;
+}
+.totop svg {
+  width: 46%;
+  height: 46%;
+  fill: none;
+  stroke: var(--o);
+  stroke-width: 2;
+  stroke-linecap: square;
+}
+.cbtn:focus-visible,
+.totop:focus-visible {
+  outline: 2px solid #fff0a4;
+  outline-offset: 3px;
+}
+@media (max-aspect-ratio: 1/1) {
+  .cbtn {
+    right: 5vw;
+    top: calc(27dvh + max(6.6dvh, 30px) + 1.4dvh);
+    font-size: max(3vw, 11px);
+  }
+  .totop {
+    right: auto;
+    left: 5vw;
   }
 }

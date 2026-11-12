@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import Lenis from "lenis";
 import { createPixels } from "./pixels.js";
 import { SKILLS, SkillBody } from "./skills.jsx";
+import { pixelText } from "./pixelfont.js";
+import WorksOrb from "./WorksOrb.jsx";
 
 const SOCIALS = [
   // TODO: replace with real profile URLs
@@ -63,46 +65,145 @@ const DOTS = [
 ];
 // card slots: [x (vw), y (dvh), row] (from the Figma frame)
 const POS = [
-  [8.3, 15, 0], [37.2, 15, 0], [63.7, 14, 0], [83.2, 14.3, 0],
-  [19, 39.6, 1], [41.5, 39.6, 1], [67.8, 39.6, 1],
-  [24.6, 64.6, 2], [51.6, 64.6, 2], [70.6, 64.6, 2],
+  [8.3, 15, 0],
+  [37.2, 15, 0],
+  [63.7, 14, 0],
+  [83.2, 14.3, 0],
+  [19, 39.6, 1],
+  [41.5, 39.6, 1],
+  [67.8, 39.6, 1],
+  [24.6, 64.6, 2],
+  [51.6, 64.6, 2],
+  [70.6, 64.6, 2],
 ];
 // scroll lengths in vh. HERO_VH keeps the hero exactly as long as before.
 const HERO_VH = 824,
-  WORKS_VH = 2050,
+  WORKS_VH = 2700,
   HERO_FRAC = HERO_VH / (HERO_VH + WORKS_VH),
   DOTK = 0.6338 / HERO_FRAC;
+// experience slides (the arrows switch them; everything else follows the scroll)
+const XP = [
+  {
+    title: "Worked at Computer Programming Club as a Graphics Designer",
+    period: "Work period 2024-2025",
+    lines: ["Assistant Graphics Designer"],
+  },
+  {
+    title: "Worked at Mastermind Coding Academy as a Coding Instructor",
+    period: "Work period 2025-2026",
+    lines: [
+      "Coding Instructor",
+      "Python",
+      "HTML & CSS",
+      "Games with Scratch",
+      "Mobile apps with MIT App Inventor",
+    ],
+  },
+];
+// footer contact links: put the real URLs here (empty = the label shows, no link yet)
+const CONTACT = {
+  name: "MD. ASHRAFUL ALAM SHUVO",
+  address: "DHAKA, BANGLADESH",
+  phone: "+8801841995394",
+  portfolio: "",
+  email: "ashshuvo1222.prof@gmail.com",
+  linkedin: "",
+  github: "",
+  facebook: "",
+  cv: "",
+  big: "PORTFOLIO/SHUVO",
+};
+const PIX = pixelText(CONTACT.big);
 // black-section traces, taken from the Figma frame (absolute frame coords)
 const DEVICON = (slug, variant) =>
   `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${slug}/${slug}-${variant}.svg`;
-const ABOUT = [ // TODO: fill in your own copy; images load from /public (see filenames below)
-  { id: "me", title: "Me", kind: "photo", img: "/me-robot.jpg",
-    text: "Write your \u201cMe\u201d story here." },
-  { id: "toolbox", title: "Inside My Toolbox", kind: "icons",
+// About page content. Demo copy: replace the text arrays with your own.
+// Picture files (put them in /public):
+//   me-robot.jpg  -> "Me" row (slanted crop) + the big "Me" panel
+//   campus.jpg    -> "Education" row + the "Education" panel
+//   cert-aws.png  -> "Certificates" panel (the row itself is drawn in CSS: hex pattern + text)
+// Toolbox icons load from the devicon CDN, no files needed.
+// x / y = icon centre inside the row, in %.
+const ABOUT = [
+  {
+    id: "me",
+    title: "Me",
+    kind: "photo",
+    img: "/me-robot.jpg",
+    text: [
+      "I\u2019m Md. Ashraful Alam Shuvo, a Computer Science and Engineering student at Daffodil International University in Dhaka. I like building things that live between software and hardware: a small rover made from cardboard and motors, a dashboard that shows live sensor readings, an app that does one job well.",
+      "I started with Arduino boards and blinking LEDs, then kept pulling on the thread \u2014 web apps, embedded code, robots, design. I enjoy taking a rough idea, making it work, and then breaking it on purpose to see how it can be improved.",
+      "Away from my own projects I\u2019ve designed graphics for a programming club and taught kids how to code. Learn it. Build it. Break it. Improve it.",
+    ],
+  },
+  {
+    id: "toolbox",
+    title: "Inside My Toolbox",
+    kind: "icons",
+    text: [
+      "These are the tools I reach for most. Arduino and C++ for anything that has to talk to sensors and motors, Figma and Illustrator when an idea needs a shape before it needs code, React for interfaces, and Flask and Python for backends, scripts and quick experiments.",
+      "I\u2019m not loyal to a tool \u2014 I pick whatever gets the idea working fastest, then learn it properly while building the real thing.",
+    ],
     icons: [
-      { name: "Arduino", src: DEVICON("arduino", "original") },
-      { name: "C++", src: DEVICON("cplusplus", "original") },
-      { name: "Figma", src: DEVICON("figma", "original") },
-      { name: "React", src: DEVICON("react", "original") },
-      { name: "?", src: null }, // TODO: tell me what this tool actually is
-      { name: "Python", src: DEVICON("python", "original") },
-      { name: "Illustrator", src: DEVICON("illustrator", "plain") },
-    ] },
-  { id: "edu", title: "Education", kind: "photo", img: "/campus.jpg",
-    text: "Add your education details here." },
-  { id: "cert", title: "Certificates", kind: "cert", img: "/cert-aws.png",
+      { name: "Arduino", src: DEVICON("arduino", "original"), x: 59.5, y: 28 },
+      { name: "C++", src: DEVICON("cplusplus", "original"), x: 64.7, y: 67 },
+      { name: "Figma", src: DEVICON("figma", "original"), x: 71.1, y: 34 },
+      { name: "React", src: DEVICON("react", "original"), x: 77, y: 70 },
+      { name: "Flask", src: DEVICON("flask", "original"), x: 83.9, y: 50 },
+      { name: "Python", src: DEVICON("python", "original"), x: 90.4, y: 36 },
+      {
+        name: "Illustrator",
+        src: DEVICON("illustrator", "plain"),
+        x: 95.2,
+        y: 58,
+      },
+    ],
+  },
+  {
+    id: "edu",
+    title: "Education",
+    kind: "photo",
+    img: "/campus.jpg",
+    text: [
+      "B.Sc. in Computer Science and Engineering at Daffodil International University, Dhaka. My coursework covers programming, data structures and algorithms, databases, computer networks, operating systems and embedded systems.",
+      "The lab work is where most of it clicked for me: wiring a circuit, flashing a board, debugging a network, then turning the same ideas into course projects and a thesis. The campus is also where I met most of the people I build with.",
+    ],
+  },
+  {
+    id: "cert",
+    title: "Certificates",
+    kind: "cert",
+    img: "/cert-aws.png",
     name: "MD. ASHRAFUL ALAM SHUVO",
-    cert: "Certificate of Completion for AWS Academy Graduate \u2014 AWS Academy Cloud Foundations" },
+    certA: "Certificate of Completion for",
+    certB: "AWS Academy Graduate - AWS Academy Cloud Foundations",
+    text: [
+      "AWS Academy Graduate \u2014 AWS Academy Cloud Foundations. The course covers the core ideas of cloud computing: compute, storage, networking and databases, plus security, pricing and support on AWS.",
+      "It gave me a working vocabulary for deploying and scaling the apps I build, and a base to grow into more advanced cloud certifications.",
+    ],
+  },
   { id: "works", title: "My Works", kind: "cta" },
 ];
 const BTR = [
-  ["p", "M12 223 H612"], ["p", "M290 223 L352 288"], ["p", "M122 288 H578"],
-  ["p", "M470 252 H1236"], ["p", "M545 252 L662 370 H1521"], ["p", "M585 248 L630 203 H1505"],
-  ["p", "M915 370 L975 312 H1521"], ["p", "M12 333 H945"],
-  ["o", "M1374 417 H1521"], ["o", "M470 558 H855 L925 488 H1420 L1490 417"],
-  ["o", "M1228 488 L1366 627 H1521"], ["o", "M12 502 H862"], ["o", "M413 502 L470 558"],
-  ["o", "M97 628 H398 L470 558"], ["o", "M298 702 H1521"], ["o", "M545 563 L683 702"],
-  ["p", "M12 813 H520 L570 858"], ["p", "M392 858 H1303"], ["p", "M665 858 L722 799 H1228"],
+  ["p", "M12 223 H612"],
+  ["p", "M290 223 L352 288"],
+  ["p", "M122 288 H578"],
+  ["p", "M470 252 H1236"],
+  ["p", "M545 252 L662 370 H1521"],
+  ["p", "M585 248 L630 203 H1505"],
+  ["p", "M915 370 L975 312 H1521"],
+  ["p", "M12 333 H945"],
+  ["o", "M1374 417 H1521"],
+  ["o", "M470 558 H855 L925 488 H1420 L1490 417"],
+  ["o", "M1228 488 L1366 627 H1521"],
+  ["o", "M12 502 H862"],
+  ["o", "M413 502 L470 558"],
+  ["o", "M97 628 H398 L470 558"],
+  ["o", "M298 702 H1521"],
+  ["o", "M545 563 L683 702"],
+  ["p", "M12 813 H520 L570 858"],
+  ["p", "M392 858 H1303"],
+  ["p", "M665 858 L722 799 H1228"],
   ["p", "M1170 858 L1284 741 H1521"],
 ];
 
@@ -112,8 +213,26 @@ export default function App() {
     pct = useRef(),
     lenisRef = useRef();
   const [menu, setMenu] = useState(false);
+  const [orb, setOrb] = useState(false);
+  const orbRef = useRef(false);
+  useEffect(() => {
+    orbRef.current = orb;
+  }, [orb]);
   const [time, setTime] = useState("");
   const [wMode, setWMode] = useState("click");
+  const [xp, setXp] = useState({ i: 0, p: -1, d: 1 });
+  const xpOpen = useRef(false);
+  const goXp = (d) =>
+    setXp((s) => ({ i: (s.i + d + XP.length) % XP.length, p: s.i, d }));
+  useEffect(() => {
+    const k = (ev) => {
+      if (!xpOpen.current) return;
+      if (ev.key === "ArrowRight") goXp(1);
+      if (ev.key === "ArrowLeft") goXp(-1);
+    };
+    addEventListener("keydown", k);
+    return () => removeEventListener("keydown", k);
+  }, []);
   const [about, setAbout] = useState(false);
   const [openBlock, setOpenBlock] = useState(null);
   const [pulsing, setPulsing] = useState(null);
@@ -146,14 +265,22 @@ export default function App() {
     if (!root) return;
     const io = new IntersectionObserver(
       (ents) => {
-        const hit = ents.filter((en) => en.isIntersecting).map((en) => en.target.dataset.rowId);
+        const hit = ents
+          .filter((en) => en.isIntersecting)
+          .map((en) => en.target.dataset.rowId);
         if (hit.length) setSeenRows((prev) => new Set([...prev, ...hit]));
       },
-      { root, threshold: 0.18 }
+      { root, threshold: 0.18 },
     );
     root.querySelectorAll(".arow").forEach((r) => io.observe(r));
     return () => io.disconnect();
   }, [about]);
+  useEffect(() => {
+    if (!openBlock) return;
+    const k = (ev) => ev.key === "Escape" && setOpenBlock(null);
+    addEventListener("keydown", k);
+    return () => removeEventListener("keydown", k);
+  }, [openBlock]);
   const pickMode = (m) => {
     modeRef.current = m;
     setWMode(m);
@@ -176,9 +303,9 @@ export default function App() {
     return () => clearInterval(id);
   }, []);
   useEffect(() => {
-    lenisRef.current?.[menu ? "stop" : "start"]();
-    if (!menu && phase.current !== "ready") lenisRef.current?.stop();
-  }, [menu]);
+    lenisRef.current?.[menu || orb ? "stop" : "start"]();
+    if (!menu && !orb && phase.current !== "ready") lenisRef.current?.stop();
+  }, [menu, orb]);
   const phase = useRef("load");
 
   useEffect(() => {
@@ -222,6 +349,11 @@ export default function App() {
         "bsec",
         "btr",
         "bfoot",
+        "xp",
+        "xpl",
+        "xpr",
+        "cbtn",
+        "top",
       ].map((k) => [k, $(k)]),
     );
     const lenis = new Lenis({
@@ -282,87 +414,229 @@ export default function App() {
       lineList = [];
     const NSVG = "http://www.w3.org/2000/svg";
     // g = 0: draws with the first scroll; g = 1: draws as it scrolls into view
+    // polyline path without zero-length segments (some browsers drop a dashed stroke
+    // that contains them)
+    const P = (pts) => {
+      const q = [];
+      pts.forEach((p) => {
+        const l = q[q.length - 1];
+        if (!l || Math.abs(p[0] - l[0]) > 0.01 || Math.abs(p[1] - l[1]) > 0.01)
+          q.push(p);
+      });
+      return q.map((p, i) => `${i ? "L" : "M"}${p[0]} ${p[1]}`).join(" ");
+    };
     const addLine = (d, cls, x0, x1, g) => {
       const p = document.createElementNS(NSVG, "path");
       p.setAttribute("d", d);
       p.setAttribute("class", cls);
-      p.setAttribute("pathLength", "1");
-      p.style.strokeDasharray = "1";
-      p.style.strokeDashoffset = "1";
       el.wlines.appendChild(p);
-      lineList.push({ p, x0, x1, g });
+      const len = p.getTotalLength() || 1; // real length, works in every browser
+      p.style.strokeDasharray = len;
+      p.style.strokeDashoffset = len;
+      lineList.push({ p, len, x0, x1, g });
     };
     const buildLines = () => {
-      const W = innerWidth, H = innerHeight, por = W < H;
+      const W = innerWidth,
+        H = innerHeight,
+        por = W < H;
       const box = cardRefs.current.filter(Boolean).map((c) => ({
-        l: c.offsetLeft, t: c.offsetTop, w: c.offsetWidth, h: c.offsetHeight,
+        l: c.offsetLeft,
+        t: c.offsetTop,
+        w: c.offsetWidth,
+        h: c.offsetHeight,
       }));
       geo = box.map((b) => ({ l: b.l / W, r: (b.l + b.w) / W }));
       el.wlines.innerHTML = "";
       lineList = [];
-      const rows = [0, 1, 2].map((r) => box.filter((_, i) => POS[i][2] === r));
-      // pink traces between the cards of a row
-      rows.forEach((row, r) => {
-        const below = r === 1; // row 2 routes its bus underneath, others above
-        for (let i = 0; i < row.length - 1; i++) {
-          const A = row[i], B = row[i + 1], h = A.h, sg = below ? 1 : -1;
-          const y0 = A.t + h * 0.5,
-            bus = below ? A.t + h * 1.06 : A.t - h * 0.04,
-            xe = B.l + B.w + h * 0.33,
-            yv = B.t + h * 0.5 + sg * h * 0.33;
-          addLine(
-            `M${A.l + A.w} ${y0} L${A.l + A.w + Math.abs(bus - y0)} ${bus} L${xe} ${bus} L${xe} ${yv} L${B.l + B.w} ${B.t + h * 0.5}`,
-            "wln", A.l + A.w, xe, 0,
-          );
-        }
-      });
       // hub + dark boxes continue the board to the right
       const pinkR = Math.max(...box.map((b) => b.l + b.w));
       const R = (por ? 0.17 : 0.0825) * W,
         hcx = pinkR + 0.255 * W,
         hcy = (por ? 0.5 : 0.538) * H;
-      const bw = (por ? 0.64 : 0.29) * W, bh = (por ? 0.2 : 0.33) * H, gx = 0.031 * W;
-      const yT = (por ? 0.16 : 0.165) * H, yM = (por ? 0.4 : 0.355) * H, yB = (por ? 0.64 : 0.547) * H;
-      const an = (38 * Math.PI) / 180, sa = Math.sin(an), ca = Math.cos(an);
-      const dyd = hcy - (yT + bh / 2) - R * sa;
-      const aL = hcx + Math.max(0.135 * W, R * ca + Math.abs(dyd) + 0.02 * W);
+      const bw = (por ? 0.64 : 0.29) * W,
+        bh = (por ? 0.2 : 0.33) * H,
+        gx = 0.031 * W;
+      const yT = (por ? 0.16 : 0.165) * H,
+        yM = (por ? 0.4 : 0.355) * H,
+        yB = (por ? 0.64 : 0.547) * H;
+      const an = Math.PI / 4,
+        sa = Math.sin(an),
+        ca = Math.cos(an),
+        rs = 0.87 * R; // black traces leave the inner ring at 45deg
+      const dyd = hcy - (yT + bh / 2) - rs * sa;
+      const aL = hcx + Math.max(0.135 * W, rs * ca + Math.abs(dyd) + 0.02 * W);
       const cx3 = [aL, aL + bw + gx, aL + 2 * (bw + gx)];
       const bx = [
-        { l: cx3[0], t: yT }, { l: cx3[0], t: yB }, { l: cx3[1], t: yM },
-        { l: cx3[2], t: yT }, { l: cx3[2], t: yB },
+        { l: cx3[0], t: yT },
+        { l: cx3[0], t: yB },
+        { l: cx3[1], t: yM },
+        { l: cx3[2], t: yT },
+        { l: cx3[2], t: yB },
       ].map((b) => ({ ...b, w: bw, h: bh }));
       boxRefs.current.forEach((n, i) => {
         if (!n) return;
         Object.assign(n.style, {
-          left: bx[i].l + "px", top: bx[i].t + "px", width: bw + "px", height: bh + "px",
+          left: bx[i].l + "px",
+          top: bx[i].t + "px",
+          width: bw + "px",
+          height: bh + "px",
         });
       });
       Object.assign(el.whub.style, {
-        left: hcx - R + "px", top: hcy - R + "px", width: 2 * R + "px", height: 2 * R + "px",
+        left: hcx - R + "px",
+        top: hcy - R + "px",
+        width: 2 * R + "px",
+        height: 2 * R + "px",
       });
       panEnd = Math.max(0, cx3[2] + bw - 0.68 * W);
       const cy = (b) => b.t + b.h / 2,
         rr = (b) => b.l + b.w;
-      // purple: last card of every row -> hub
-      rows.forEach((row, r) => {
-        const L = row[row.length - 1];
-        if (!L) return;
-        const yr = hcy + (r - 1) * 0.055 * H,
-          hx = hcx - Math.sqrt(Math.max(0, R * R - (yr - hcy) ** 2)),
-          xs = hx - 0.05 * W;
+      // ---- purple board traces, traced 1:1 from the reference screenshots ----
+      // k = one reference pixel (a card is 226 reference px wide). Every vertex is built from
+      // a card edge plus a fixed offset, so legs stay exactly 45deg / axis-aligned at any size.
+      // box index: 0-3 = top row, 4-6 = middle row, 7-9 = bottom row.
+      const k = box[0].w / 226;
+      const rE = (i, dy) => [box[i].l + box[i].w, box[i].t + dy * k]; // point on card i's right edge
+      const mv = (p, dx, dy) => [p[0] + dx * k, p[1] + dy * k];
+      const dgY = (p, y) => [p[0] + Math.abs(y - p[1]), y]; // 45deg leg (heading right) to height y
+      const yTop = box[0].t - 8 * k, // bus above the top row
+        yAm = box[2].t + 188 * k, // bus between the top and middle rows
+        yCm = box[9].t - 9 * k, // bus above the bottom row
+        yBm = yCm - 14 * k, // bus under the middle row
+        xV = box[6].l + box[6].w + 29 * k, // tall vertical right of the middle row
+        yK = box[6].t + 62 * k; // top of that vertical
+      const trace = (pts, x0, x1, g, cls = "wln") =>
+        addLine(P(pts), cls, x0, x1, g);
+      // hub-side anchors (the last leg of each trace ends on the hub ring)
+      const rk = R / 117,
+        hxAt = (yr) => hcx - Math.sqrt(Math.max(0, R * R - (yr - hcy) ** 2));
+      const yrA = hcy - 0.496 * R,
+        yrB = hcy - 0.034 * R,
+        yrC = hcy + 0.419 * R;
+      const hxA = hxAt(yrA),
+        hxB = hxAt(yrB),
+        hxC = hxAt(yrC);
+
+      // top row: card 0 -> up to the top bus -> across -> down beside card 2 -> y-A bus -> hub
+      {
+        const s0 = rE(0, 76),
+          p1 = dgY(s0, yTop),
+          p2 = [box[2].l - 72 * k, yTop];
+        const p3 = mv(p2, 27.5, 27),
+          p4 = [p3[0], yAm - 75.5 * k],
+          p5 = mv(p4, 80, 75.5);
+        const xa = Math.max(p5[0] + 10, hxA - 195 * rk - Math.abs(yrA - yAm)),
+          ea = [xa + Math.abs(yrA - yAm), yrA];
+        trace([s0, p1, p2, p3, p4, p5, [xa, yAm]], s0[0], xa, 0);
+        trace([[xa, yAm], ea, [hxA, yrA]], xa, hxA, 1);
+      }
+      // card 1 joins the top bus
+      {
+        const s0 = rE(1, 81),
+          p1 = mv(s0, 58, -58);
+        trace([s0, p1, [p1[0], yTop]], s0[0], p1[0], 0);
+      }
+      // cards 2 and 3 meet in a Y and drop to the y-A bus
+      {
+        const yJ = box[2].t + 106 * k,
+          xJ = box[2].l + box[2].w + 28 * k;
+        trace([rE(2, 80), [xJ, yJ], [xJ, yAm]], box[2].l + box[2].w, xJ, 0);
+        trace(
+          [
+            [xJ + 21 * k, yJ - 19 * k],
+            [xJ, yJ],
+          ],
+          xJ,
+          xJ + 21 * k,
+          0,
+        );
+      }
+      // middle row: card 4 -> y-B bus -> tall vertical -> across to the hub
+      {
+        const s0 = rE(4, 86),
+          p1 = dgY(s0, yBm);
+        trace([s0, p1, [xV, yBm], [xV, yK]], s0[0], xV, 0);
+        const eb = hxB - 37 * rk,
+          xb = Math.max(xV + 10, eb - Math.abs(yrB - yK));
+        trace(
+          [
+            [xV, yK],
+            [xb, yK],
+            [xb + Math.abs(yrB - yK), yrB],
+            [hxB, yrB],
+          ],
+          xV,
+          hxB,
+          1,
+        );
+        // cards 5 and 6 join it
+        const s1 = rE(5, 87),
+          q1 = mv(s1, 58, 57);
+        trace([s1, q1, [q1[0], yBm]], s1[0], q1[0], 0);
+        const s2 = rE(6, 128);
+        trace([s2, [xV, s2[1] - 27 * k]], s2[0], xV, 0);
+      }
+      // bottom row: card 7 -> y-C bus -> round card 9's corner (wraps back onto its edge)
+      {
+        const s0 = rE(7, 86),
+          p1 = dgY(s0, yCm),
+          p2 = [box[9].l + box[9].w - 20 * k, yCm];
+        const p3 = mv(p2, 35, 35),
+          p4 = [p3[0], box[9].t + 52 * k],
+          p5 = mv(p4, -15, 15);
+        trace([s0, p1, p2, p3, p4, p5], s0[0], p3[0], 0);
+        // card 8 joins the y-C bus
+        const s1 = rE(8, 82),
+          q1 = mv(s1, 30.6, -28.6);
+        trace([s1, q1, [q1[0], yCm]], s1[0], q1[0], 0);
+        // branch off the corner leg -> y-B -> hub
+        const b0 = mv(p2, 18, 18),
+          b1 = mv(b0, 32, -32);
+        trace([b0, b1], b0[0], b1[0], 0);
+        const ec = hxC - 61 * rk,
+          xc = Math.max(b1[0] + 10, ec - Math.abs(yrC - yBm));
+        trace(
+          [b1, [xc, yBm], [xc + Math.abs(yrC - yBm), yrC], [hxC, yrC]],
+          b1[0],
+          hxC,
+          1,
+        );
+      }
+      // black: hub -> first column, then box to box
+      [
+        [bx[0], -1],
+        [bx[1], 1],
+      ].forEach(([b, sg]) => {
+        const sx = hcx + rs * ca,
+          sy = hcy + sg * rs * sa,
+          ty = cy(b);
         addLine(
-          `M${rr(L)} ${cy(L)} H${xs - Math.abs(yr - cy(L))} L${xs} ${yr} H${hx}`,
-          "wln", rr(L), hx, 1,
+          P([
+            [sx, sy],
+            [sx + Math.abs(ty - sy), ty],
+            [b.l, ty],
+          ]),
+          "wln k",
+          sx,
+          b.l,
+          1,
         );
       });
-      // black: hub -> first column, then box to box
-      [[bx[0], -1], [bx[1], 1]].forEach(([b, sg]) => {
-        const sx = hcx + R * ca, sy = hcy + sg * R * sa, ty = cy(b);
-        addLine(`M${sx} ${sy} L${sx + Math.abs(ty - sy)} ${ty} H${b.l}`, "wln k", sx, b.l, 1);
-      });
       const into = (S, D, edge, f) => {
-        const sy = cy(S), ex = D.l + f * D.w, ey = edge === "top" ? D.t : D.t + D.h;
-        addLine(`M${rr(S)} ${sy} H${ex - Math.abs(ey - sy)} L${ex} ${ey}`, "wln k", rr(S), ex, 1);
+        const sy = cy(S),
+          ex = D.l + f * D.w,
+          ey = edge === "top" ? D.t : D.t + D.h;
+        addLine(
+          P([
+            [rr(S), sy],
+            [ex - Math.abs(ey - sy), sy],
+            [ex, ey],
+          ]),
+          "wln k",
+          rr(S),
+          ex,
+          1,
+        );
       };
       into(bx[0], bx[2], "top", 0.77);
       into(bx[1], bx[2], "bottom", 0.23);
@@ -419,7 +693,16 @@ export default function App() {
       reduce = matchMedia("(prefers-reduced-motion: reduce)").matches,
       OPEN_S = reduce ? 0.01 : 1.3,
       CLOSE_S = reduce ? 0.01 : 0.95;
-    const pan = { t: 0, open: false, i: -1, s: null, shown: false, hto: 0, out: 0, pending: -1 };
+    const pan = {
+      t: 0,
+      open: false,
+      i: -1,
+      s: null,
+      shown: false,
+      hto: 0,
+      out: 0,
+      pending: -1,
+    };
     // ---- about page: reuses the same radial pixel-dissolve as the intro reveal,
     // on its own canvas so it never fights the hero/works wipe's uMode/uP ----
     const abt = { phase: "idle", t: 0, dir: 1, jump: null };
@@ -442,7 +725,8 @@ export default function App() {
     };
     const clickish = () => coarse || modeRef.current === "click";
     const eRect = () => {
-      const W = innerWidth, H = innerHeight;
+      const W = innerWidth,
+        H = innerHeight;
       return { x: 0.036 * W, y: 0.121 * H, w: 0.922 * W, h: 0.82 * H };
     };
     const openBox = (i) => {
@@ -465,8 +749,12 @@ export default function App() {
       pan.title = SKILLS[i].title;
       el.wnum.textContent = String(i + 1).padStart(2, "0");
       // show this skill's text + pictures, hide the others
-      skRefs.current.forEach((n, j) => n && (n.style.display = j === i ? "block" : "none"));
-      picRefs.current.forEach((n, j) => n && (n.style.display = j === i ? "grid" : "none"));
+      skRefs.current.forEach(
+        (n, j) => n && (n.style.display = j === i ? "block" : "none"),
+      );
+      picRefs.current.forEach(
+        (n, j) => n && (n.style.display = j === i ? "grid" : "none"),
+      );
       el.wpwrap.style.visibility = "visible";
       lenis.stop();
     };
@@ -480,6 +768,8 @@ export default function App() {
       openAbout,
       closeAbout,
       goWorks,
+      toFooter: () => closeAbout(lenis.limit || 0),
+      toTop: () => closeAbout(0),
       enter: (i) => {
         if (clickish() || pan.t > 0) return;
         clearTimeout(pan.hto);
@@ -491,7 +781,7 @@ export default function App() {
       close: closeBox,
     };
     const onKey = (ev) => {
-      if (ev.key !== "Escape") return;
+      if (ev.key !== "Escape" || orbRef.current) return;
       closeBox();
       ctl.current?.closeAbout();
     };
@@ -506,11 +796,17 @@ export default function App() {
         out +=
           str[i] === " " || i < n || p >= 1
             ? str[i]
-            : GLY[Math.floor(Math.abs(Math.sin((i + 1) * 12.9898 + k * 78.233)) * 43758) % GLY.length];
+            : GLY[
+                Math.floor(
+                  Math.abs(Math.sin((i + 1) * 12.9898 + k * 78.233)) * 43758,
+                ) % GLY.length
+              ];
       return out;
     };
-    const eoExpo = (x) => (x >= 1 ? 1 : (1 - Math.pow(2, -10 * x)) / (1 - Math.pow(2, -10)));
-    const eio = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+    const eoExpo = (x) =>
+      x >= 1 ? 1 : (1 - Math.pow(2, -10 * x)) / (1 - Math.pow(2, -10));
+    const eio = (x) =>
+      x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
 
     // ---- about page transition: advances abt (declared earlier, before ctl.current
     // needed it) each frame; uses eio so it has to live after eio is defined ----
@@ -533,7 +829,11 @@ export default function App() {
         } else {
           setAbout(false);
           if (!menuRef.current) lenis.start();
-          if (abt.jump != null) lenis.scrollTo(abt.jump, { immediate: true });
+          if (abt.jump != null) {
+            lenis.scrollTo(abt.jump, { immediate: true });
+            target = lenis.limit ? lenis.scroll / lenis.limit : 0;
+            cur = target;
+          }
           abt.jump = null;
         }
         abt.phase = "open";
@@ -548,25 +848,37 @@ export default function App() {
     // the card stretches sideways into a bar (fast, expo-out), then rises into the
     // full panel (soft in-out); a small skew gives the lunge some life
     const shape = (t) => {
-      const s = pan.s, E = eRect();
-      const pw = eoExpo(seg(t, 0, 0.6)), ph = eio(seg(t, 0.13, 0.95));
-      const x = lerp(s.x, E.x, pw), w = lerp(s.w, E.w, pw),
-        y = lerp(s.y, E.y, ph), h = lerp(s.h, E.h, ph);
+      const s = pan.s,
+        E = eRect();
+      const pw = eoExpo(seg(t, 0, 0.6)),
+        ph = eio(seg(t, 0.13, 0.95));
+      const x = lerp(s.x, E.x, pw),
+        w = lerp(s.w, E.w, pw),
+        y = lerp(s.y, E.y, ph),
+        h = lerp(s.h, E.h, ph);
       const cEnd = Math.min(0.186 * innerHeight, 0.24 * E.w, 0.4 * E.h);
       const c = Math.min(lerp(22, cEnd, (pw + ph) / 2), w * 0.4, h * 0.4);
       const sh = 0.16 * Math.sin(Math.PI * seg(t, 0, 0.75));
-      return [[0, 0], [w - c, 0], [w, c], [w, h], [c, h], [0, h - c]].map(
-        ([lx, ly]) => [x + lx + sh * (ly - h / 2), y + ly],
-      );
+      return [
+        [0, 0],
+        [w - c, 0],
+        [w, c],
+        [w, h],
+        [c, h],
+        [0, h - c],
+      ].map(([lx, ly]) => [x + lx + sh * (ly - h / 2), y + ly]);
     };
     const stepPanel = (dt, now) => {
       if (pan.open && pan.t > 0.6 && !clickish()) {
         // hover mode: leaving the full box closes it
-        const E = eRect(), m = 8,
+        const E = eRect(),
+          m = 8,
           inside =
             over &&
-            mxp >= E.x - m && mxp <= E.x + E.w + m &&
-            myp >= E.y - m && myp <= E.y + E.h + m;
+            mxp >= E.x - m &&
+            mxp <= E.x + E.w + m &&
+            myp >= E.y - m &&
+            myp <= E.y + E.h + m;
         if (inside) pan.out = 0;
         else if (!pan.out) pan.out = now;
         else if (now - pan.out > 120) closeBox();
@@ -585,15 +897,22 @@ export default function App() {
         else if (!menuRef.current && phase.current === "ready") lenis.start();
         return;
       }
-      const t = pan.t, E = eRect(), kk = Math.floor(now / 45);
+      const t = pan.t,
+        E = eRect(),
+        kk = Math.floor(now / 45);
       const pts = shape(t);
       el.wpoly.style.clipPath = `polygon(${pts.map((p) => `${p[0].toFixed(1)}px ${p[1].toFixed(1)}px`).join(",")})`;
-      const ps = pts.map((p) => `${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(" ");
+      const ps = pts
+        .map((p) => `${p[0].toFixed(1)},${p[1].toFixed(1)}`)
+        .join(" ");
       el.wedgeb.setAttribute("points", ps);
       el.wedges.setAttribute("points", ps);
       el.wpoly.style.opacity = lerp(0.8, 1, e(seg(t, 0.2, 0.6)));
       el.wpoly.style.filter = `brightness(${1 + 0.4 * (1 - e(seg(t, 0, 0.55)))})`;
-      el.wpoly.style.setProperty("--sx", lerp(100, 0, e(seg(t, 0.25, 0.92))) + "%");
+      el.wpoly.style.setProperty(
+        "--sx",
+        lerp(100, 0, e(seg(t, 0.25, 0.92))) + "%",
+      );
       el.wpoly.style.pointerEvents = "auto";
       // edge: a steady border + one bright streak that runs around it
       el.wedgeb.style.opacity = e(seg(t, 0.02, 0.2));
@@ -602,13 +921,21 @@ export default function App() {
       // backdrop: purple tint + soft blur of everything behind
       const dm = e(seg(t, 0.3, 0.95));
       el.wdim.style.opacity = dm;
-      el.wdim.style.backdropFilter = el.wdim.style.webkitBackdropFilter = `blur(${(dm * 7).toFixed(2)}px)`;
+      el.wdim.style.backdropFilter =
+        el.wdim.style.webkitBackdropFilter = `blur(${(dm * 7).toFixed(2)}px)`;
       // text: decodes in with the same glyph scramble as the hero name
       Object.assign(el.wcontent.style, {
-        left: E.x + "px", top: E.y + "px", width: E.w + "px", height: E.h + "px",
+        left: E.x + "px",
+        top: E.y + "px",
+        width: E.w + "px",
+        height: E.h + "px",
       });
       el.wtag.textContent = decode(pan.tag || "", e(seg(t, 0.6, 0.8)), kk);
-      el.wtitle.textContent = decode(pan.title || "", e(seg(t, 0.66, 0.93)), kk + 5);
+      el.wtitle.textContent = decode(
+        pan.title || "",
+        e(seg(t, 0.66, 0.93)),
+        kk + 5,
+      );
       el.wrule.style.transform = `scaleX(${e(seg(t, 0.72, 0.95))})`;
       const dd = e(seg(t, 0.8, 1));
       el.wbody.style.opacity = dd;
@@ -622,13 +949,19 @@ export default function App() {
       const L = Math.min(0.186 * innerHeight, 0.24 * E.w, 0.4 * E.h) * 0.86,
         xo = e(seg(t, 0.82, 1));
       Object.assign(el.wx.style, {
-        left: E.x + E.w - L + "px", top: E.y + "px", width: L + "px", height: L + "px",
+        left: E.x + E.w - L + "px",
+        top: E.y + "px",
+        width: L + "px",
+        height: L + "px",
         opacity: Math.min(1, xo * 3),
         transform: `translate(${(1 - xo) * L * 0.4}px,${-(1 - xo) * L * 0.4}px)`,
         pointerEvents: xo > 0.6 ? "auto" : "none",
       });
       wxPaths.forEach((pp, n) =>
-        pp.setAttribute("stroke-dashoffset", 20 * (1 - e(seg(t, 0.9 + n * 0.03, 1)))),
+        pp.setAttribute(
+          "stroke-dashoffset",
+          20 * (1 - e(seg(t, 0.9 + n * 0.03, 1))),
+        ),
       );
     };
 
@@ -643,7 +976,8 @@ export default function App() {
       p.style.strokeDashoffset = "1";
     });
     const setBlack = (ww) => {
-      const W = innerWidth, H = innerHeight;
+      const W = innerWidth,
+        H = innerHeight;
       if (ww <= 0.0005) {
         el.bsec.style.visibility = "hidden";
         bKey = "";
@@ -657,10 +991,12 @@ export default function App() {
         el.bsec.style.clipPath = "none";
         return;
       }
-      const cell = W / 22, rows = Math.ceil(H / cell);
+      const cell = W / 22,
+        rows = Math.ceil(H / cell);
       let d = "";
       for (let ry = 0; ry < rows; ry++) {
-        const y0 = Math.round(ry * cell), y1 = Math.min(H, Math.round((ry + 1) * cell));
+        const y0 = Math.round(ry * cell),
+          y1 = Math.min(H, Math.round((ry + 1) * cell));
         let run = -1;
         for (let cx = 0; cx <= 22; cx++) {
           let blk = false;
@@ -670,7 +1006,8 @@ export default function App() {
           }
           if (blk && run < 0) run = cx;
           if (!blk && run >= 0) {
-            const x0 = Math.round(run * cell), x1 = Math.round(cx * cell);
+            const x0 = Math.round(run * cell),
+              x1 = Math.round(cx * cell);
             d += `M${x0} ${y0}H${x1}V${y1}H${x0}Z`;
             run = -1;
           }
@@ -789,6 +1126,7 @@ export default function App() {
       S_(el.add, 0, rise, ent * (1 - e(seg(a, 0.15, 0.55))));
       S_(el.contact, 0, rise, ent * (1 - e(seg(b, 0, 0.25))));
       S_(el.more, 0, 0, ent);
+      S_(el.cbtn, 0, 0, ent * (1 - e(seg(a, 0.15, 0.55))));
       S_(
         el.ash,
         -mx * 1.2,
@@ -896,18 +1234,68 @@ export default function App() {
       el.wgrid.style.transform = `translate3d(${-panPx}px,0,0)`;
       for (const L of lineList)
         L.p.style.strokeDashoffset =
-          1 - (L.g === 0 ? lineT : e(clamp((vr - L.x0) / Math.max(1, L.x1 - L.x0))));
+          L.len *
+          (1 -
+            (L.g === 0
+              ? lineT
+              : e(clamp((vr - L.x0) / Math.max(1, L.x1 - L.x0)))));
       // ---- orange -> black: pixel cells turn black from the right, over everything ----
       setBlack(e(seg(wv, 1000, 1350)));
       // black traces connect, then the footer rises and pushes them up (1:1)
       const bl = seg(wv, 1150, 1650);
       btrP.forEach((p, i) => {
-        p.style.strokeDashoffset = 1 - e(clamp(bl * 1.6 - 0.6 * (i / (btrP.length - 1))));
+        p.style.strokeDashoffset =
+          1 - e(clamp(bl * 1.6 - 0.6 * (i / (btrP.length - 1))));
       });
-      const fp = e(seg(wv, 1700, 2050)),
+      // ---- experience box: a glowing pill grows into a box (frames 14 -> 17), all by scroll ----
+      const KF = [
+        [0.931, 0.133, 0.955, 0.225],
+        [0.95, 0.202, 0.972, 0.828],
+        [0.672, 0.202, 0.972, 0.828],
+        [0.172, 0.185, 0.832, 0.815],
+      ];
+      const mixR = (a, b, t) => a.map((v, k) => lerp(v, b[k], t));
+      let rc = mixR(KF[0], KF[1], e(seg(wv, 1680, 1780)));
+      rc = mixR(rc, KF[2], e(seg(wv, 1780, 1880)));
+      rc = mixR(rc, KF[3], e(seg(wv, 1880, 1990)));
+      const xout = e(seg(wv, 2240, 2300)),
+        xo = e(seg(wv, 1600, 1680)) * (1 - xout),
+        xc = e(seg(wv, 1990, 2040)) * (1 - xout),
+        Wd = innerWidth,
+        Hd = innerHeight,
+        bw = (rc[2] - rc[0]) * Wd,
+        bh = (rc[3] - rc[1]) * Hd;
+      Object.assign(el.xp.style, {
+        left: rc[0] * Wd + "px",
+        top: rc[1] * Hd + "px",
+        width: bw + "px",
+        height: bh + "px",
+        borderRadius: Math.min(bw / 2, bh / 2, 0.016 * Wd) + "px",
+        opacity: xo,
+        transform: `scale(${1 - 0.04 * xout})`,
+        visibility: xo > 0.003 ? "visible" : "hidden",
+      });
+      el.xp.style.setProperty("--xc", xc);
+      [el.xpl, el.xpr].forEach((a) => {
+        a.style.opacity = xc;
+        a.style.pointerEvents = xc > 0.8 ? "auto" : "none";
+      });
+      xpOpen.current = xc > 0.8;
+      el.btr.style.opacity = 1 - 0.65 * e(seg(wv, 1880, 2040)) * (1 - xout);
+      // ---- footer rises, traces are pushed up 1:1 ----
+      const fp = e(seg(wv, 2320, 2670)),
         cov = 0.71 * fp;
-      el.bfoot.style.transform = `translate3d(0,${(1 - cov) * 100}%,0)`;
+      el.bfoot.style.transform = `translate3d(0,${(1 - fp) * 100}%,0)`;
+      el.bfoot.style.pointerEvents = fp > 0.5 ? "auto" : "none";
       el.btr.style.transform = `translate3d(0,${-cov * innerHeight}px,0)`;
+      // back-to-first-page button: appears once you start scrolling, hides while a work panel is open
+      const topO =
+        phase.current === "ready" && !pan.open && pan.t < 0.001
+          ? e(seg(cur, 0.012, 0.04))
+          : 0;
+      el.top.style.opacity = topO;
+      el.top.style.visibility = topO < 0.003 ? "hidden" : "visible";
+      el.top.style.pointerEvents = topO > 0.5 ? "auto" : "none";
       stepPanel(dt, now);
       stepAbout(dt);
       raf = requestAnimationFrame(tick);
@@ -963,6 +1351,13 @@ export default function App() {
           </div>
           <button data-id="more" className="more" onClick={() => setMenu(true)}>
             EXPLORE MORE
+          </button>
+          <button
+            data-id="cbtn"
+            className="cbtn"
+            onClick={() => ctl.current?.toFooter()}
+          >
+            CONTACT
           </button>
           <div data-id="bd" className="bd">
             BD
@@ -1022,7 +1417,14 @@ export default function App() {
               >
                 ABOUT
               </button>
-              <button className="mb" style={{ "--i": 1 }}>
+              <button
+                className="mb"
+                style={{ "--i": 1 }}
+                onClick={() => {
+                  setMenu(false);
+                  setOrb(true);
+                }}
+              >
                 WORKS
               </button>
               <h3>CONTACTS</h3>
@@ -1073,7 +1475,11 @@ export default function App() {
                     src={l.src}
                     alt=""
                     draggable="false"
-                    style={{ left: l.l + "%", top: l.t + "%", width: l.w + "%" }}
+                    style={{
+                      left: l.l + "%",
+                      top: l.t + "%",
+                      width: l.w + "%",
+                    }}
                   />
                 ))}
               </div>
@@ -1081,10 +1487,19 @@ export default function App() {
             <div data-id="whub" className="whub">
               <i className="hr hr1" />
               <i className="hr hr2" />
-              <img className="chip" src="/Vector.png" alt="" draggable="false" />
+              <img
+                className="chip"
+                src="/Vector.png"
+                alt=""
+                draggable="false"
+              />
             </div>
             {[0, 1, 2, 3, 4].map((i) => (
-              <div key={i} ref={(n) => (boxRefs.current[i] = n)} className="wbox" />
+              <div
+                key={i}
+                ref={(n) => (boxRefs.current[i] = n)}
+                className="wbox"
+              />
             ))}
           </div>
           <div data-id="wpwrap" className="wpanel-wrap">
@@ -1102,7 +1517,11 @@ export default function App() {
                 <i data-id="wrule" className="wrule" />
                 <div data-id="wbody" className="wbody">
                   {SKILLS.map((w, i) => (
-                    <div key={w.id} ref={(n) => (skRefs.current[i] = n)} className="wsk">
+                    <div
+                      key={w.id}
+                      ref={(n) => (skRefs.current[i] = n)}
+                      className="wsk"
+                    >
                       <SkillBody s={w} />
                     </div>
                   ))}
@@ -1110,7 +1529,11 @@ export default function App() {
               </div>
               <div data-id="wpics" className="wpics">
                 {SKILLS.map((w, i) => (
-                  <div key={w.id} ref={(n) => (picRefs.current[i] = n)} className="wpicset">
+                  <div
+                    key={w.id}
+                    ref={(n) => (picRefs.current[i] = n)}
+                    className="wpicset"
+                  >
                     {w.pics.map((P, j) => (
                       <div key={j} className="wpic">
                         <P />
@@ -1127,21 +1550,136 @@ export default function App() {
               onClick={() => ctl.current?.close()}
             >
               <svg viewBox="0 0 20 20">
-                <path d="M3 3L17 17" strokeDasharray="20" strokeDashoffset="20" />
-                <path d="M17 3L3 17" strokeDasharray="20" strokeDashoffset="20" />
+                <path
+                  d="M3 3L17 17"
+                  strokeDasharray="20"
+                  strokeDashoffset="20"
+                />
+                <path
+                  d="M17 3L3 17"
+                  strokeDasharray="20"
+                  strokeDashoffset="20"
+                />
               </svg>
             </button>
           </div>
         </div>
         <div data-id="bsec" className="bsec">
-          <svg data-id="btr" className="btr" viewBox="0 0 1509 879" preserveAspectRatio="none">
+          <svg
+            data-id="btr"
+            className="btr"
+            viewBox="0 0 1509 879"
+            preserveAspectRatio="none"
+          >
             <g transform="translate(-12,-28)">
               {BTR.map(([c, d], i) => (
                 <path key={i} d={d} className={c === "p" ? "bp" : "bo"} />
               ))}
             </g>
           </svg>
-          <div data-id="bfoot" className="bfoot" />
+          <div data-id="xp" className="xp">
+            <div className="xpd" style={{ "--d": xp.d }}>
+              {XP.map((x, i) => (
+                <div
+                  key={i}
+                  className={
+                    "xps" + (i === xp.i ? " on" : i === xp.p ? " off" : "")
+                  }
+                >
+                  <h3>{x.title}</h3>
+                  <p className="xpp">{x.period}</p>
+                  {x.lines.map((l) => (
+                    <p key={l}>{l}</p>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+          <button
+            data-id="xpl"
+            className="xpa xpl"
+            aria-label="Previous"
+            onClick={() => goXp(-1)}
+          >
+            <svg viewBox="0 0 24 36">
+              <path d="M20 3L4 18L20 33Z" />
+            </svg>
+          </button>
+          <button
+            data-id="xpr"
+            className="xpa xpr"
+            aria-label="Next"
+            onClick={() => goXp(1)}
+          >
+            <svg viewBox="0 0 24 36">
+              <path d="M4 3L20 18L4 33Z" />
+            </svg>
+          </button>
+          <div data-id="bfoot" className="bfoot">
+            <div className="ft-top">
+              <div className="ft-l">
+                <h2>LET’S BUILD SOMETHING TOGETHER</h2>
+                <div className="ft-btns">
+                  <a
+                    className="ftb"
+                    href={CONTACT.email ? "mailto:" + CONTACT.email : undefined}
+                  >
+                    SEND A MESSAGE
+                  </a>
+                  <a
+                    className="ftb"
+                    href={CONTACT.cv || undefined}
+                    download={CONTACT.cv ? "" : undefined}
+                  >
+                    DOWNLOAD CV <span>↓</span>
+                  </a>
+                </div>
+              </div>
+              <div className="ft-r">
+                <div className="ftc ftc1">
+                  <span>{CONTACT.name}</span>
+                  <a href={CONTACT.portfolio || undefined}>PORTFOLIO</a>
+                  <span>{CONTACT.address}</span>
+                </div>
+                <div className="ftc">
+                  <a
+                    href={CONTACT.email ? "mailto:" + CONTACT.email : undefined}
+                  >
+                    EMAIL <i>↗</i>
+                  </a>
+                  <a href={CONTACT.linkedin || undefined}>
+                    LINKEDIN <i>↗</i>
+                  </a>
+                </div>
+                <div className="ftc">
+                  <a href={CONTACT.github || undefined}>
+                    GITHUB <i>↗</i>
+                  </a>
+                  <a href={CONTACT.facebook || undefined}>
+                    FACEBOOK <i>↗</i>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <svg
+              className="ft-px"
+              viewBox={`0 0 ${PIX.cols} ${PIX.rows}`}
+              preserveAspectRatio="xMidYMax meet"
+              aria-label={CONTACT.big}
+            >
+              <defs>
+                <pattern
+                  id="pxd"
+                  width="0.25"
+                  height="0.25"
+                  patternUnits="userSpaceOnUse"
+                >
+                  <rect width="0.215" height="0.215" fill="#050505" />
+                </pattern>
+              </defs>
+              <path d={PIX.d} fill="url(#pxd)" />
+            </svg>
+          </div>
           <div className="bhead">
             <p className="tl">MD. ASHRAFUL ALAM SHUVO</p>
             <div className="city">
@@ -1171,12 +1709,34 @@ export default function App() {
         </div>
         {about && (
           <div className="about" ref={aboutScrollRef}>
-            <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden="true">
+            <svg
+              width="0"
+              height="0"
+              style={{ position: "absolute" }}
+              aria-hidden="true"
+            >
               <filter id="aboil" x="-20%" y="-20%" width="140%" height="140%">
-                <feTurbulence type="turbulence" baseFrequency="0.012 0.04" numOctaves="2" seed="7" result="n">
-                  <animate attributeName="baseFrequency" dur="2.6s" values="0.012 0.04;0.02 0.07;0.012 0.04" repeatCount="indefinite" />
+                <feTurbulence
+                  type="turbulence"
+                  baseFrequency="0.012 0.04"
+                  numOctaves="2"
+                  seed="7"
+                  result="n"
+                >
+                  <animate
+                    attributeName="baseFrequency"
+                    dur="2.6s"
+                    values="0.012 0.04;0.02 0.07;0.012 0.04"
+                    repeatCount="indefinite"
+                  />
                 </feTurbulence>
-                <feDisplacementMap in="SourceGraphic" in2="n" scale="26" xChannelSelector="R" yChannelSelector="G" />
+                <feDisplacementMap
+                  in="SourceGraphic"
+                  in2="n"
+                  scale="26"
+                  xChannelSelector="R"
+                  yChannelSelector="G"
+                />
               </filter>
             </svg>
             <div className="ahead">
@@ -1209,6 +1769,10 @@ export default function App() {
               </button>
             </div>
             <div className="ascroll">
+              <div className="acontact">
+                <p>{CONTACT.phone}</p>
+                <p>{CONTACT.email}</p>
+              </div>
               <h2 className="atitle">ABOUT</h2>
               {ABOUT.map((b, i) => (
                 <div
@@ -1220,7 +1784,7 @@ export default function App() {
                     " " +
                     wMode +
                     (pulsing === b.id ? " pulsing" : "") +
-                    (openBlock === b.id ? " open" : "") +
+                    (openBlock === b.id ? " is-open" : "") +
                     (seenRows.has(b.id) ? " in" : "")
                   }
                   onClick={() => {
@@ -1232,29 +1796,39 @@ export default function App() {
                     if (wMode !== "hover" || b.kind === "cta") return;
                     setOpenBlock(b.id);
                   }}
-                  onMouseLeave={() => {
-                    if (wMode !== "hover") return;
-                    setOpenBlock((o) => (o === b.id ? null : o));
-                  }}
+                  /* hover mode: the open panel covers the row, so the panel closes itself on mouse-leave */
                   onAnimationEnd={(e) => {
                     if (e.animationName === "aPulse") setPulsing(null);
                   }}
                 >
-                  <span className="anum">0{i + 1}</span>
                   <b className="arow-title">{b.title}</b>
 
                   {b.kind === "photo" && (
                     <>
-                      <div className="aimg adissolve" style={{ backgroundImage: `url(${b.img})` }} />
-                      <p className="arow-text">{b.text}</p>
+                      <div
+                        className="aimg adissolve"
+                        style={{ backgroundImage: `url(${b.img})` }}
+                      />
                     </>
                   )}
 
                   {b.kind === "icons" && (
                     <div className="aicons adissolve">
                       {b.icons.map((ic, k) => (
-                        <span key={ic.name} className="aicon" style={{ "--k": k }}>
-                          {ic.src ? <img src={ic.src} alt={ic.name} /> : <em>?</em>}
+                        <span
+                          key={ic.name}
+                          className="aicon"
+                          style={{
+                            "--k": k,
+                            "--x": ic.x + "%",
+                            "--y": ic.y + "%",
+                          }}
+                        >
+                          {ic.src ? (
+                            <img src={ic.src} alt={ic.name} />
+                          ) : (
+                            <em>?</em>
+                          )}
                         </span>
                       ))}
                     </div>
@@ -1265,7 +1839,10 @@ export default function App() {
                       <div className="acerthex" />
                       <div className="acert">
                         <b>{b.name}</b>
-                        <p>{b.cert}</p>
+                        <p>
+                          <strong>{b.certA}</strong>
+                          <span>{b.certB}</span>
+                        </p>
                       </div>
                     </div>
                   )}
@@ -1276,7 +1853,7 @@ export default function App() {
                         className="aopen"
                         onClick={(e) => {
                           e.stopPropagation();
-                          ctl.current?.goWorks();
+                          setOrb(true);
                         }}
                       >
                         Open Projects &#8594;
@@ -1287,8 +1864,58 @@ export default function App() {
               ))}
               <p className="atag">Learn it. Build it. Break it. Improve it.</p>
             </div>
+            {(() => {
+              const o = ABOUT.find((x) => x.id === openBlock);
+              if (!o) return null;
+              return (
+                <div
+                  className={"apanel " + wMode}
+                  key={o.id}
+                  onMouseLeave={() => wMode === "hover" && setOpenBlock(null)}
+                >
+                  <h3 className="ap-title">{o.title}</h3>
+                  <button
+                    className="ap-close"
+                    onClick={() => setOpenBlock(null)}
+                  >
+                    Close
+                  </button>
+                  <div className="ap-text">
+                    {o.text.map((t, n) => (
+                      <p key={n}>{t}</p>
+                    ))}
+                  </div>
+                  <div className={"ap-media ap-" + o.kind}>
+                    {o.kind === "icons" ? (
+                      <div className="ap-tools">
+                        {o.icons.map((ic) => (
+                          <span key={ic.name}>
+                            {ic.src && <img src={ic.src} alt="" />}
+                            <i>{ic.name}</i>
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      <img src={o.img} alt={o.title} draggable="false" />
+                    )}
+                  </div>
+                </div>
+              );
+            })()}
           </div>
         )}
+        <button
+          data-id="top"
+          className="totop"
+          aria-label="Back to the first page"
+          title="Back to the first page"
+          onClick={() => ctl.current?.toTop()}
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 20V5M5 11l7-7 7 7" />
+          </svg>
+        </button>
+        {orb && <WorksOrb time={time} onClose={() => setOrb(false)} />}
         <div className="grain" />
         <canvas ref={cv} className="gl" />
         <canvas ref={cv2} className="gl about-gl" />

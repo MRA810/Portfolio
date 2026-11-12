@@ -1,0 +1,420 @@
+/* ---- works orb: the mysterious 3D archive ---- */
+.orb {
+  --o: #ff3a00;
+  --pu: #6306ca;
+  --pu-text: #a46bff;
+  --cream: #fff0a4;
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  overflow: hidden;
+  background: #050505;
+  color: #fff;
+  font-family: "Oxanium", "WDXL Lubrifont TC", sans-serif;
+  animation: orbIn 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.orb.leaving {
+  pointer-events: none;
+  animation: orbOut 0.55s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+@keyframes orbIn {
+  from {
+    opacity: 0;
+    filter: blur(14px) brightness(0.4);
+  }
+  to {
+    opacity: 1;
+    filter: none;
+  }
+}
+@keyframes orbOut {
+  to {
+    opacity: 0;
+    filter: blur(14px) brightness(0.3);
+  }
+}
+
+/* glow + the five vertical grid lines from the hero */
+.orb-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  --ln: linear-gradient(rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.16));
+  background:
+    var(--ln) 2.6vw 0/1px 100% no-repeat,
+    var(--ln) 17.8vw 0/1px 100% no-repeat,
+    var(--ln) 39.7vw 0/1px 100% no-repeat,
+    var(--ln) 65.2vw 0/1px 100% no-repeat,
+    var(--ln) 87.2vw 0/1px 100% no-repeat,
+    radial-gradient(62vmin 62vmin at 50% 52%, rgba(99, 6, 202, 0.36), transparent 70%),
+    radial-gradient(48vmax 34vmax at 10% 105%, rgba(255, 58, 0, 0.14), transparent 70%);
+}
+
+/* the "ASH" of this page: a huge hollow word that sits behind the ball */
+.orb-word {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  font: 800 min(34vw, 62dvh) / 0.8 "Oxanium", sans-serif;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 58, 0, 0.42);
+  text-shadow: 0 0 4vw rgba(255, 58, 0, 0.18);
+  pointer-events: none;
+  user-select: none;
+  animation: orbBreath 7s ease-in-out infinite alternate;
+}
+@keyframes orbBreath {
+  from {
+    opacity: 0.35;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.orb-stage {
+  position: absolute;
+  inset: 0;
+}
+.orb-canvas {
+  position: absolute;
+  inset: 0;
+}
+.orb-canvas canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+.orb-vig {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 50%, transparent 42%, rgba(5, 5, 5, 0.88) 100%);
+}
+.orb-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* header */
+.orb-head {
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 1.4vw;
+  padding: 4.3dvh 3.2vw 0;
+  pointer-events: none;
+}
+.orb-name {
+  font-size: max(1.15vw, 10px);
+  letter-spacing: 0.42em;
+  color: #c4c4c4;
+}
+.orb-city {
+  margin-left: auto;
+  margin-right: 1vw;
+  font: 400 max(1.3vw, 11px) "WDXL Lubrifont TC", sans-serif;
+}
+.orb-city small {
+  display: block;
+  margin-top: 0.3vw;
+  font-size: max(0.85vw, 9px);
+  letter-spacing: 0.1em;
+  color: #888;
+}
+.orb-x {
+  pointer-events: auto;
+  position: relative;
+  flex: none;
+  width: max(6.6dvh, 34px);
+  height: max(6.6dvh, 34px);
+  background: rgba(255, 58, 0, 0.2);
+  border: 1px solid var(--o);
+  cursor: pointer;
+  transition: background 0.4s;
+}
+.orb-x:hover {
+  background: rgba(255, 58, 0, 0.42);
+}
+.orb-x i {
+  position: absolute;
+  left: 22%;
+  right: 22%;
+  top: 50%;
+  height: 2px;
+  background: var(--o);
+  transform: rotate(45deg);
+}
+.orb-x i + i {
+  transform: rotate(-45deg);
+}
+
+/* hover read-out */
+.orb-ro {
+  position: absolute;
+  z-index: 5;
+  left: 50%;
+  bottom: 11dvh;
+  transform: translate(-50%, 8px);
+  width: min(90vw, 700px);
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    opacity 0.35s,
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.orb-ro.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+.orb-ro-t {
+  font: 400 max(2.4vw, 20px) "WDXL Lubrifont TC", sans-serif;
+  letter-spacing: 0.06em;
+  color: var(--cream);
+  min-height: 1.2em;
+}
+.orb-ro-s {
+  margin-top: 0.8dvh;
+  font-size: max(0.8vw, 10px);
+  letter-spacing: 0.2em;
+  color: #c4c4c4;
+  white-space: pre;
+}
+
+/* footer */
+.orb-foot {
+  position: absolute;
+  z-index: 5;
+  left: 3.2vw;
+  right: 3.2vw;
+  bottom: 4dvh;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  pointer-events: none;
+}
+.orb-hint {
+  font-size: max(0.8vw, 10px);
+  line-height: 2;
+  letter-spacing: 0.18em;
+  color: #888;
+}
+.orb-count {
+  font-size: max(0.8vw, 10px);
+  letter-spacing: 0.2em;
+  color: var(--pu-text);
+}
+
+/* project file panel (same chamfered corners as the works cards) */
+.orb-panel {
+  --c: 22px;
+  position: absolute;
+  z-index: 7;
+  right: 3.2vw;
+  top: 50%;
+  width: min(470px, 100vw - 6.4vw);
+  max-height: 82dvh;
+  display: flex;
+  background: var(--o);
+  clip-path: polygon(0 0, calc(100% - var(--c)) 0, 100% var(--c), 100% 100%, var(--c) 100%, 0 calc(100% - var(--c)));
+  transform: translateY(-50%);
+  animation: orbPanel 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes orbPanel {
+  from {
+    opacity: 0;
+    transform: translate(40px, -50%);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, -50%);
+    filter: none;
+  }
+}
+.orb-panel-in {
+  flex: 1;
+  margin: 1px;
+  padding: 28px 28px 30px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: rgba(8, 5, 14, 0.94);
+  clip-path: polygon(0 0, calc(100% - var(--c) + 1px) 0, 100% calc(var(--c) - 1px), 100% 100%, calc(var(--c) - 1px) 100%, 0 calc(100% - var(--c) + 1px));
+}
+.orb-p-tag {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  color: var(--pu-text);
+}
+.orb-p-title {
+  margin-top: 8px;
+  font: 400 clamp(30px, 3.4vw, 54px) / 1.02 "WDXL Lubrifont TC", sans-serif;
+  color: var(--cream);
+  letter-spacing: 0.01em;
+}
+.orb-p-shot {
+  display: block;
+  width: 100%;
+  aspect-ratio: 8 / 5;
+  object-fit: cover;
+  margin: 18px 0;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+.orb-p-desc {
+  margin-top: 16px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: #d8d8d8;
+}
+.orb-p-shot + .orb-p-desc {
+  margin-top: 0;
+}
+.orb-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+.orb-chips span {
+  padding: 6px 10px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  border: 1px solid var(--pu);
+  background: rgba(99, 6, 202, 0.18);
+}
+.orb-bars {
+  margin-top: 22px;
+}
+.orb-bars b {
+  display: block;
+  height: 16px;
+  margin-bottom: 10px;
+  background: #000;
+  border: 1px solid rgba(255, 58, 0, 0.5);
+}
+.orb-p-act {
+  display: flex;
+  gap: 10px;
+  margin-top: 24px;
+}
+.orb-btn {
+  display: inline-flex;
+  align-items: center;
+  height: 42px;
+  padding: 0 20px;
+  font: 400 13px "Oxanium", sans-serif;
+  letter-spacing: 0.16em;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: var(--o);
+  background: rgba(255, 58, 0, 0.2);
+  border: 1px solid var(--o);
+  cursor: pointer;
+  transition: background 0.4s;
+}
+.orb-btn:hover {
+  background: rgba(255, 58, 0, 0.42);
+}
+.orb-btn.ghost {
+  color: #c4c4c4;
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.25);
+}
+.orb-btn.ghost:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+.orb button:focus-visible,
+.orb a:focus-visible {
+  outline: 2px solid var(--cream);
+  outline-offset: 3px;
+}
+
+/* keyboard / no-WebGL access to every file */
+.orb-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  list-style: none;
+}
+.orb-list {
+  position: absolute;
+  z-index: 6;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+.orb-list button {
+  min-width: 260px;
+  height: 46px;
+  color: var(--o);
+  background: rgba(255, 58, 0, 0.2);
+  border: 1px solid var(--o);
+  font: 400 14px "Oxanium", sans-serif;
+  letter-spacing: 0.16em;
+  cursor: pointer;
+}
+
+@media (max-width: 760px) {
+  .orb-city {
+    display: none;
+  }
+  .orb-name {
+    margin-right: auto;
+    letter-spacing: 0.3em;
+  }
+  .orb-hint {
+    line-height: 1.8;
+  }
+  .orb-ro {
+    bottom: 17dvh;
+  }
+  .orb-panel {
+    left: 3.2vw;
+    right: 3.2vw;
+    top: auto;
+    bottom: 3dvh;
+    width: auto;
+    max-height: 66dvh;
+    transform: none;
+    animation: orbSheet 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  @keyframes orbSheet {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .orb,
+  .orb.leaving,
+  .orb-panel,
+  .orb-word {
+    animation-duration: 0.01s;
+    animation-iteration-count: 1;
+  }
+}
