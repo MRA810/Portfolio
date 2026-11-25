@@ -5,16 +5,48 @@ import { SKILLS, SkillBody } from "./skills.jsx";
 import { pixelText } from "./pixelfont.js";
 import WorksOrb from "./WorksOrb.jsx";
 
-const SOCIALS = [
+// menu "Contacts": every way to reach me; icons live in /public/icons (Simple Icons, CC0)
+const CONTACTS = [
   {
-    name: "LINKEDIN",
-    href: "https://linkedin.com/in/ashrafulalamshuvo1222/",
-    color: "#0a66c2",
+    name: "Email",
+    href: "mailto:ashshuvo1222.prof@gmail.com",
+    icon: "gmail",
+    color: "#ea4335",
   },
-  { name: "GITHUB", href: "https://github.com/mra810", color: "#c9c9c9" },
   {
-    name: "FACEBOOK",
+    name: "Phone",
+    href: "tel:+8801841995394",
+    icon: "phone",
+    color: "#fff0a4",
+  },
+  {
+    name: "WhatsApp",
+    href: "https://wa.me/8801841995394",
+    icon: "whatsapp",
+    color: "#25d366",
+  },
+  {
+    name: "Telegram",
+    href: "https://t.me/mrrelaxedash",
+    icon: "telegram",
+    color: "#26a5e4",
+  },
+  {
+    name: "LinkedIn",
+    href: "https://linkedin.com/in/ashrafulalamshuvo1222/",
+    icon: "linkedin",
+    color: "#2a8ae6",
+  },
+  {
+    name: "GitHub",
+    href: "https://github.com/mra810",
+    icon: "github",
+    color: "#f0f0f0",
+  },
+  {
+    name: "Facebook",
     href: "https://www.facebook.com/ashraful.alam.shuvo.16873",
+    icon: "facebook",
     color: "#1877f2",
   },
 ];
@@ -59,17 +91,16 @@ function downloadVcf() {
   const v = [
     "BEGIN:VCARD",
     "VERSION:3.0",
-    "FN:Ashraful Alam Shuvo",
+    "FN:Md. Ashraful Alam Shuvo",
     "N:Shuvo;Ashraful;;;",
     "TITLE:Developer",
     "EMAIL:ashshuvo1222.prof@gmail.com",
     "TEL;TYPE=CELL:+8801841995394",
     "URL:https://wa.me/8801841995394",
-    "X-WHATSAPP: +8801841995394",
-    "URL:https://t.me/@mrrelaxedash",
-    "X-TELEGRAM: your_username",
+    "URL:https://t.me/mrrelaxedash",
     "URL:https://github.com/mra810",
     "URL:https://linkedin.com/in/ashrafulalamshuvo1222/",
+    "URL:https://www.facebook.com/ashraful.alam.shuvo.16873",
     "END:VCARD",
   ].join("\r\n");
   const a = document.createElement("a");
@@ -102,25 +133,118 @@ const HERO_VH = 824,
   WORKS_VH = 2700,
   HERO_FRAC = HERO_VH / (HERO_VH + WORKS_VH),
   DOTK = 0.6338 / HERO_FRAC;
-// experience slides (the arrows switch them; everything else follows the scroll)
+// experience slides (the arrows / tabs switch them; the box itself follows the scroll)
 const XP = [
   {
-    title: "Worked at Computer Programming Club as a Graphics Designer",
-    period: "Work period 2024-2025",
-    lines: ["Assistant Graphics Designer"],
+    org: "Computer Programming Club",
+    short: "Programming Club",
+    role: "Assistant Graphics Designer",
+    from: "2024",
+    to: "2025",
+    kind: "Design",
+    did: "Designed graphics for the programming club.",
+    tags: ["Graphic design", "Visual identity"],
+    pic: "design",
   },
   {
-    title: "Worked at Mastermind Coding Academy as a Coding Instructor",
-    period: "Work period 2025-2026",
-    lines: [
-      "Coding Instructor",
+    org: "Mastermind Coding Academy",
+    short: "Mastermind Academy",
+    role: "Coding Instructor",
+    from: "2025",
+    to: "2026",
+    kind: "Teaching",
+    did: "Taught kids how to code, from first programs to their own games and apps.",
+    tags: [
       "Python",
       "HTML & CSS",
       "Games with Scratch",
       "Mobile apps with MIT App Inventor",
     ],
+    pic: "teach",
   },
 ];
+// line drawings for the experience box (viewBox 0 0 400 280)
+const XpPic = ({ kind }) =>
+  kind === "design" ? (
+    <svg viewBox="0 0 400 280" className="xp-svg" aria-hidden="true">
+      <rect x="40" y="30" width="250" height="190" className="xs-frame" />
+      <text x="40" y="22" className="xs-lbl">
+        ARTBOARD_01
+      </text>
+      <path d="M70 180 C 120 60, 200 60, 260 150" className="xs-curve" />
+      <line x1="70" y1="180" x2="110" y2="90" className="xs-handle" />
+      <line x1="260" y1="150" x2="235" y2="70" className="xs-handle" />
+      <rect x="64" y="174" width="12" height="12" className="xs-anchor" />
+      <rect x="254" y="144" width="12" height="12" className="xs-anchor" />
+      <circle cx="110" cy="90" r="5" className="xs-knob" />
+      <circle cx="235" cy="70" r="5" className="xs-knob" />
+      <path
+        d="M300 200 l26 -60 l10 4 l-26 60 z M300 200 l-4 14 l14 -10"
+        className="xs-pen"
+      />
+      <g className="xs-sw">
+        <rect x="320" y="40" width="44" height="30" fill="#ff3a00" />
+        <rect x="320" y="76" width="44" height="30" fill="#6306ca" />
+        <rect x="320" y="112" width="44" height="30" fill="#fff0a4" />
+      </g>
+      <text x="40" y="250" className="xs-lbl">
+        #FF3A00 #6306CA #FFF0A4
+      </text>
+    </svg>
+  ) : (
+    <svg viewBox="0 0 400 280" className="xp-svg" aria-hidden="true">
+      <rect x="20" y="20" width="230" height="150" className="xs-frame" />
+      <line x1="20" y1="42" x2="250" y2="42" className="xs-handle" />
+      <circle cx="34" cy="31" r="4" className="xs-knob" />
+      <circle cx="48" cy="31" r="4" className="xs-knob" />
+      <text x="36" y="70" className="xs-code">
+        <tspan className="xs-k">def</tspan> hello(name):
+      </text>
+      <text x="36" y="94" className="xs-code">
+        {" "}
+        print(
+        <tspan className="xs-s">
+          f"hi {"{"}name{"}"}"
+        </tspan>
+        )
+      </text>
+      <text x="36" y="118" className="xs-code">
+        hello(<tspan className="xs-s">"class"</tspan>)
+      </text>
+      <text x="36" y="148" className="xs-lbl">
+        &gt;&gt;&gt; hi class_
+      </text>
+      <g className="xs-blocks">
+        <path
+          d="M30 196 h70 l6 6 h20 l6 -6 h48 v26 h-48 l-6 6 h-20 l-6 -6 h-70 z"
+          fill="#ff3a00"
+        />
+        <path
+          d="M30 228 h70 l6 6 h20 l6 -6 h78 v26 h-78 l-6 6 h-20 l-6 -6 h-70 z"
+          fill="#6306ca"
+        />
+        <text x="42" y="214" className="xs-bt">
+          when clicked
+        </text>
+        <text x="42" y="246" className="xs-bt">
+          move 10 steps
+        </text>
+      </g>
+      <rect
+        x="290"
+        y="40"
+        width="90"
+        height="170"
+        rx="14"
+        className="xs-frame"
+      />
+      <rect x="302" y="62" width="66" height="112" className="xs-screen" />
+      <rect x="312" y="76" width="46" height="18" fill="#ff3a00" />
+      <rect x="312" y="102" width="46" height="10" className="xs-dim" />
+      <rect x="312" y="118" width="30" height="10" className="xs-dim" />
+      <circle cx="335" cy="192" r="7" className="xs-knob" />
+    </svg>
+  );
 // footer contact links: put the real URLs here (empty = the label shows, no link yet)
 const CONTACT = {
   name: "MD. ASHRAFUL ALAM SHUVO",
@@ -135,141 +259,551 @@ const CONTACT = {
   big: "PORTFOLIO/SHUVO",
 };
 // extra lines printed in the empty top-left of each skills card
+// works-board skill cards: short chips + "since" year
 const CARD_META = {
-  react: ["JavaScript", "HTML / CSS", "Bootstrap"],
-  django: ["Python", "MySQL", "since 2025"],
-  flutter: ["Dart", "Mobile apps", "since 2024"],
-  electron: ["Egg Timer", "JS · HTML · CSS", "since 2025"],
-  express: ["Node.js", "REST APIs"],
-  js: ["ES6+", "DOM", "since 2022"],
-  iot: ["Sensors", "MQTT", "Dashboards"],
-  esp32: ["S-SPAEMS", "PlatformIO", "C / C++"],
-  ai: ["Machine Learning", "Computer Vision"],
-  arduino: ["C / C++", "Soldering", "Digital Logic"],
+  react: { chips: ["JavaScript", "HTML / CSS", "Bootstrap"] },
+  django: { chips: ["Python", "MySQL", "BookinFly"], since: "2025" },
+  flutter: { chips: ["Dart", "Mobile apps"], since: "2024" },
+  electron: {
+    chips: ["Egg Timer", "JS \u00b7 HTML \u00b7 CSS"],
+    since: "2025",
+  },
+  express: { chips: ["Node.js", "REST APIs", "Middleware"] },
+  js: { chips: ["ES6+", "DOM", "Async"], since: "2022" },
+  iot: { chips: ["Sensors", "MQTT", "Dashboards"] },
+  esp32: { chips: ["SPAEMS", "PlatformIO", "C / C++"] },
+  ai: { chips: ["Machine Learning", "Computer Vision"] },
+  arduino: { chips: ["C / C++", "Soldering", "Digital Logic"] },
 };
 const PIX = pixelText(CONTACT.big);
 // black-section traces, taken from the Figma frame (absolute frame coords)
 const DEVICON = (slug, variant) =>
   `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${slug}/${slug}-${variant}.svg`;
-// About page content. Demo copy: replace the text arrays with your own.
-// Picture files (put them in /public):
-//   me-robot.jpg  -> "Me" row (slanted crop) + the big "Me" panel
-//   campus.jpg    -> "Education" row + the "Education" panel
-//   cert-aws.png  -> "Certificates" panel (the row itself is drawn in CSS: hex pattern + text)
-// Toolbox icons load from the devicon CDN, no files needed.
-// x / y = icon centre inside the row, in %.
-const ABOUT = [
+// About page content. Pictures live in /public: portrait.webp (Me),
+// Academic_logo/* (Education), Certificates/web/* (Certificates).
+// Toolbox icons load from the devicon CDN.
+// Certificates panel: web-sized copies live in /public/Certificates/web (originals sit
+// next to them). SSC/HSC scans are left out on purpose: they show date of birth,
+// parents' names and board registration numbers.
+const CERT_DIR = "/Certificates/web/";
+const CERTS = [
   {
-    id: "me",
-    title: "Me",
-    kind: "photo",
-    img: "/me-robot.jpg",
-    text: [
-      "I\u2019m Md. Ashraful Alam Shuvo, a Computer Science and Engineering student at Daffodil International University in Dhaka. I like building things that live between software and hardware: a small rover made from cardboard and motors, a dashboard that shows live sensor readings, an app that does one job well.",
-      "I began with HTML and CSS in 2020, picked up Python in 2021 and JavaScript in 2022, then moved on to C and C++ for data structures and competitive programming. Since then I\u2019ve explored Flutter, Java with Spring Boot, Electron, Django and Flask \u2014 plus electronics, from digital logic to soldering. I enjoy taking a rough idea, making it work, and then breaking it on purpose to see how it can be improved.",
-      "Away from my own projects I\u2019ve designed graphics for a programming club and taught kids how to code. Learn it. Build it. Break it. Improve it.",
-      {
-        h: "Video Games",
-        p: "Video games have always been more than just entertainment for me they\u2019re a blend of art, storytelling, and technology. Each game I play inspires me to think about how worlds are built, how mechanics drive emotion, and how creativity meets code. My dream is to become a game developer who can create experiences that connect people, spark imagination, and leave a lasting impact just like the games that shaped my own journey.",
-      },
-      {
-        h: "Travelling",
-        p: "I love travelling because it opens my mind to new cultures, people, and ideas. Every trip teaches me something different whether it\u2019s how people live, how cities grow, or how nature inspires creativity. Travelling helps me see the world from new perspectives, which also fuels my imagination as a developer and designer.",
-      },
-    ],
+    id: "aws",
+    title: "AWS Academy Cloud Foundations",
+    org: "AWS Academy",
+    date: "Aug 2025",
+    tag: "Course",
   },
   {
-    id: "toolbox",
-    title: "Inside My Toolbox",
-    kind: "icons",
-    text: [
-      "Languages \u2014 C / C++, Python, Java, JavaScript, HTML / CSS.",
-      "Frameworks \u2014 Django, Flask, Spring Boot, Flutter, Bootstrap, Electron.",
-      "Design tools \u2014 Figma, Adobe Illustrator, Photoshop, Canva.",
-      "Electronics & circuits \u2014 Electronics, Digital Logic, Soldering.",
-      "Dev tools \u2014 Git / GitHub, VS Code, IntelliJ, Linux CLI.",
-      "Soft skills \u2014 Team Leadership, Teamwork, Project Mgmt, Problem Solving.",
-    ],
-    icons: [
-      { name: "Arduino", src: DEVICON("arduino", "original"), x: 57.5, y: 30 },
-      { name: "C / C++", src: DEVICON("cplusplus", "original"), x: 61.1, y: 68 },
-      { name: "Python", src: DEVICON("python", "original"), x: 64.7, y: 32 },
-      { name: "Java", src: DEVICON("java", "original"), x: 68.3, y: 70 },
-      {
-        name: "JavaScript",
-        src: DEVICON("javascript", "original"),
-        x: 71.9,
-        y: 30,
-      },
-      { name: "HTML / CSS", src: DEVICON("html5", "original"), x: 75.5, y: 68 },
-      { name: "Django", src: DEVICON("django", "plain"), x: 79.1, y: 32 },
-      { name: "Flask", src: DEVICON("flask", "original"), x: 82.7, y: 70 },
-      {
-        name: "Spring Boot",
-        src: DEVICON("spring", "original"),
-        x: 86.3,
-        y: 30,
-      },
-      { name: "Flutter", src: DEVICON("flutter", "original"), x: 89.9, y: 68 },
-      { name: "Electron", src: DEVICON("electron", "original"), x: 93.5, y: 32 },
-      { name: "Figma", src: DEVICON("figma", "original"), x: 97, y: 66 },
-    ],
-    // shown in the open panel only (the row has no room for them)
-    more: [
-      { name: "Illustrator", src: DEVICON("illustrator", "plain") },
-      { name: "Git", src: DEVICON("git", "original") },
-      { name: "VS Code", src: DEVICON("vscode", "original") },
-      { name: "IntelliJ", src: DEVICON("intellij", "original") },
-    ],
+    id: "uiu-robo-soccer-2025",
+    title: "UIU CSE Fest 2025 \u2014 Robo Soccer",
+    org: "United International University",
+    date: "2025",
+    tag: "Robotics",
   },
   {
-    id: "edu",
-    title: "Education",
-    kind: "photo",
-    img: "/campus.jpg",
-    items: [
-      {
-        logo: "/ssclogo.png",
-        name: "SSC \u2014 Chapain New Model High School",
-        rows: [
-          "Board: Dhaka \u00b7 Subject: Science",
-          "Result: 4.72 \u00b7 Year: 2020",
-        ],
-      },
-      {
-        logo: "/hsclogo.png",
-        name: "HSC \u2014 Savar Laboratory College",
-        rows: [
-          "Board: Dhaka \u00b7 Subject: Science",
-          "Result: 4.83 \u00b7 Year: 2022",
-        ],
-      },
-      {
-        logo: "/unilogo.png",
-        name: "Daffodil International University",
-        rows: [
-          "Computer Science and Engineering (CSE)",
-          "Batch 65 \u00b7 Session: Fall 2023 \u00b7 Started 2023",
-          "Expected graduation: 2027",
-        ],
-      },
-    ],
+    id: "robotronics-2025",
+    title: "Robotronics Fest 2025",
+    org: "University of Dhaka \u00b7 RME & RMEDU Club",
+    date: "Aug 2025",
+    tag: "Robotics",
   },
   {
-    id: "cert",
-    title: "Certificates",
-    kind: "cert",
-    img: "/cert-aws.png",
-    name: "MD. ASHRAFUL ALAM SHUVO",
-    certA: "Certificate of Completion for",
-    certB: "AWS Academy Graduate - AWS Academy Cloud Foundations",
-    text: [
-      "AWS Academy Graduate \u2014 AWS Academy Cloud Foundations. The course covers the core ideas of cloud computing: compute, storage, networking and databases, plus security, pricing and support on AWS.",
-      "It gave me a working vocabulary for deploying and scaling the apps I build, and a base to grow into more advanced cloud certifications.",
-    ],
+    id: "automech-2025",
+    title: "Automech 2025",
+    org: "IUT \u00b7 MPE & Automobile Society",
+    date: "Aug 2025",
+    tag: "Engineering",
   },
-  { id: "works", title: "My Works", kind: "cta" },
+  {
+    id: "icpc-volunteer-2024",
+    title: "ICPC Asia Dhaka Regional 2024 \u2014 Volunteer",
+    org: "ICPC Foundation \u00b7 DIU",
+    date: "Dec 2024",
+    tag: "Volunteer",
+  },
+  {
+    id: "takeoff-2023",
+    title: "Take-Off Programming Contest \u2014 Final Round",
+    org: "DIU Computer & Programming Club",
+    date: "Fall 2023",
+    tag: "Contest",
+  },
+  {
+    id: "unlock-algorithm-2024",
+    title: "Unlock the Algorithm Programming Contest",
+    org: "DIU Computer & Programming Club",
+    date: "Fall 2024",
+    tag: "Contest",
+  },
+  {
+    id: "typetrek-2025",
+    title: "TypeTrek Face-Off Speed Typing Contest",
+    org: "DIU Computer & Programming Club",
+    date: "Fall 2025",
+    tag: "Contest",
+  },
+  {
+    id: "typetrek-2024",
+    title: "TypeTrek Face-Off",
+    org: "DIU Computer & Programming Club",
+    date: "Spring 2024",
+    tag: "Contest",
+  },
+  {
+    id: "astro-carnival-2023",
+    title: "SUST Astro Carnival 2023",
+    org: "CAM-SUST \u00b7 SUST, Sylhet",
+    date: "Sep 2023",
+    tag: "Science",
+  },
+  {
+    id: "astro-code",
+    title: "Astro-Code Intensive",
+    org: "Copernicus Astronomical Memorial, SUST",
+    date: "",
+    tag: "Science",
+  },
+  {
+    id: "goedu-oop",
+    title: "Thinking in Object Oriented Programming",
+    org: "GoEdu \u00b7 with distinction",
+    date: "Oct 2025",
+    tag: "Course",
+  },
+  {
+    id: "goedu-chatgpt",
+    title: "ChatGPT Basics, Usage and Prospects",
+    org: "GoEdu \u00b7 with distinction",
+    date: "Oct 2025",
+    tag: "Course",
+  },
+  {
+    id: "goedu-google",
+    title: "Effective Use of Google",
+    org: "GoEdu \u00b7 with distinction",
+    date: "Oct 2025",
+    tag: "Course",
+  },
+  {
+    id: "goedu-ict-ai",
+    title: "ICT Industry in Bangladesh and AI",
+    org: "GoEdu \u00b7 with distinction",
+    date: "Dec 2024",
+    tag: "Course",
+  },
 ];
+const ABOUT_SECTIONS = [
+  { id: "me", label: "Me", file: "whoami" },
+  { id: "toolbox", label: "Toolbox", file: "ls ~/tools" },
+  { id: "edu", label: "Education", file: "cat timeline" },
+  { id: "cert", label: "Certificates", file: "open ./proof" },
+  { id: "gallery", label: "Gallery", file: "ls ./moments" },
+  { id: "works", label: "Works", file: "cd projects/" },
+];
+const ME = {
+  bio: [
+    "I’m Md. Ashraful Alam Shuvo, a Computer Science and Engineering student at Daffodil International University in Dhaka. I like building things that live between software and hardware: a small rover made from cardboard and motors, a dashboard that shows live sensor readings, an app that does one job well.",
+    "I enjoy taking a rough idea, making it work, and then breaking it on purpose to see how it can be improved. Away from my own projects I’ve designed graphics for a programming club and taught kids how to code.",
+  ],
+  stats: [
+    ["2020", "first line of HTML"],
+    [String(CERTS.length), "certificates earned"],
+    ["10+", "languages & frameworks"],
+    ["2027", "expected CSE graduation"],
+  ],
+  path: [
+    ["2020", "HTML & CSS"],
+    ["2021", "Python"],
+    ["2022", "JavaScript"],
+    ["Then", "C / C++, DSA & contests"],
+    ["Since", "Flutter, Spring Boot, Electron, Django, Flask"],
+    ["Also", "Electronics: digital logic to soldering"],
+  ],
+  likes: [
+    {
+      g: "▶",
+      h: "Video Games",
+      p: "Games are a blend of art, storytelling and technology. Each one makes me think about how worlds are built, how mechanics drive emotion, and how creativity meets code. My dream is to make games that connect people and spark imagination, like the ones that shaped my own journey.",
+    },
+    {
+      g: "⌖",
+      h: "Travelling",
+      p: "Travelling opens my mind to new cultures, people and ideas. Every trip teaches me something: how people live, how cities grow, how nature inspires. Seeing the world from new angles feeds my imagination as a developer and designer.",
+    },
+  ],
+};
+// [name, devicon slug, variant, invert-on-dark]; no slug = text chip
+const TOOLBOX = [
+  {
+    k: "Languages",
+    items: [
+      ["C / C++", "cplusplus", "original"],
+      ["Python", "python", "original"],
+      ["Java", "java", "original"],
+      ["JavaScript", "javascript", "original"],
+      ["HTML", "html5", "original"],
+      ["CSS", "css3", "original"],
+    ],
+  },
+  {
+    k: "Frameworks",
+    items: [
+      ["Django", "django", "plain", true],
+      ["Flask", "flask", "original", true],
+      ["Spring Boot", "spring", "original"],
+      ["Flutter", "flutter", "original"],
+      ["Bootstrap", "bootstrap", "original"],
+      ["Electron", "electron", "original"],
+    ],
+  },
+  {
+    k: "Design",
+    items: [
+      ["Figma", "figma", "original"],
+      ["Illustrator", "illustrator", "original"],
+      ["Photoshop", "photoshop", "original"],
+      ["Canva", "canva", "original"],
+    ],
+  },
+  {
+    k: "Dev tools",
+    items: [
+      ["Git", "git", "original"],
+      ["GitHub", "github", "original", true],
+      ["VS Code", "vscode", "original"],
+      ["IntelliJ", "intellij", "original"],
+      ["Linux", "linux", "original"],
+    ],
+  },
+  {
+    k: "Electronics",
+    items: [
+      ["Arduino", "arduino", "original"],
+      ["ESP32"],
+      ["Digital Logic"],
+      ["Soldering"],
+    ],
+  },
+  {
+    k: "Soft skills",
+    items: [
+      ["Team Leadership"],
+      ["Teamwork"],
+      ["Project Management"],
+      ["Problem Solving"],
+    ],
+  },
+];
+const EDU = [
+  {
+    year: "2020",
+    level: "SSC · Science",
+    name: "Chapain New Model High School",
+    logo: "/Academic_logo/chapain.png",
+    rows: ["Dhaka Board", "GPA 4.72 / 5.00"],
+  },
+  {
+    year: "2022",
+    level: "HSC · Science",
+    name: "Savar Laboratory College",
+    logo: "/Academic_logo/savarLaboratoryCollege.png",
+    rows: ["Dhaka Board", "GPA 4.83 / 5.00"],
+  },
+  {
+    year: "2023–27",
+    level: "B.Sc. · Computer Science & Engineering",
+    name: "Daffodil International University",
+    logo: "/Academic_logo/daffodil.png",
+    rows: ["Batch 65 · Fall 2023 session", "Expected graduation 2027"],
+    now: true,
+  },
+];
+// slight tilt per certificate on the pinboard (deg)
+// viewer items: { src, alt, title?, badge?, meta?, text? } (text = shown beside the photo)
+const CERT_ITEMS = CERTS.map((c) => ({
+  src: `${CERT_DIR}${c.id}.webp`,
+  alt: `Certificate: ${c.title}`,
+}));
+// gallery: one entry per event, newest first. Photos live in /public/gallery/<id>/
+// as n.webp (full) + n-thumb.webp. Dates come from the photos' EXIF "date taken"
+// where the camera recorded one (see the note on each).
+const EVENTS = [
+  {
+    id: "robotech-olympiad-2026",
+    title: "6th International Robo Tech Olympiad",
+    date: "14 Nov 2026", // EXIF
+    place: "Daffodil International University",
+    n: 4,
+    text: [
+      "Took our robots to the 6th International Robo Tech Olympiad at Daffodil International University \u2014 onto the robo-soccer pitch and the line-following track, with the whole team in the pits.",
+    ],
+  },
+  {
+    id: "iot-final-project",
+    title: "IoT Final Project",
+    date: "22 Jul 2026", // EXIF
+    place: "DIU \u00b7 Department of CSE",
+    n: 2,
+    text: [
+      "Our final project for an IoT course at DIU: a solar-powered smart-house model wired to a microcontroller, streaming its sensor readings live to a dashboard. It wrapped up with a course certificate.",
+    ],
+  },
+  {
+    id: "ai-devfest",
+    title: "AI DevFest",
+    date: "2026", // no EXIF date; year from the event lanyard
+    place: "DIU \u00b7 Computer & Programming Club",
+    n: 1,
+    text: [
+      "Heads-down at a workstation during AI DevFest, an event with DIU\u2019s Computer & Programming Club.",
+    ],
+  },
+  {
+    id: "automech-2025",
+    title: "Automech 2025",
+    date: "8 Aug 2025", // EXIF (matches the Automech certificate, 8\u20139 Aug)
+    place: "IUT \u00b7 Gazipur",
+    n: 1,
+    text: [
+      "Brought our RC robot to Automech 2025, the fest run by IUT\u2019s Department of Mechanical & Production Engineering and the IUT Automobile Society.",
+    ],
+  },
+  {
+    id: "astrocode-intensive",
+    title: "AstroCode Intensive Hackathon",
+    date: "8\u20139 March", // no EXIF date (photos came from Facebook); year unknown
+    place: "CAM-SUST \u00b7 SUST, Sylhet",
+    badge: "Runner-up \u00b7 Team Cygnus X-1",
+    n: 3,
+    text: [
+      "AstroCode Intensive \u2014 \u201cFrom Asteroid Hunting to Image Processing\u201d \u2014 was a two-day astronomy workshop at SUST, run by the Research & Project sector of CAM-SUST.",
+      "It closed with a 48-hour virtual hackathon: seven registered teams of up to three people solved coding problems built around what the workshop covered, from finding asteroids to processing telescope images.",
+      "My team, Cygnus X-1 \u2014 Miftahul Jannat Jessica (SUST) and me (DIU) \u2014 finished as runner-up.",
+    ],
+  },
+];
+// every gallery photo as a viewer item (the viewer can step through all of them)
+const GALLERY_ITEMS = EVENTS.flatMap((ev) =>
+  Array.from({ length: ev.n }, (_, k) => ({
+    ev: ev.id,
+    src: `/gallery/${ev.id}/${k + 1}.webp`,
+    thumb: `/gallery/${ev.id}/${k + 1}-thumb.webp`,
+    alt: `${ev.title}, photo ${k + 1}`,
+    title: ev.title,
+    badge: ev.badge,
+    meta: `${ev.date} \u00b7 ${ev.place}`,
+    text: ev.text,
+  })),
+);
+const galleryIndex = (id, k = 0) =>
+  GALLERY_ITEMS.findIndex((g) => g.ev === id) + k;
+// works-board dark boxes: each cycles text -> that event's photos -> text ...
+// box 0 is the AstroCode achievement, boxes 1-4 show the other events
+const BOARD = [
+  {
+    ev: "astrocode-intensive",
+    kicker: "ACHIEVEMENT",
+    head: "Runner-up",
+    sub: "AstroCode Intensive Hackathon",
+    line: "Team Cygnus X-1 \u00b7 CAM-SUST",
+  },
+  ...[
+    "robotech-olympiad-2026",
+    "iot-final-project",
+    "ai-devfest",
+    "automech-2025",
+  ].map((id) => {
+    const e = EVENTS.find((x) => x.id === id);
+    return {
+      ev: id,
+      kicker: "GALLERY",
+      head: e.title,
+      line: `${e.date} \u00b7 ${e.place}`,
+    };
+  }),
+];
+// pixel-dissolve cells for the board cards (stable pseudo-random delays, some cells orange)
+const PX = Array.from({ length: 12 * 8 }, (_, i) => ({
+  d: Math.floor((Math.abs(Math.sin((i + 1) * 12.9898) * 43758.5453) % 1) * 380),
+  o: Math.abs(Math.sin((i + 1) * 78.233) * 9631.7) % 1 < 0.22,
+}));
+function BoardCard({ boxRef, card, offset = 0, onOpen, hoverMode }) {
+  const ev = EVENTS.find((x) => x.id === card.ev);
+  const [slide, setSlide] = useState(0); // 0 = text, 1..n = photo
+  const [px, setPx] = useState(""); // "" | "in" | "out"
+  const slideRef = useRef(0);
+  const hover = useRef(false);
+  const hto = useRef(0);
+  useEffect(() => () => clearTimeout(hto.current), []);
+  useEffect(() => {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const ts = [];
+    const later = (f, ms) => ts.push(setTimeout(f, ms));
+    const tick = (first) =>
+      later(
+        () => {
+          if (hover.current || document.hidden) return tick();
+          setPx("in"); // cells cover the card
+          later(() => {
+            slideRef.current = (slideRef.current + 1) % (ev.n + 1);
+            setSlide(slideRef.current); // swap under the cover
+            setPx("out"); // cells clear in reverse order
+            later(() => {
+              setPx("");
+              tick();
+            }, 560);
+          }, 560);
+        },
+        (slideRef.current === 0 ? 4200 : 3000) + (first ? offset : 0),
+      );
+    tick(true);
+    return () => ts.forEach(clearTimeout);
+  }, []);
+  const long = card.head.length > 16;
+  return (
+    <button
+      ref={boxRef}
+      className="wbox wach"
+      onClick={() => onOpen(Math.max(0, slide - 1))}
+      onMouseEnter={() => {
+        hover.current = true;
+        // hover mode (mouse only): resting on the card opens it, like the skill cards
+        if (!hoverMode || matchMedia("(pointer: coarse)").matches) return;
+        clearTimeout(hto.current);
+        hto.current = setTimeout(
+          () => onOpen(Math.max(0, slideRef.current - 1), true),
+          260,
+        );
+      }}
+      onMouseLeave={() => {
+        hover.current = false;
+        clearTimeout(hto.current);
+      }}
+      aria-label={`${card.kicker === "ACHIEVEMENT" ? card.head + ": " : ""}${ev.title}, open photos`}
+    >
+      {slide === 0 ? (
+        <span className={"wach-t" + (long ? " long" : "")}>
+          <small>{card.kicker}</small>
+          <b>{card.head}</b>
+          {card.sub && <em>{card.sub}</em>}
+          <i>{card.line}</i>
+          <u>
+            VIEW PHOTOS <span aria-hidden="true">&#8594;</span>
+          </u>
+        </span>
+      ) : (
+        <span
+          className="wach-ph"
+          style={{ "--bg": `url(/gallery/${ev.id}/${slide}-thumb.webp)` }}
+        >
+          <img
+            src={`/gallery/${ev.id}/${slide}-thumb.webp`}
+            alt=""
+            draggable="false"
+          />
+          <span className="wach-cap">
+            {pad2(slide)} / {pad2(ev.n)}
+          </span>
+        </span>
+      )}
+      <span className={"wpx " + px} aria-hidden="true">
+        {PX.map((c, i) => (
+          <i
+            key={i}
+            className={c.o ? "o" : ""}
+            style={{ "--d": (px === "out" ? 380 - c.d : c.d) + "ms" }}
+          />
+        ))}
+      </span>
+    </button>
+  );
+}
+const CERTS_SHOWN = 6; // certificates visible before "Show all"
+const TILT = [
+  -2.2, 1.4, -0.8, 2.4, -1.6, 0.9, 1.9, -2.6, 0.5, -1.1, 2.1, -0.4, 1.2, -1.9,
+  0.7,
+];
+const pad2 = (n) => String(n).padStart(2, "0");
+// footer contents: used by the main page's sliding footer and at the end of About
+// (pid keeps the svg pattern id unique when both are in the DOM)
+const SiteFooter = ({ pid }) => (
+  <>
+    <div className="ft-top">
+      <div className="ft-l">
+        <h2>LET’S BUILD SOMETHING TOGETHER</h2>
+        <div className="ft-btns">
+          <a
+            className="ftb"
+            href={CONTACT.email ? "mailto:" + CONTACT.email : undefined}
+          >
+            SEND A MESSAGE
+          </a>
+          <a
+            className="ftb"
+            href={CONTACT.cv || undefined}
+            download={CONTACT.cv ? "" : undefined}
+          >
+            DOWNLOAD CV <span>↓</span>
+          </a>
+        </div>
+      </div>
+      <div className="ft-r">
+        <div className="ftc ftc1">
+          <span>{CONTACT.name}</span>
+          <a href={CONTACT.portfolio || undefined}>
+            PORTFOLIO <i>↗</i>
+          </a>
+          <span>{CONTACT.address}</span>
+        </div>
+        <div className="ftc">
+          <a href={CONTACT.email ? "mailto:" + CONTACT.email : undefined}>
+            EMAIL <i>↗</i>
+          </a>
+          <a href={CONTACT.linkedin || undefined}>
+            LINKEDIN <i>↗</i>
+          </a>
+        </div>
+        <div className="ftc">
+          <a href={CONTACT.github || undefined}>
+            GITHUB <i>↗</i>
+          </a>
+          <a href={CONTACT.facebook || undefined}>
+            FACEBOOK <i>↗</i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <svg
+      className="ft-px"
+      viewBox={`0 0 ${PIX.cols} ${PIX.rows}`}
+      preserveAspectRatio="xMidYMax meet"
+      aria-label={CONTACT.big}
+    >
+      <defs>
+        <pattern
+          id={pid}
+          width="0.25"
+          height="0.25"
+          patternUnits="userSpaceOnUse"
+        >
+          <rect width="0.215" height="0.215" fill="#050505" />
+        </pattern>
+      </defs>
+      <path d={PIX.d} fill={`url(#${pid})`} />
+    </svg>
+  </>
+);
+const SecHead = ({ n, title, file }) => (
+  <header className="ahd">
+    <span className="ahd-n">{pad2(n)}</span>
+    <h2>{title}</h2>
+    <i className="ahd-rule" />
+    <code>
+      <em>$</em> {file}
+    </code>
+  </header>
+);
 const BTR = [
   ["p", "M12 223 H612"],
   ["p", "M290 223 L352 288"],
@@ -320,8 +854,6 @@ export default function App() {
     return () => removeEventListener("keydown", k);
   }, []);
   const [about, setAbout] = useState(false);
-  const [openBlock, setOpenBlock] = useState(null);
-  const [pulsing, setPulsing] = useState(null);
   const cv2 = useRef();
   const cardRefs = useRef([]),
     boxRefs = useRef([]),
@@ -339,34 +871,94 @@ export default function App() {
   useEffect(() => {
     aboutRef.current = about;
   }, [about]);
-  // scroll-reveal: rows fade/slide in as they enter view while scrolling the about panel.
-  // Tracked in React state (not classList mutation) so a click/hover re-render never wipes it.
-  const [seenRows, setSeenRows] = useState(() => new Set());
+  // about page: which section is in view (drives the index), which have
+  // been revealed, and the certificate viewer (index into CERTS, or null)
+  const [aSec, setASec] = useState("me");
+  const [seenSecs, setSeenSecs] = useState(() => new Set());
+  // shared photo viewer: { items, i } or null (certificates, gallery, works board)
+  const [lb, setLb] = useState(null);
+  const [certsOpen, setCertsOpen] = useState(false);
+  const lbRef = useRef(null);
+  const lbIn = useRef(false), // pointer has been over the photo / write-up
+    lbTo = useRef(0);
+  useEffect(() => {
+    lbRef.current = lb;
+    if (!lb) {
+      lbIn.current = false;
+      clearTimeout(lbTo.current);
+    }
+  }, [lb]);
+  // hover-opened viewer: close once the pointer leaves the content (armed on first entry)
+  const lbEnter = () => {
+    lbIn.current = true;
+    clearTimeout(lbTo.current);
+  };
+  const lbLeave = () => {
+    if (!lbRef.current?.hover || !lbIn.current) return;
+    clearTimeout(lbTo.current);
+    lbTo.current = setTimeout(() => setLb(null), 260);
+  };
   useEffect(() => {
     if (!about) {
-      setSeenRows(new Set());
+      setSeenSecs(new Set());
+      setASec("me");
+      setLb(null);
+      setCertsOpen(false);
       return;
     }
     const root = aboutScrollRef.current;
     if (!root) return;
+    const secs = [...root.querySelectorAll("[data-sec]")];
     const io = new IntersectionObserver(
       (ents) => {
         const hit = ents
           .filter((en) => en.isIntersecting)
-          .map((en) => en.target.dataset.rowId);
-        if (hit.length) setSeenRows((prev) => new Set([...prev, ...hit]));
+          .map((en) => en.target.dataset.sec);
+        if (hit.length) setSeenSecs((prev) => new Set([...prev, ...hit]));
       },
-      { root, threshold: 0.18 },
+      { root, threshold: 0.06 },
     );
-    root.querySelectorAll(".arow").forEach((r) => io.observe(r));
-    return () => io.disconnect();
+    const spy = () => {
+      const line = root.getBoundingClientRect().top + root.clientHeight * 0.42;
+      let cur = secs[0].dataset.sec;
+      for (const el of secs)
+        if (el.getBoundingClientRect().top <= line) cur = el.dataset.sec;
+      if (root.scrollTop + root.clientHeight >= root.scrollHeight - 4)
+        cur = secs[secs.length - 1].dataset.sec;
+      setASec(cur);
+    };
+    secs.forEach((el) => io.observe(el));
+    root.addEventListener("scroll", spy, { passive: true });
+    spy();
+    return () => {
+      io.disconnect();
+      root.removeEventListener("scroll", spy);
+    };
   }, [about]);
   useEffect(() => {
-    if (!openBlock) return;
-    const k = (ev) => ev.key === "Escape" && setOpenBlock(null);
+    if (!lb) return;
+    const n = lb.items.length;
+    const k = (ev) => {
+      if (ev.key === "Escape") setLb(null);
+      if (n < 2) return;
+      if (ev.key === "ArrowRight")
+        setLb((v) => v && { ...v, i: (v.i + 1) % n });
+      if (ev.key === "ArrowLeft")
+        setLb((v) => v && { ...v, i: (v.i - 1 + n) % n });
+    };
     addEventListener("keydown", k);
     return () => removeEventListener("keydown", k);
-  }, [openBlock]);
+  }, [lb]);
+  const aboutJump = (id) => {
+    const el = aboutScrollRef.current?.querySelector(`[data-sec="${id}"]`);
+    el?.scrollIntoView({
+      behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth",
+    });
+  };
+  const stepLb = (d) =>
+    setLb((v) => v && { ...v, i: (v.i + d + v.items.length) % v.items.length });
   const pickMode = (m) => {
     modeRef.current = m;
     setWMode(m);
@@ -389,9 +981,11 @@ export default function App() {
     return () => clearInterval(id);
   }, []);
   useEffect(() => {
-    lenisRef.current?.[menu || orb ? "stop" : "start"]();
-    if (!menu && !orb && phase.current !== "ready") lenisRef.current?.stop();
-  }, [menu, orb]);
+    if (lb && aboutRef.current) return; // viewer over About: About owns scrolling
+    lenisRef.current?.[menu || orb || lb ? "stop" : "start"]();
+    if (!menu && !orb && !lb && phase.current !== "ready")
+      lenisRef.current?.stop();
+  }, [menu, orb, lb]);
   const phase = useRef("load");
 
   useEffect(() => {
@@ -455,8 +1049,9 @@ export default function App() {
     lenis.stop();
     const onAboutWheel = (ev) => {
       if (!aboutRef.current || !aboutScrollRef.current) return;
-      aboutScrollRef.current.scrollTop += ev.deltaY;
       ev.preventDefault();
+      if (lbRef.current) return; // viewer open: page stays put
+      aboutScrollRef.current.scrollTop += ev.deltaY;
     };
     addEventListener("wheel", onAboutWheel, { passive: false });
     scrollTo(0, 0);
@@ -867,7 +1462,7 @@ export default function App() {
       close: closeBox,
     };
     const onKey = (ev) => {
-      if (ev.key !== "Escape" || orbRef.current) return;
+      if (ev.key !== "Escape" || orbRef.current || lbRef.current) return;
       closeBox();
       ctl.current?.closeAbout();
     };
@@ -1367,6 +1962,7 @@ export default function App() {
         a.style.pointerEvents = xc > 0.8 ? "auto" : "none";
       });
       xpOpen.current = xc > 0.8;
+      el.xp.style.pointerEvents = xc > 0.8 ? "auto" : "none";
       el.btr.style.opacity = 1 - 0.65 * e(seg(wv, 1880, 2040)) * (1 - xout);
       // ---- footer rises, traces are pushed up 1:1 ----
       const fp = e(seg(wv, 2320, 2670)),
@@ -1514,18 +2110,33 @@ export default function App() {
                 WORKS
               </button>
               <h3>CONTACTS</h3>
-              {SOCIALS.map((s, i) => (
-                <a
-                  key={s.name}
-                  href={s.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{ "--i": i + 2 }}
-                >
-                  <u style={{ background: s.color }} />
-                  {s.name}
-                </a>
-              ))}
+              <div className="pcons">
+                {CONTACTS.map((c, i) => (
+                  <a
+                    key={c.name}
+                    className="pcon"
+                    href={c.href}
+                    {...(c.href.startsWith("http")
+                      ? { target: "_blank", rel: "noreferrer" }
+                      : {})}
+                    style={{
+                      "--i": i + 3,
+                      "--c": c.color,
+                      "--ic": `url(/icons/${c.icon}.svg)`,
+                    }}
+                  >
+                    <u aria-hidden="true" />
+                    {c.name}
+                  </a>
+                ))}
+              </div>
+              <button
+                className="padd"
+                style={{ "--i": CONTACTS.length + 3 }}
+                onClick={downloadVcf}
+              >
+                <span aria-hidden="true">+</span> ADD TO CONTACTS
+              </button>
             </div>
           </div>
         </div>
@@ -1558,11 +2169,17 @@ export default function App() {
                   <b>{w.title}</b>
                   <small>{w.tag}</small>
                   <ul>
-                    {(CARD_META[w.id] || []).map((m) => (
+                    {(CARD_META[w.id]?.chips || []).map((m) => (
                       <li key={m}>{m}</li>
                     ))}
                   </ul>
                 </div>
+                <span className="wcard-ft" aria-hidden="true">
+                  {CARD_META[w.id]?.since && (
+                    <em>SINCE {CARD_META[w.id].since}</em>
+                  )}
+                  <i>OPEN +</i>
+                </span>
                 {w.logos.map((l) => (
                   <img
                     key={l.src}
@@ -1579,21 +2196,41 @@ export default function App() {
                 ))}
               </div>
             ))}
-            <div data-id="whub" className="whub">
-              <i className="hr hr1" />
-              <i className="hr hr2" />
-              <img
-                className="chip"
-                src="/Vector.png"
-                alt=""
-                draggable="false"
-              />
-            </div>
-            {[0, 1, 2, 3, 4].map((i) => (
-              <div
-                key={i}
-                ref={(n) => (boxRefs.current[i] = n)}
-                className="wbox"
+            <button
+              data-id="whub"
+              className="whub"
+              onClick={() => setOrb(true)}
+              aria-label="Click here to see works"
+            >
+              <span className="hrip" aria-hidden="true" />
+              <span className="hcore" aria-hidden="true">
+                <i className="hr hr1" />
+                <i className="hr hr2" />
+                <img
+                  className="chip"
+                  src="/Vector.png"
+                  alt=""
+                  draggable="false"
+                />
+              </span>
+              <span className="hlbl">
+                Click here to see works <b aria-hidden="true">&#8594;</b>
+              </span>
+            </button>
+            {BOARD.map((card, i) => (
+              <BoardCard
+                key={card.ev}
+                card={card}
+                offset={i * 1100}
+                boxRef={(n) => (boxRefs.current[i] = n)}
+                hoverMode={wMode === "hover"}
+                onOpen={(k, viaHover) =>
+                  setLb({
+                    items: GALLERY_ITEMS,
+                    i: galleryIndex(card.ev, k),
+                    hover: !!viaHover,
+                  })
+                }
               />
             ))}
           </div>
@@ -1674,20 +2311,65 @@ export default function App() {
           </svg>
           <div data-id="xp" className="xp">
             <div className="xpd" style={{ "--d": xp.d }}>
+              <div className="xp-bar">
+                <span>
+                  <i /> EXPERIENCE
+                </span>
+                <span>
+                  {pad2(xp.i + 1)} / {pad2(XP.length)}
+                </span>
+              </div>
               {XP.map((x, i) => (
-                <div
-                  key={i}
+                <article
+                  key={x.org}
                   className={
                     "xps" + (i === xp.i ? " on" : i === xp.p ? " off" : "")
                   }
+                  aria-hidden={i !== xp.i}
                 >
-                  <h3>{x.title}</h3>
-                  <p className="xpp">{x.period}</p>
-                  {x.lines.map((l) => (
-                    <p key={l}>{l}</p>
-                  ))}
-                </div>
+                  <div className="xp-txt">
+                    <p className="xp-kind">
+                      {pad2(i + 1)} <b>/</b> {x.kind}
+                    </p>
+                    <h3>{x.role}</h3>
+                    <p className="xp-org">
+                      <em>@</em> {x.org}
+                    </p>
+                    <div className="xp-per">
+                      <span>{x.from}</span>
+                      <i />
+                      <span>{x.to}</span>
+                    </div>
+                    <p className="xp-did">{x.did}</p>
+                    <ul className="xp-tags">
+                      {x.tags.map((t, k) => (
+                        <li key={t} style={{ "--k": k }}>
+                          {t}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="xp-pic">
+                    <XpPic kind={x.pic} />
+                  </div>
+                </article>
               ))}
+              <div className="xp-tabs" role="tablist">
+                {XP.map((x, i) => (
+                  <button
+                    key={x.org}
+                    role="tab"
+                    aria-selected={i === xp.i}
+                    className={i === xp.i ? "on" : ""}
+                    onClick={() =>
+                      i !== xp.i &&
+                      setXp((st) => ({ i, p: st.i, d: i > st.i ? 1 : -1 }))
+                    }
+                  >
+                    <b>{pad2(i + 1)}</b> {x.short}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
           <button
@@ -1711,69 +2393,7 @@ export default function App() {
             </svg>
           </button>
           <div data-id="bfoot" className="bfoot">
-            <div className="ft-top">
-              <div className="ft-l">
-                <h2>LET’S BUILD SOMETHING TOGETHER</h2>
-                <div className="ft-btns">
-                  <a
-                    className="ftb"
-                    href={CONTACT.email ? "mailto:" + CONTACT.email : undefined}
-                  >
-                    SEND A MESSAGE
-                  </a>
-                  <a
-                    className="ftb"
-                    href={CONTACT.cv || undefined}
-                    download={CONTACT.cv ? "" : undefined}
-                  >
-                    DOWNLOAD CV <span>↓</span>
-                  </a>
-                </div>
-              </div>
-              <div className="ft-r">
-                <div className="ftc ftc1">
-                  <span>{CONTACT.name}</span>
-                  <a href={CONTACT.portfolio || undefined}>PORTFOLIO</a>
-                  <span>{CONTACT.address}</span>
-                </div>
-                <div className="ftc">
-                  <a
-                    href={CONTACT.email ? "mailto:" + CONTACT.email : undefined}
-                  >
-                    EMAIL <i>↗</i>
-                  </a>
-                  <a href={CONTACT.linkedin || undefined}>
-                    LINKEDIN <i>↗</i>
-                  </a>
-                </div>
-                <div className="ftc">
-                  <a href={CONTACT.github || undefined}>
-                    GITHUB <i>↗</i>
-                  </a>
-                  <a href={CONTACT.facebook || undefined}>
-                    FACEBOOK <i>↗</i>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <svg
-              className="ft-px"
-              viewBox={`0 0 ${PIX.cols} ${PIX.rows}`}
-              preserveAspectRatio="xMidYMax meet"
-              aria-label={CONTACT.big}
-            >
-              <defs>
-                <pattern
-                  id="pxd"
-                  width="0.25"
-                  height="0.25"
-                  patternUnits="userSpaceOnUse"
-                >
-                  <rect width="0.215" height="0.215" fill="#050505" />
-                </pattern>
-              </defs>
-              <path d={PIX.d} fill="url(#pxd)" />
-            </svg>
+            <SiteFooter pid="pxd" />
           </div>
           <div className="bhead">
             <p className="tl">MD. ASHRAFUL ALAM SHUVO</p>
@@ -1804,55 +2424,11 @@ export default function App() {
         </div>
         {about && (
           <div className="about" ref={aboutScrollRef}>
-            <svg
-              width="0"
-              height="0"
-              style={{ position: "absolute" }}
-              aria-hidden="true"
-            >
-              <filter id="aboil" x="-20%" y="-20%" width="140%" height="140%">
-                <feTurbulence
-                  type="turbulence"
-                  baseFrequency="0.012 0.04"
-                  numOctaves="2"
-                  seed="7"
-                  result="n"
-                >
-                  <animate
-                    attributeName="baseFrequency"
-                    dur="2.6s"
-                    values="0.012 0.04;0.02 0.07;0.012 0.04"
-                    repeatCount="indefinite"
-                  />
-                </feTurbulence>
-                <feDisplacementMap
-                  in="SourceGraphic"
-                  in2="n"
-                  scale="26"
-                  xChannelSelector="R"
-                  yChannelSelector="G"
-                />
-              </filter>
-            </svg>
             <div className="ahead">
               <p className="tl">MD. ASHRAFUL ALAM SHUVO</p>
               <div className="city">
                 <p>DHAKA, BANGLADESH</p>
                 <small>{time}</small>
-              </div>
-              <div className="modesw" data-mode={wMode}>
-                <button
-                  className={wMode === "click" ? "on" : ""}
-                  onClick={() => pickMode("click")}
-                >
-                  Click
-                </button>
-                <button
-                  className={wMode === "hover" ? "on" : ""}
-                  onClick={() => pickMode("hover")}
-                >
-                  Hover
-                </button>
               </div>
               <button
                 className="x"
@@ -1863,160 +2439,304 @@ export default function App() {
                 <i />
               </button>
             </div>
-            <div className="ascroll">
-              <div className="acontact">
-                <p>{CONTACT.phone}</p>
-                <p>{CONTACT.email}</p>
-              </div>
-              <h2 className="atitle">ABOUT</h2>
-              {ABOUT.map((b, i) => (
-                <div
-                  key={b.id}
-                  data-row-id={b.id}
-                  className={
-                    "arow a-" +
-                    b.kind +
-                    " " +
-                    wMode +
-                    (pulsing === b.id ? " pulsing" : "") +
-                    (openBlock === b.id ? " is-open" : "") +
-                    (seenRows.has(b.id) ? " in" : "")
-                  }
-                  onClick={() => {
-                    if (wMode !== "click" || b.kind === "cta") return;
-                    setPulsing(b.id);
-                    setOpenBlock((o) => (o === b.id ? null : b.id));
-                  }}
-                  onMouseEnter={() => {
-                    if (wMode !== "hover" || b.kind === "cta") return;
-                    setOpenBlock(b.id);
-                  }}
-                  /* hover mode: the open panel covers the row, so the panel closes itself on mouse-leave */
-                  onAnimationEnd={(e) => {
-                    if (e.animationName === "aPulse") setPulsing(null);
-                  }}
-                >
-                  <b className="arow-title">{b.title}</b>
-
-                  {b.kind === "photo" && (
-                    <>
-                      <div
-                        className="aimg adissolve"
-                        style={{ backgroundImage: `url(${b.img})` }}
-                      />
-                    </>
-                  )}
-
-                  {b.kind === "icons" && (
-                    <div className="aicons adissolve">
-                      {b.icons.map((ic, k) => (
-                        <span
-                          key={ic.name}
-                          className="aicon"
-                          style={{
-                            "--k": k,
-                            "--x": ic.x + "%",
-                            "--y": ic.y + "%",
-                          }}
-                        >
-                          {ic.src ? (
-                            <img src={ic.src} alt={ic.name} />
-                          ) : (
-                            <em>?</em>
-                          )}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-
-                  {b.kind === "cert" && (
-                    <div className="acertwrap adissolve">
-                      <div className="acerthex" />
-                      <div className="acert">
-                        <b>{b.name}</b>
-                        <p>
-                          <strong>{b.certA}</strong>
-                          <span>{b.certB}</span>
-                        </p>
-                      </div>
-                    </div>
-                  )}
-
-                  {b.kind === "cta" && (
-                    <div className="actawrap adissolve">
+            <div className="awrap">
+              <nav className="aidx" aria-label="About sections">
+                <p className="aidx-k">ABOUT</p>
+                <ol>
+                  {ABOUT_SECTIONS.map((sec, n) => (
+                    <li key={sec.id}>
                       <button
-                        className="aopen"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setOrb(true);
-                        }}
+                        className={aSec === sec.id ? "on" : ""}
+                        aria-current={aSec === sec.id ? "true" : undefined}
+                        onClick={() => aboutJump(sec.id)}
                       >
-                        Open Projects &#8594;
+                        <i>{pad2(n + 1)}</i>
+                        <span>{sec.label}</span>
                       </button>
-                    </div>
-                  )}
+                    </li>
+                  ))}
+                </ol>
+                <div className="aidx-num" aria-hidden="true">
+                  <b key={aSec}>
+                    {pad2(ABOUT_SECTIONS.findIndex((x) => x.id === aSec) + 1)}
+                  </b>
+                  <small>/{pad2(ABOUT_SECTIONS.length)}</small>
                 </div>
-              ))}
-              <p className="atag">Learn it. Build it. Break it. Improve it.</p>
-            </div>
-            {(() => {
-              const o = ABOUT.find((x) => x.id === openBlock);
-              if (!o) return null;
-              return (
-                <div
-                  className={"apanel " + wMode}
-                  key={o.id}
-                  onMouseLeave={() => wMode === "hover" && setOpenBlock(null)}
+                <div className="aidx-contact">
+                  <p>{CONTACT.phone}</p>
+                  <p>{CONTACT.email}</p>
+                </div>
+              </nav>
+
+              <div className="amain">
+                {/* 01 — me */}
+                <section
+                  data-sec="me"
+                  className={"asec a-me" + (seenSecs.has("me") ? " in" : "")}
                 >
-                  <h3 className="ap-title">{o.title}</h3>
-                  <button
-                    className="ap-close"
-                    onClick={() => setOpenBlock(null)}
-                  >
-                    Close
-                  </button>
-                  <div className="ap-text">
-                    {o.items
-                      ? o.items.map((it) => (
-                          <div className="ap-edu" key={it.name}>
-                            <img src={it.logo} alt="" draggable="false" />
-                            <div>
-                              <b>{it.name}</b>
-                              {it.rows.map((r) => (
-                                <p key={r}>{r}</p>
-                              ))}
-                            </div>
-                          </div>
-                        ))
-                      : o.text.map((t, n) =>
-                          typeof t === "string" ? (
-                            <p key={n}>{t}</p>
-                          ) : (
-                            <p key={n}>
-                              <b className="ap-h">{t.h}</b>
-                              <br />
-                              {t.p}
-                            </p>
-                          ),
-                        )}
-                  </div>
-                  <div className={"ap-media ap-" + o.kind}>
-                    {o.kind === "icons" ? (
-                      <div className="ap-tools">
-                        {[...o.icons, ...(o.more || [])].map((ic) => (
-                          <span key={ic.name}>
-                            {ic.src && <img src={ic.src} alt="" />}
-                            <i>{ic.name}</i>
-                          </span>
+                  <SecHead n={1} title="Me" file={ABOUT_SECTIONS[0].file} />
+                  <h2 className="alead">
+                    I build things that live between <em>software</em> and{" "}
+                    <u>hardware</u>.
+                  </h2>
+                  <div className="ame-grid">
+                    <figure className="aport">
+                      <img
+                        src="/portrait.webp"
+                        alt="Md. Ashraful Alam Shuvo"
+                        draggable="false"
+                      />
+                      <figcaption>
+                        <span>CSE · DIU</span>
+                        <span>DHAKA, BD</span>
+                      </figcaption>
+                    </figure>
+                    <div className="abio">
+                      {ME.bio.map((t) => (
+                        <p key={t}>{t}</p>
+                      ))}
+                      <ul className="astats">
+                        {ME.stats.map(([n, l]) => (
+                          <li key={l}>
+                            <b>{n}</b>
+                            <span>{l}</span>
+                          </li>
                         ))}
+                      </ul>
+                    </div>
+                  </div>
+                  <ol className="apath" aria-label="How I learned">
+                    {ME.path.map(([y, t], n) => (
+                      <li key={t} style={{ "--k": n }}>
+                        <i>{y}</i>
+                        <span>{t}</span>
+                      </li>
+                    ))}
+                  </ol>
+                  <div className="alikes">
+                    {ME.likes.map((l) => (
+                      <article key={l.h}>
+                        <i aria-hidden="true">{l.g}</i>
+                        <h3>{l.h}</h3>
+                        <p>{l.p}</p>
+                      </article>
+                    ))}
+                  </div>
+                </section>
+
+                {/* 02 — toolbox */}
+                <section
+                  data-sec="toolbox"
+                  className={
+                    "asec a-tools" + (seenSecs.has("toolbox") ? " in" : "")
+                  }
+                >
+                  <SecHead
+                    n={2}
+                    title="Toolbox"
+                    file={ABOUT_SECTIONS[1].file}
+                  />
+                  <div className="atools">
+                    {TOOLBOX.map((g, n) => (
+                      <div className="atool" key={g.k} style={{ "--k": n }}>
+                        <p className="atool-k">
+                          <i>{pad2(n + 1)}</i> {g.k}
+                        </p>
+                        <ul>
+                          {g.items.map(([name, slug, v, inv]) => (
+                            <li key={name} className={slug ? "" : "txt"}>
+                              {slug && (
+                                <img
+                                  src={DEVICON(slug, v)}
+                                  alt=""
+                                  className={inv ? "inv" : ""}
+                                  loading="lazy"
+                                />
+                              )}
+                              <span>{name}</span>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
-                    ) : (
-                      <img src={o.img} alt={o.title} draggable="false" />
+                    ))}
+                  </div>
+                </section>
+
+                {/* 03 — education */}
+                <section
+                  data-sec="edu"
+                  className={"asec a-edu" + (seenSecs.has("edu") ? " in" : "")}
+                >
+                  <SecHead
+                    n={3}
+                    title="Education"
+                    file={ABOUT_SECTIONS[2].file}
+                  />
+                  <ol className="aedu">
+                    {EDU.map((it, n) => (
+                      <li
+                        key={it.name}
+                        className={it.now ? "now" : ""}
+                        style={{ "--k": n }}
+                      >
+                        <span className="aedu-y">{it.year}</span>
+                        <span className="aedu-dot" aria-hidden="true" />
+                        <div className="aedu-card">
+                          <img src={it.logo} alt="" draggable="false" />
+                          <div>
+                            <small>
+                              {it.level}
+                              {it.now && <em>NOW</em>}
+                            </small>
+                            <b>{it.name}</b>
+                            <p>{it.rows.join("  ·  ")}</p>
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                </section>
+
+                {/* 04 — certificates: images only */}
+                <section
+                  data-sec="cert"
+                  className={
+                    "asec a-cert" + (seenSecs.has("cert") ? " in" : "")
+                  }
+                >
+                  <SecHead
+                    n={4}
+                    title="Certificates"
+                    file={ABOUT_SECTIONS[3].file}
+                  />
+                  <div className="apins">
+                    {CERTS.slice(0, certsOpen ? CERTS.length : CERTS_SHOWN).map(
+                      (c, n) => (
+                        <button
+                          key={c.id}
+                          className="apin"
+                          style={{
+                            "--r": TILT[n % TILT.length] + "deg",
+                            "--k": n < CERTS_SHOWN ? n : n - CERTS_SHOWN,
+                          }}
+                          onClick={() => setLb({ items: CERT_ITEMS, i: n })}
+                          aria-label={`View certificate: ${c.title}`}
+                        >
+                          <img
+                            src={`${CERT_DIR}${c.id}-thumb.webp`}
+                            alt=""
+                            loading="lazy"
+                            draggable="false"
+                          />
+                        </button>
+                      ),
                     )}
                   </div>
-                </div>
-              );
-            })()}
+                  <button
+                    className={"amore" + (certsOpen ? " open" : "")}
+                    aria-expanded={certsOpen}
+                    onClick={() => {
+                      // collapsing: shrink first, then bring the section back into view
+                      if (certsOpen)
+                        requestAnimationFrame(() => aboutJump("cert"));
+                      setCertsOpen((o) => !o);
+                    }}
+                  >
+                    <span className="amore-ic" aria-hidden="true">
+                      <i />
+                      <i />
+                    </span>
+                    <b>
+                      {certsOpen ? "Show less" : `Show all ${CERTS.length}`}
+                    </b>
+                    <small>
+                      {pad2(certsOpen ? CERTS.length : CERTS_SHOWN)} /{" "}
+                      {pad2(CERTS.length)}
+                    </small>
+                  </button>
+                </section>
+
+                {/* 05 — gallery */}
+                <section
+                  data-sec="gallery"
+                  className={
+                    "asec a-gal" + (seenSecs.has("gallery") ? " in" : "")
+                  }
+                >
+                  <SecHead
+                    n={5}
+                    title="Gallery"
+                    file={ABOUT_SECTIONS[4].file}
+                  />
+                  <div className="agevs">
+                    {EVENTS.map((ev, e) => (
+                      <article
+                        className={"agev n" + Math.min(ev.n, 4)}
+                        key={ev.id}
+                        style={{ "--k": e }}
+                      >
+                        <header className="agev-h">
+                          <span className="agev-n">{pad2(e + 1)}</span>
+                          <time>{ev.date}</time>
+                          <h3>{ev.title}</h3>
+                          <p className="agev-pl">{ev.place}</p>
+                          {ev.badge && <p className="agev-badge">{ev.badge}</p>}
+                          <p className="agev-tx">
+                            {ev.text[ev.text.length > 1 ? 2 : 0]}
+                          </p>
+                        </header>
+                        <div className="agal">
+                          {Array.from({ length: ev.n }, (_, k) => (
+                            <button
+                              key={k}
+                              className="agal-it"
+                              style={{ "--k": k }}
+                              onClick={() =>
+                                setLb({
+                                  items: GALLERY_ITEMS,
+                                  i: galleryIndex(ev.id, k),
+                                })
+                              }
+                              aria-label={`Open photo ${k + 1} of ${ev.title}`}
+                            >
+                              <img
+                                src={`/gallery/${ev.id}/${k + 1}-thumb.webp`}
+                                alt=""
+                                loading="lazy"
+                                draggable="false"
+                              />
+                              <span className="agal-zoom" aria-hidden="true">
+                                <i />
+                                <i />
+                              </span>
+                            </button>
+                          ))}
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                </section>
+
+                {/* 06 — works */}
+                <section
+                  data-sec="works"
+                  className={
+                    "asec a-works" + (seenSecs.has("works") ? " in" : "")
+                  }
+                >
+                  <SecHead n={6} title="Works" file={ABOUT_SECTIONS[5].file} />
+                  <button className="acta" onClick={() => setOrb(true)}>
+                    <span>Enough paper. See what I’ve built.</span>
+                    <b>
+                      Open Projects <i aria-hidden="true">&#8594;</i>
+                    </b>
+                  </button>
+                </section>
+              </div>
+              <footer className="bfoot afoot">
+                <SiteFooter pid="pxd-about" />
+              </footer>
+            </div>
           </div>
         )}
         <button
@@ -2031,6 +2751,82 @@ export default function App() {
           </svg>
         </button>
         {orb && <WorksOrb time={time} onClose={() => setOrb(false)} />}
+        {lb &&
+          (() => {
+            const it = lb.items[lb.i],
+              many = lb.items.length > 1,
+              stop = (ev) => ev.stopPropagation();
+            return (
+              <div
+                className={"acv" + (it.text ? " cap" : "")}
+                role="dialog"
+                aria-modal="true"
+                aria-label={it.title || it.alt}
+                onClick={() => setLb(null)}
+              >
+                <img
+                  key={it.src}
+                  src={it.src}
+                  alt={it.alt}
+                  draggable="false"
+                  onClick={stop}
+                  onMouseEnter={lbEnter}
+                  onMouseLeave={lbLeave}
+                />
+                {it.text && (
+                  <aside
+                    className="acv-txt"
+                    key={"t" + it.src}
+                    onClick={stop}
+                    onMouseEnter={lbEnter}
+                    onMouseLeave={lbLeave}
+                  >
+                    {it.badge && <p className="acv-badge">{it.badge}</p>}
+                    <h3>{it.title}</h3>
+                    {it.meta && <p className="acv-meta">{it.meta}</p>}
+                    {it.text.map((t) => (
+                      <p key={t}>{t}</p>
+                    ))}
+                  </aside>
+                )}
+                {many && (
+                  <>
+                    <button
+                      className="acv-b acv-p"
+                      aria-label="Previous"
+                      onClick={(ev) => {
+                        stop(ev);
+                        stepLb(-1);
+                      }}
+                    >
+                      &#8592;
+                    </button>
+                    <button
+                      className="acv-b acv-n"
+                      aria-label="Next"
+                      onClick={(ev) => {
+                        stop(ev);
+                        stepLb(1);
+                      }}
+                    >
+                      &#8594;
+                    </button>
+                    <p className="acv-c">
+                      {pad2(lb.i + 1)} / {pad2(lb.items.length)}
+                    </p>
+                  </>
+                )}
+                <button
+                  className="x acv-x"
+                  aria-label="Close viewer"
+                  onClick={() => setLb(null)}
+                >
+                  <i />
+                  <i />
+                </button>
+              </div>
+            );
+          })()}
         <div className="grain" />
         <canvas ref={cv} className="gl" />
         <canvas ref={cv2} className="gl about-gl" />

@@ -1,1 +1,28 @@
-{"name":"ashraful-portfolio","private":true,"version":"1.0.0","type":"module","scripts":{"dev":"vite","build":"vite build","preview":"vite preview"},"dependencies":{"lenis":"^1.1.13","react":"^18.3.1","react-dom":"^18.3.1","three":"^0.160.0"},"devDependencies":{"@vitejs/plugin-react":"^6.1.1","vite":"^8.3.1"}}
+{
+  "name": "ashraful-portfolio",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "cf:dev": "npm run build && wrangler dev",
+    "deploy": "npm run build && wrangler deploy",
+    "deploy:pages": "npm run build && wrangler pages deploy dist --project-name ashraful-portfolio"
+  },
+  "dependencies": {
+    "lenis": "^1.1.13",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "three": "^0.160.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.1",
+    "vite": "^8.3.1",
+    "wrangler": "4.168.0"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

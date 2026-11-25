@@ -1,0 +1,14 @@
+// Cloudflare Workers: serves the Vite build (dist/) as static assets, no server code.
+//   local:  npm run cf:dev       deploy:  npm run deploy
+// Cloudflare Pages does not use this file: there you set build command
+// "npm run build" and output directory "dist" (or run `npm run deploy:pages`).
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ashraful-portfolio",
+  "compatibility_date": "2025-09-01",
+  "assets": {
+    "directory": "./dist",
+    // one-page site: unknown paths get index.html instead of a bare 404
+    "not_found_handling": "single-page-application"
+  }
+}
