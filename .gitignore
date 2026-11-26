@@ -1,4 +1,20 @@
-node_modules
-dist
-.wrangler
+# dependencies
+node_modules/
+
+# build output (Cloudflare builds it from source)
+dist/
+
+# Cloudflare / wrangler local state and secrets
+.wrangler/
 .dev.vars
+.dev.vars.*
+.env
+.env.*
+
+# logs and OS / editor clutter
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

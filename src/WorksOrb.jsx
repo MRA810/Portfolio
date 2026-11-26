@@ -9,70 +9,102 @@ import "./worksorb.css";
    Add / remove entries freely: the orbits re-balance themselves.
    { sealed: true } makes a locked "classified" card.
 ------------------------------------------------------------------- */
+// Projects shown on the orb. shots = screenshots in /public/projects (first one is the
+// card texture); wip = still under development (badge in the panel).
 export const PROJECTS = [
   {
-    title: "SPAEMS_ESP32",
-    tag: "IoT",
-    img: "/projects/spaems.jpg",
-    href: "https://github.com/MRA810/SPAEMS_ESP32-whole-project",
-    desc: "Smart poultry environment: an ESP32 monitors temperature and gas levels and automates control to help keep a safer poultry environment.",
-    stack: ["ESP32", "MQTT", "Flask"],
-  },
-  {
-    title: "PerseCraftCD",
-    tag: "Algorithm",
-    img: "/projects/persecraftcd.jpg",
-    href: "https://github.com/MRA810/PerseCraftCD",
-    desc: "An algorithm project.",
-    stack: ["C / C++"],
-  },
-  {
-    title: "SmartGate",
-    tag: "Cybersecurity",
-    img: "/projects/smartgate.jpg",
-    href: "https://github.com/MRA810/SmartGate",
-    desc: "A proxy server with a simple web interface, built with Flask.",
-    stack: ["Proxy", "Flask", "Python"],
-  },
-  {
-    title: "pronoy",
-    tag: "Production",
-    img: "/projects/pronoy.jpg",
-    href: "https://github.com/MRA810/pronoy",
-    desc: "A production project that is still on going.",
-    stack: ["On going"],
+    title: "Shondhan",
+    tag: "Social impact",
+    shots: [],
+    href: "https://github.com/MRA810/Shondhan",
+    wip: true,
+    desc: "Shondhan (\u09b8\u09a8\u09cd\u09a7\u09be\u09a8) connects families searching for a missing person with the police stations and hospitals caring for unidentified people. Both sides describe the person with the same lists, the system suggests matches with a score, and a case officer confirms every match. Bangla first, with an English toggle.",
+    stack: ["Django", "React", "PostgreSQL", "OpenCV", "three.js"],
   },
   {
     title: "CampusGO",
-    tag: "Concept",
-    img: "/projects/campusgo.jpg",
+    tag: "Transport",
+    shots: ["/projects/campusgo-1.webp"],
     href: "https://github.com/MRA810/CampusGO",
-    desc: "A concept for university transport.",
-    stack: ["Concept", "University transport"],
+    desc: "A university transport management system: students and staff browse bus schedules, reserve seats and pay with a QR-code ticket, while admins track every booking.",
+    stack: ["Spring Boot", "Java", "H2 / MySQL", "JavaScript"],
   },
   {
-    title: "DBMS-Project-Air-Ticket",
-    tag: "Concept",
-    img: "/projects/air-ticket.jpg",
+    title: "SPAEMS_ESP32",
+    tag: "IoT",
+    shots: ["/projects/spaems-1.webp"],
+    href: "https://github.com/MRA810/SPAEMS_ESP32-whole-project",
+    desc: "Smart poultry environment monitor: an ESP32 reads temperature, humidity and ammonia, sends them over MQTT, and a live Flask dashboard shows the readings and controls the exhaust fan.",
+    stack: ["ESP32", "MQTT", "Flask", "Socket.IO"],
+  },
+  {
+    title: "DispSwitch",
+    tag: "Desktop app",
+    shots: ["/projects/dispswitch-1.webp"],
+    href: "https://github.com/MRA810/DispSwitch",
+    desc: "A one-click desktop app that switches a monitor between HDMI and DisplayPort over DDC/CI, without touching the monitor's menu. Keeps itself in sync with the active input; packaged for Linux and Windows.",
+    stack: ["Electron", "DDC/CI", "Linux", "Windows"],
+  },
+  {
+    title: "SmartGate",
+    tag: "Networking",
+    shots: ["/projects/smartgate-1.webp"],
+    href: "https://github.com/MRA810/SmartGate",
+    desc: "A dashboard for a Squid proxy server: start, stop and reload the proxy, block or unblock sites, group them into categories, and watch cache stats.",
+    stack: ["Squid", "Flask", "Python", "Linux"],
+  },
+  {
+    title: "PerseCraftCD",
+    tag: "Compiler design",
+    shots: ["/projects/persecraftcd-1.webp"],
+    href: "https://github.com/MRA810/PerseCraftCD",
+    desc: "A web toolkit for compiler-design students: eliminate left recursion, left-factor a grammar, and compute FIRST and FOLLOW sets, all in the browser.",
+    stack: ["JavaScript", "HTML", "CSS"],
+  },
+  {
+    title: "BookinFly \u00b7 Air Ticket",
+    tag: "DBMS",
+    shots: ["/projects/air-ticket-1.webp", "/projects/air-ticket-2.webp"],
     href: "https://github.com/MRA810/DBMS-Project-Air-Ticket",
-    desc: "An airline ticket booking system built as a database (DBMS) project.",
-    stack: ["DBMS", "MySQL"],
+    desc: "An air-ticket management system built for a DBMS course: search flights, book tickets and manage passenger profiles and past bookings.",
+    stack: ["Django", "MySQL", "Python"],
+  },
+  {
+    title: "Portfolio",
+    tag: "Web",
+    shots: ["/projects/portfolio-1.webp"],
+    href: "https://github.com/MRA810/Portfolio",
+    desc: "This site: a scroll-driven portfolio with WebGL pixel transitions, a 3D project orb and an interactive works board.",
+    stack: ["React", "Vite", "Three.js", "Cloudflare"],
+  },
+  {
+    title: "Pronoy",
+    tag: "Mobile & web",
+    shots: [],
+    href: "https://github.com/MRA810/pronoy",
+    wip: true,
+    desc: "A dating and social app for phones and the web, built from one React Native (Expo) codebase with responsive layouts for both.",
+    stack: ["React Native", "Expo", "TypeScript"],
   },
   {
     title: "Shuriken: Undead Hunt",
     tag: "Game",
-    img: "/projects/shuriken.jpg",
+    shots: [
+      "/projects/shuriken-1.webp",
+      "/projects/shuriken-2.webp",
+      "/projects/shuriken-3.webp",
+    ],
     href: "",
     desc: "A ninja-versus-zombie shooter written in C++ with OpenGL and GLUT. It began as a graphics assignment and kept growing into a personal project.",
     stack: ["C++", "OpenGL", "GLUT"],
   },
   {
-    title: "Rock-Paper-Scissor Sorting",
-    tag: "Algorithm",
-    img: "/projects/rps-sorting.jpg",
+    title: "Sort to Win",
+    tag: "Algorithm game",
+    shots: ["/projects/rps-sorting-1.webp"],
     href: "https://github.com/MRA810/Rock-Paper_scissor-sorting",
-    desc: "A sorting project built around rock, paper and scissors.",
-    stack: ["Sorting", "Algorithm"],
+    desc: "A two-player rock-paper-scissors game where the winner of each round gets to sort the shared array \u2014 a playful way to practise sorting.",
+    stack: ["JavaScript", "HTML", "CSS"],
   },
 ];
 
@@ -180,7 +212,7 @@ function makeShot(p, i, onUpdate) {
   }
   placeholder();
   label();
-  if (p.img) {
+  if (p.shots?.length) {
     const im = new Image();
     im.onload = () => {
       const k = Math.max(SW / im.width, SH / im.height);
@@ -194,7 +226,7 @@ function makeShot(p, i, onUpdate) {
       label();
       onUpdate();
     };
-    im.src = p.img;
+    im.src = p.shots[0];
   }
   return c;
 }
@@ -314,17 +346,20 @@ export default function WorksOrb({ onClose, time }) {
   const openRef = useRef(null);
   const [hover, setHover] = useState(-1);
   const [open, setOpen] = useState(null); // { i, url }
+  const [shot, setShot] = useState(0); // which screenshot the open panel shows
   const [leaving, setLeaving] = useState(false);
   const [fail, setFail] = useState(false);
   const unsealed = useMemo(() => PROJECTS.filter((p) => !p.sealed).length, []);
 
-  const openAt = (i) =>
+  const openAt = (i) => {
+    setShot(0);
     setOpen({
       i,
       url: PROJECTS[i].sealed
         ? ""
         : shots.current[i]?.toDataURL("image/jpeg", 0.85) || "",
     });
+  };
   pickRef.current = openAt;
   openRef.current = open;
 
@@ -862,14 +897,52 @@ export default function WorksOrb({ onClose, time }) {
               </>
             ) : (
               <>
-                <p className="orb-p-tag">{op.tag.toUpperCase()}</p>
+                <p className="orb-p-tag">
+                  {op.tag.toUpperCase()}
+                  {op.wip && <em className="orb-wip">UNDER DEVELOPMENT</em>}
+                </p>
                 <h3 className="orb-p-title">{op.title}</h3>
-                {open.url && (
-                  <img
-                    className="orb-p-shot"
-                    src={open.url}
-                    alt={op.title + " screenshot"}
-                  />
+                {op.shots.length > 0 ? (
+                  <>
+                    <a
+                      className="orb-p-shotlink"
+                      href={op.shots[shot]}
+                      target="_blank"
+                      rel="noreferrer"
+                      title="Open full size"
+                    >
+                      <img
+                        key={op.shots[shot]}
+                        className="orb-p-shot"
+                        src={op.shots[shot]}
+                        alt={`${op.title} screenshot ${shot + 1}`}
+                      />
+                    </a>
+                    {op.shots.length > 1 && (
+                      <div className="orb-p-thumbs" role="tablist">
+                        {op.shots.map((src, k) => (
+                          <button
+                            key={src}
+                            role="tab"
+                            aria-selected={k === shot}
+                            aria-label={`Screenshot ${k + 1}`}
+                            className={k === shot ? "on" : ""}
+                            onClick={() => setShot(k)}
+                          >
+                            <img src={src} alt="" />
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  open.url && (
+                    <img
+                      className="orb-p-shot"
+                      src={open.url}
+                      alt={op.title + " preview"}
+                    />
+                  )
                 )}
                 <p className="orb-p-desc">{op.desc}</p>
                 <div className="orb-chips">

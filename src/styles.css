@@ -864,23 +864,11 @@ html.lenis body {
 .wcard:hover::before {
   background: #e8425b;
 }
-.wcard b,
-.wtag {
-  position: relative;
-  z-index: 1;
-}
-.wcard b {
-  font: 600 max(1.05vw, 13px) "Oxanium";
-  color: #fff;
-  line-height: 1.15;
-}
-.wtag {
-  font: 400 max(0.68vw, 9px) "WDXL Lubrifont TC";
-  letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.78);
-}
 /* card info in the empty top-left corner (outline art stays bottom-right) */
 .wcard b {
+  position: relative;
+  z-index: 1;
+  color: #fff;
   font: 700 max(1.2vw, 14px) "Oxanium";
   letter-spacing: 0.01em;
   line-height: 1.1;
